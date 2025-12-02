@@ -1,6 +1,9 @@
 """Prompt for AI Maturity Model & Readiness Assessment."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate AI Maturity Model & Readiness Assessment
 
 Based on the research and context provided above, create a comprehensive AI maturity assessment using the BCG AI Maturity Curve framework and other industry standards.

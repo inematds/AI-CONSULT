@@ -1,6 +1,9 @@
 """Prompt for Change Management & Training Playbook."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Change Management & Training Playbook
 
 Based on the roadmap, use case library, and organizational context above, create a comprehensive change management and training playbook for AI adoption.

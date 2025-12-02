@@ -1,6 +1,9 @@
 """Prompt for Glossary of AI Terms."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Glossary of AI Terms
 
 Create a comprehensive glossary of AI and technology terms relevant to {company_name}'s AI journey.

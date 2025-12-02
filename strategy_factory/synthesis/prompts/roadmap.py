@@ -1,6 +1,9 @@
 """Prompt for 30/60/90/180/360 Implementation Roadmap."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate 30/60/90/180/360 Implementation Roadmap
 
 Based on the maturity assessment and use case library provided above, create a detailed implementation roadmap for AI adoption.

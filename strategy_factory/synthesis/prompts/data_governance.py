@@ -1,6 +1,9 @@
 """Prompt for Data Governance Framework."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Data Governance Framework
 
 Based on the technology inventory, regulatory context, and AI policy above, create a comprehensive data governance framework for AI initiatives.

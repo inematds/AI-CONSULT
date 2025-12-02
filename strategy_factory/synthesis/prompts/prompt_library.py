@@ -1,6 +1,9 @@
 """Prompt for Prompt Library Starter Kit."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Prompt Library Starter Kit
 
 Based on the use case library and department analysis above, create a comprehensive prompt library for common AI tasks.

@@ -207,7 +207,35 @@ Seriously, the hardest part is getting the API keys. Once those are set up, it's
 
 ## Quick Start
 
-### Option 1: Claude Code (Easiest)
+### Option 1: Docker (Recommended for VPS)
+
+```bash
+# Clone the repository
+git clone https://github.com/inematds/AI-CONSULT.git
+cd AI-CONSULT
+
+# Create .env file with your API keys
+cp .env.example .env
+# Edit .env with your actual keys
+
+# Build and run with Docker Compose
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+```
+
+Open **http://your-server-ip:8888** or **http://localhost:8888**
+
+```bash
+# Stop the application
+docker-compose down
+
+# Rebuild after code changes
+docker-compose up -d --build
+```
+
+### Option 2: Claude Code (Easiest)
 
 If you have [Claude Code](https://claude.ai/code):
 
@@ -215,12 +243,12 @@ If you have [Claude Code](https://claude.ai/code):
 Just say: "Clone and run the AI Strategy Factory for me"
 ```
 
-### Option 2: Manual Setup
+### Option 3: Manual Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/promptadvisers/ai-strategy-factory.git
-cd ai-strategy-factory
+git clone https://github.com/inematds/AI-CONSULT.git
+cd AI-CONSULT
 
 # Run the setup script (works on Windows, macOS, Linux)
 python setup.py
@@ -360,15 +388,40 @@ Open **http://localhost:8888** and enter a company name!
 | Requirement | How to Get |
 |-------------|------------|
 | Python 3.9+ | [python.org](https://www.python.org/downloads/) |
+| Docker (for VPS) | [docker.com/get-docker](https://docs.docker.com/get-docker/) |
 | Perplexity API Key | [perplexity.ai/settings/api](https://www.perplexity.ai/settings/api) |
 | Gemini API Key | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
 
-### Step-by-Step
+### Docker Installation (VPS/Production)
+
+```bash
+# 1. Install Docker and Docker Compose on your VPS
+# Ubuntu/Debian:
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo apt install docker-compose-plugin
+
+# 2. Clone the repository
+git clone https://github.com/inematds/AI-CONSULT.git
+cd AI-CONSULT
+
+# 3. Set up environment
+cp .env.example .env
+nano .env  # Add your API keys
+
+# 4. Run with Docker Compose
+docker-compose up -d
+
+# 5. Check logs
+docker-compose logs -f ai-consult
+```
+
+### Manual Installation
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/promptadvisers/ai-strategy-factory.git
-cd ai-strategy-factory
+git clone https://github.com/inematds/AI-CONSULT.git
+cd AI-CONSULT
 
 # 2. Create virtual environment
 python3 -m venv venv
@@ -392,6 +445,28 @@ Edit `.env` with your keys:
 ```env
 PERPLEXITY_API_KEY=pplx-xxxxxxxxxxxxxxxxxxxx
 GEMINI_API_KEY=AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+### Docker Commands Reference
+
+```bash
+# Start application
+docker-compose up -d
+
+# Stop application
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Rebuild after changes
+docker-compose up -d --build
+
+# Access container shell
+docker-compose exec ai-consult bash
+
+# Remove all containers and volumes
+docker-compose down -v
 ```
 
 ---

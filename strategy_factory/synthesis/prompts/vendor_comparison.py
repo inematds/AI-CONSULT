@@ -1,6 +1,9 @@
 """Prompt for Vendor Comparison & Build vs Buy Framework."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Vendor Comparison & Build vs Buy Framework
 
 Based on the technology inventory and use cases identified above, create a comprehensive vendor comparison and build vs buy analysis.

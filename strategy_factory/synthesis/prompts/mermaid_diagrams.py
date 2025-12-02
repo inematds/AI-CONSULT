@@ -1,6 +1,9 @@
 """Prompt for Mermaid Diagrams (Current State + Future State)."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Mermaid Diagrams for Current and Future State
 
 Based on the technology inventory and pain points identified above, create Mermaid diagrams that visualize the company's AI transformation journey.

@@ -1,6 +1,9 @@
 """Prompt for AI Acceptable Use Policy Template."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate AI Acceptable Use Policy Template
 
 Based on the company context, industry regulations, and governance requirements above, create a comprehensive AI Acceptable Use Policy.

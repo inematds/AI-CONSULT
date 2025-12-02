@@ -1,6 +1,9 @@
 """Prompt for Quick Wins List."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Quick Wins List
 
 Based on the use case library and maturity assessment provided above, identify and prioritize AI quick wins that can be implemented within 30-60 days.

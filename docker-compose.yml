@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  ai-consult:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-consult-app
+    ports:
+      - "8888:8888"
+    environment:
+      - PERPLEXITY_API_KEY=${PERPLEXITY_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      # Persist output files
+      - ./output:/app/output
+      # Optional: mount .env file
+      - ./.env:/app/.env:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - ai-consult-network
+
+networks:
+  ai-consult-network:
+    driver: bridge

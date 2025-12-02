@@ -679,49 +679,49 @@ BASE_TEMPLATE = """
 HOME_CONTENT = """
 <div style="max-width: 700px; margin: 2rem auto;">
     <div class="card">
-        <h2>Generate AI Strategy Deliverables</h2>
+        <h2>Gerar Estratégia de IA</h2>
         <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-            Enter a company name to generate comprehensive AI strategy documents including
-            roadmaps, maturity assessments, ROI analysis, and implementation guides.
+            Digite o nome de uma empresa para gerar documentos estratégicos completos de IA incluindo
+            roadmaps, avaliações de maturidade, análise de ROI e guias de implementação.
         </p>
 
         <form id="analysis-form" action="/start" method="POST">
             <div class="form-group">
-                <label for="company">Company Name *</label>
-                <input type="text" id="company" name="company" placeholder="e.g., Stripe, Airbnb, Shopify" required>
+                <label for="company">Nome da Empresa *</label>
+                <input type="text" id="company" name="company" placeholder="ex: Nubank, Magazine Luiza, iFood" required>
             </div>
 
             <div class="form-group">
-                <label for="context">Additional Context</label>
-                <textarea id="context" name="context" placeholder="Optional: Industry, company size, specific goals, current tech stack, etc."></textarea>
-                <small>Help us tailor the analysis to your specific situation</small>
+                <label for="context">Contexto Adicional</label>
+                <textarea id="context" name="context" placeholder="Opcional: Setor, tamanho da empresa, objetivos específicos, stack tecnológico atual, etc."></textarea>
+                <small>Ajude-nos a personalizar a análise para sua situação específica</small>
             </div>
 
             <div class="form-group">
-                <label>Research Mode</label>
+                <label>Modo de Pesquisa</label>
                 <div class="radio-group">
                     <label class="radio-option selected" id="mode-quick">
                         <input type="radio" name="mode" value="quick" checked>
-                        <h4>Quick</h4>
-                        <p>~$0.05 | 2-3 minutes</p>
+                        <h4>Rápido</h4>
+                        <p>~$0.05 | 2-3 minutos</p>
                     </label>
                     <label class="radio-option" id="mode-comprehensive">
                         <input type="radio" name="mode" value="comprehensive">
-                        <h4>Comprehensive</h4>
-                        <p>~$0.50 | 5-10 minutes</p>
+                        <h4>Completo</h4>
+                        <p>~$0.50 | 5-10 minutos</p>
                     </label>
                 </div>
             </div>
 
             <button type="submit" class="btn" style="width: 100%;">
-                Start Analysis
+                Iniciar Análise
             </button>
         </form>
     </div>
 
     {% if companies %}
     <div class="card">
-        <h2>Previous Analyses</h2>
+        <h2>Análises Anteriores</h2>
         <div class="companies-list">
             {% for company in companies %}
             <a href="/results/{{ company.slug }}" class="company-card">
@@ -756,8 +756,8 @@ HOME_SCRIPTS = """
 PROGRESS_CONTENT = """
 <div class="progress-container">
     <div class="progress-header">
-        <h2>Analyzing {{ company_name }}</h2>
-        <p id="status-text">Initializing...</p>
+        <h2>Analisando {{ company_name }}</h2>
+        <p id="status-text">Inicializando...</p>
     </div>
 
     <div class="card">
@@ -765,19 +765,19 @@ PROGRESS_CONTENT = """
             <li class="phase-item active" id="phase-research">
                 <div class="phase-icon"><div class="spinner"></div></div>
                 <div class="phase-content">
-                    <h4>Research Phase</h4>
-                    <p id="research-status">Gathering company intelligence...</p>
+                    <h4>Fase de Pesquisa</h4>
+                    <p id="research-status">Coletando informações da empresa...</p>
                     <div class="phase-progress">
                         <div class="progress-bar"><div class="progress-fill" id="research-progress" style="width: 0%"></div></div>
-                        <div class="progress-text" id="research-text">Starting...</div>
+                        <div class="progress-text" id="research-text">Iniciando...</div>
                     </div>
                 </div>
             </li>
             <li class="phase-item pending" id="phase-synthesis">
                 <div class="phase-icon">2</div>
                 <div class="phase-content">
-                    <h4>Synthesis Phase</h4>
-                    <p id="synthesis-status">Waiting...</p>
+                    <h4>Fase de Síntese</h4>
+                    <p id="synthesis-status">Aguardando...</p>
                     <div class="phase-progress" style="display: none;">
                         <div class="progress-bar"><div class="progress-fill" id="synthesis-progress" style="width: 0%"></div></div>
                         <div class="progress-text" id="synthesis-text"></div>
@@ -787,8 +787,8 @@ PROGRESS_CONTENT = """
             <li class="phase-item pending" id="phase-generation">
                 <div class="phase-icon">3</div>
                 <div class="phase-content">
-                    <h4>Document Generation</h4>
-                    <p id="generation-status">Waiting...</p>
+                    <h4>Geração de Documentos</h4>
+                    <p id="generation-status">Aguardando...</p>
                     <div class="phase-progress" style="display: none;">
                         <div class="progress-bar"><div class="progress-fill" id="generation-progress" style="width: 0%"></div></div>
                         <div class="progress-text" id="generation-text"></div>
@@ -800,9 +800,9 @@ PROGRESS_CONTENT = """
 
     <div id="error-container" style="display: none;">
         <div class="card" style="border-color: var(--error); background: #fef2f2;">
-            <h3 style="color: var(--error);">Error</h3>
+            <h3 style="color: var(--error);">Erro</h3>
             <p id="error-message"></p>
-            <a href="/" class="btn btn-secondary" style="margin-top: 1rem;">Try Again</a>
+            <a href="/" class="btn btn-secondary" style="margin-top: 1rem;">Tentar Novamente</a>
         </div>
     </div>
 </div>
@@ -1166,21 +1166,21 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
     <div class="stats-bar">
         <div class="stat-item">
             <div class="stat-value">{len(markdown_files)}</div>
-            <div class="stat-label">Deliverables</div>
+            <div class="stat-label">Documentos</div>
         </div>
         <div class="stat-item">
             <div class="stat-value">{len(mermaid_images)}</div>
-            <div class="stat-label">Diagrams</div>
+            <div class="stat-label">Diagramas</div>
         </div>
         <div class="stat-item">
             <div class="stat-value">${total_cost:.4f}</div>
-            <div class="stat-label">Total Cost</div>
+            <div class="stat-label">Custo Total</div>
         </div>
     </div>
 
     <div class="results-layout">
         <aside class="sidebar">
-            <h3>Strategy Documents</h3>
+            <h3>Documentos Estratégicos</h3>
             <ul class="nav-list" id="doc-list">
     """
 
@@ -1190,19 +1190,19 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
     html += """
             </ul>
 
-            <h3>Diagrams</h3>
+            <h3>Diagramas</h3>
             <ul class="nav-list">
-                <li><a href="#" id="show-diagrams">View All Diagrams</a></li>
+                <li><a href="#" id="show-diagrams">Ver Todos os Diagramas</a></li>
             </ul>
     """
 
     if presentations:
-        html += '<h3>Presentations</h3>\n'
+        html += '<h3>Apresentações</h3>\n'
         for pres in presentations:
             html += f'<a href="/files/{company_slug}/presentations/{pres["filename"]}" class="download-btn" download>📊 {pres["name"]}<span class="size">{pres["size"]}</span></a>\n'
 
     if documents:
-        html += '<h3>Documents</h3>\n'
+        html += '<h3>Documentos</h3>\n'
         for doc in documents:
             html += f'<a href="/files/{company_slug}/documents/{doc["filename"]}" class="download-btn" download>📄 {doc["name"]}<span class="size">{doc["size"]}</span></a>\n'
 
@@ -1211,9 +1211,9 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
 
         <main class="content" id="content">
             <div style="text-align: center; padding: 3rem;">
-                <h2>Welcome to {company_name}'s AI Strategy</h2>
+                <h2>Estratégia de IA para {company_name}</h2>
                 <p style="color: var(--text-secondary); max-width: 500px; margin: 1rem auto 2rem;">
-                    Select a document from the sidebar to view the analysis, or download the presentations and reports.
+                    Selecione um documento na barra lateral para visualizar a análise, ou faça o download das apresentações e relatórios.
                 </p>
             </div>
         </main>
@@ -1222,7 +1222,7 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
     <script>
         const companySlug = '{company_slug}';
         const diagramsHtml = `
-            <h2>System Architecture Diagrams</h2>
+            <h2>Diagramas de Arquitetura do Sistema</h2>
             <div class="diagrams-grid">
     """
 

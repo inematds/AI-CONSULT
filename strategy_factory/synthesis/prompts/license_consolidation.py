@@ -1,6 +1,9 @@
 """Prompt for License Consolidation Recommendations."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate License Consolidation Recommendations
 
 Based on the technology inventory and vendor comparison above, identify opportunities to consolidate software licenses and reduce costs.

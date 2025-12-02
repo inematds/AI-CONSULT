@@ -1,6 +1,9 @@
 """Prompt for Department-Specific Use Case Library."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Department-Specific Use Case Library
 
 Based on the pain point analysis, technology landscape, and industry context above, create a comprehensive library of AI use cases organized by department.

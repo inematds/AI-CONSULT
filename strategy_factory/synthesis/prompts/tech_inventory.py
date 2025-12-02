@@ -1,6 +1,8 @@
 """Prompt for Technology Inventory & Data Infrastructure Assessment."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
 # Task: Generate Technology Inventory & Data Infrastructure Assessment
 
 Based on the company research and context provided above, create a comprehensive technology inventory document.

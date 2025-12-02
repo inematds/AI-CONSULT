@@ -1,6 +1,9 @@
 """Prompt for Pain Point Matrix by Department."""
 
 PROMPT = """
+**IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
+
+
 # Task: Generate Pain Point Matrix by Department
 
 Based on the company research and industry context provided above, create a comprehensive pain point analysis organized by department.
