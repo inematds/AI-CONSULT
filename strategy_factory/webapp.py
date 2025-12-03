@@ -518,7 +518,9 @@ BASE_TEMPLATE = """
         }
 
         .progress-header {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
         }
 
@@ -947,6 +949,33 @@ BASE_TEMPLATE = """
             background: #b91c1c;
         }
 
+        .company-card-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .company-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .btn-continue {
+            padding: 0.5rem 1rem;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background 0.15s;
+        }
+
+        .btn-continue:hover {
+            background: #047857;
+        }
+
         @media (max-width: 900px) {
             .results-layout {
                 grid-template-columns: 1fr;
@@ -1078,21 +1107,32 @@ HOME_CONTENT = """
         <h2>Análises Anteriores</h2>
         <div class="companies-list">
             {% for company in companies %}
-            <a href="/results/{{ company.slug }}" class="company-card">
-                <div class="company-info">
-                    <h3>{{ company.name }}</h3>
-                    <p>{{ company.phase }}</p>
-                    {% if company.version_date %}
-                    <small style="color: #64748b; font-size: 0.8rem;">
-                        📅 {{ company.version_date.strftime("%d/%m/%Y %H:%M") }}
-                    </small>
-                    {% endif %}
+            <div class="company-card-wrapper">
+                <a href="/results/{{ company.slug }}" class="company-card">
+                    <div class="company-info">
+                        <h3>{{ company.name }}</h3>
+                        <p>{{ company.phase }}</p>
+                        {% if company.version_date %}
+                        <small style="color: #64748b; font-size: 0.8rem;">
+                            📅 {{ company.version_date.strftime("%d/%m/%Y %H:%M") }}
+                        </small>
+                        {% endif %}
+                    </div>
+                    <div class="company-meta">
+                        <div class="progress">{{ company.progress }}%</div>
+                        <div class="cost">${{ "%.4f"|format(company.cost) }}</div>
+                    </div>
+                </a>
+                {% if company.progress < 100 %}
+                <div class="company-actions">
+                    <form action="/continue/{{ company.slug }}" method="POST" style="display: inline;">
+                        <button type="submit" class="btn-continue" onclick="return confirm('Deseja continuar esta análise de onde parou?')">
+                            ▶️ Continuar
+                        </button>
+                    </form>
                 </div>
-                <div class="company-meta">
-                    <div class="progress">{{ company.progress }}%</div>
-                    <div class="cost">${{ "%.4f"|format(company.cost) }}</div>
-                </div>
-            </a>
+                {% endif %}
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -1214,8 +1254,13 @@ HOME_SCRIPTS = """
 PROGRESS_CONTENT = """
 <div class="progress-container">
     <div class="progress-header">
-        <h2>Analisando {{ company_name }}</h2>
-        <p id="status-text">Inicializando...</p>
+        <div>
+            <h2>Analisando {{ company_name }}</h2>
+            <p id="status-text">Inicializando...</p>
+        </div>
+        <button onclick="cancelAnalysis()" class="btn-cancel" id="cancel-btn">
+            ❌ Cancelar Análise
+        </button>
     </div>
 
     <div class="card">
@@ -1404,6 +1449,41 @@ ${technical}
         }).catch(err => {
             console.error('Erro ao copiar:', err);
             alert('Erro ao copiar. Use Ctrl+C manualmente.');
+        });
+    }
+
+    function cancelAnalysis() {
+        if (!confirm('Tem certeza que deseja cancelar esta análise?')) {
+            return;
+        }
+
+        const cancelBtn = document.getElementById('cancel-btn');
+        cancelBtn.disabled = true;
+        cancelBtn.textContent = '⏳ Cancelando...';
+
+        fetch('/cancel/' + jobId, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('status-text').textContent = 'Análise cancelada';
+                if (eventSource) {
+                    eventSource.close();
+                }
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            } else {
+                alert('Erro ao cancelar: ' + (data.error || 'Erro desconhecido'));
+                cancelBtn.disabled = false;
+                cancelBtn.textContent = '❌ Cancelar Análise';
+            }
+        })
+        .catch(err => {
+            alert('Erro ao cancelar análise: ' + err);
+            cancelBtn.disabled = false;
+            cancelBtn.textContent = '❌ Cancelar Análise';
         });
     }
 
@@ -1679,6 +1759,69 @@ def cancel_job(job_id):
         "success": True,
         "message": f"Análise de '{company_name}' cancelada com sucesso."
     })
+
+
+@app.route('/continue/<company_slug>', methods=['POST'])
+@login_required
+def continue_analysis(company_slug):
+    """Continue an incomplete analysis from where it stopped."""
+    logger = logging.getLogger(__name__)
+    logger.info(f"=== CONTINUE ANALYSIS START for slug: {company_slug} ===")
+
+    output_dir = OUTPUT_DIR / company_slug
+
+    if not output_dir.exists():
+        logger.error(f"Directory not found: {output_dir}")
+        return redirect(url_for('home'))
+
+    try:
+        # Load the existing tracker to get company info
+        logger.info(f"Loading ProgressTracker for: {company_slug}")
+        tracker = ProgressTracker(company_slug)  # Don't pass company_input - will load from state
+        company_name = tracker.state.company_name
+        context = tracker.state.input_data.context if tracker.state.input_data else ""
+        mode = tracker.state.input_data.mode.value if tracker.state.input_data else "quick"
+        logger.info(f"Loaded: company_name={company_name}, context={context}, mode={mode}")
+    except Exception as e:
+        logger.error(f"Failed to load tracker: {e}", exc_info=True)
+        return redirect(url_for('home'))
+
+    # Check if this analysis is currently running
+    for job_id, job_data in active_jobs.items():
+        if job_data.get("company_slug") == company_slug:
+            logger.warning(f"Analysis already running: {company_slug}")
+            return redirect(url_for('conflict_page', company_slug=company_slug, job_id=job_id, action='continue'))
+
+    # Generate a job ID
+    job_id = str(uuid.uuid4())[:8]
+    logger.info(f"Generated job_id: {job_id}")
+
+    # Create job entry
+    active_jobs[job_id] = {
+        "company_name": company_name,
+        "company_slug": company_slug,
+        "context": context,
+        "mode": mode,
+        "new_version": False,  # Continue uses existing directory
+        "continue_mode": True,  # Flag to indicate this is a continuation
+        "status": "continuing",
+        "progress_queue": queue.Queue(),
+        "started_at": datetime.now(),
+    }
+    logger.info(f"Created job entry for continuation")
+
+    # Start the pipeline in continuation mode
+    logger.info(f"Starting pipeline thread for continuation")
+    thread = threading.Thread(
+        target=run_pipeline,
+        args=(job_id, company_name, context, mode, False, True),  # Added continue_mode parameter
+        daemon=True
+    )
+    thread.start()
+    logger.info(f"Thread started, redirecting to progress page")
+
+    # PRG Pattern: Redirect to progress page
+    return redirect(url_for('progress_page', job_id=job_id, company_name=company_name))
 
 
 @app.route('/delete/<company_slug>', methods=['POST'])
@@ -2301,11 +2444,11 @@ RESULTS_SCRIPTS = """
 # Pipeline Execution
 # =============================================================================
 
-def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_version: bool = False):
+def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_version: bool = False, continue_mode: bool = False):
     """Run the full pipeline in a background thread."""
     logger = logging.getLogger(__name__)
     logger.info(f"=== RUN_PIPELINE START ===")
-    logger.info(f"job_id={job_id}, company_name={company_name}, mode={mode}, new_version={new_version}")
+    logger.info(f"job_id={job_id}, company_name={company_name}, mode={mode}, new_version={new_version}, continue_mode={continue_mode}")
 
     job = active_jobs.get(job_id)
     if not job:
@@ -2373,11 +2516,28 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 "detail": message
             })
 
-        # ALWAYS run new research when starting from /start endpoint
-        # (We removed /resume endpoint, so all calls here are fresh starts)
+        # Determine if we need to run research
         logger = logging.getLogger(__name__)
-        logger.info(f"Starting new research phase (new_version={new_version})")
-        tracker.start_phase("research")
+        research_completed = tracker.state.phases["research"].status == DeliverableStatus.COMPLETED
+
+        # Only run new research if NOT in continue mode OR research not completed
+        if continue_mode and research_completed:
+            logger.info(f"CONTINUE MODE: Skipping research (already completed)")
+            # Load existing research from cache
+            research_output = tracker.load_research_output()
+            if not research_output:
+                raise Exception("Cannot continue: research cache not found")
+
+            q.put({
+                "phase": "research",
+                "message": "Using cached research data (already completed)",
+                "status": "Cached",
+                "progress": 100,
+                "detail": "Skipping research - using existing data"
+            })
+        else:
+            logger.info(f"Starting new research phase (continue_mode={continue_mode}, new_version={new_version})")
+            tracker.start_phase("research")
 
         research_orchestrator = ResearchOrchestrator(
             mode=research_mode,
