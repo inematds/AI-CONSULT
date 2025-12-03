@@ -14,6 +14,7 @@ Then open http://localhost:5000 in your browser.
 """
 
 import json
+import logging
 import os
 import queue
 import threading
