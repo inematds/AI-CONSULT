@@ -2463,9 +2463,11 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         logger.info(f"Resume check: research_output={'present' if research_output else 'MISSING'}, research_completed={research_completed}")
         logger.info(f"Current phase in state: {tracker.state.current_phase}")
         logger.info(f"Research cache file exists: {tracker.research_cache_file.exists()}")
+        logger.info(f"new_version={new_version}")
 
-        # Only run research if not already completed or if cache is missing
-        if not research_output or not research_completed:
+        # Only run NEW research if this is a NEW analysis (new_version=True)
+        # When resuming/regenerating (new_version=False), ALWAYS use cache
+        if new_version and (not research_output or not research_completed):
             tracker.start_phase("research")
 
             research_orchestrator = ResearchOrchestrator(
@@ -2479,14 +2481,28 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             research_orchestrator.save_research_cache(Path(tracker.output_dir))
             tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
         else:
-            # Research already completed, skip and report
-            q.put({
-                "phase": "research",
-                "message": "Using cached research data (already completed)",
-                "status": "Cached",
-                "progress": 100,
-                "detail": "Skipping research - using existing data"
-            })
+            # Either resuming/regenerating, or research already completed
+            # Load from cache if not already loaded
+            if not research_output:
+                logger.info("Attempting to load research cache for resume/regenerate...")
+                research_output = tracker.load_research_output()
+
+            if research_output:
+                # Research cache found, use it
+                q.put({
+                    "phase": "research",
+                    "message": "Using cached research data (already completed)",
+                    "status": "Cached",
+                    "progress": 100,
+                    "detail": "Skipping research - using existing data"
+                })
+
+                # Mark research as completed if it wasn't already
+                if not research_completed:
+                    tracker.complete_phase("research", "Used cached research data")
+            else:
+                # No cache available and this is a resume/regenerate operation
+                raise Exception("Cache de pesquisa não encontrado. Para regenerar a análise, é necessário ter os dados de pesquisa salvos. Execute uma nova análise completa.")
 
         # Validate research output exists (critical dependency for all phases)
         if not research_output:
