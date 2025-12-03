@@ -20,13 +20,24 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Production stage
 FROM python:3.11-slim
 
-# Install runtime dependencies
+# Install runtime dependencies including Chromium for mermaid-cli
 RUN apt-get update && apt-get install -y \
     curl \
+    chromium \
+    chromium-sandbox \
+    fonts-liberation \
+    libnss3 \
+    libxss1 \
+    libappindicator3-1 \
+    libasound2 \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g @mermaid-js/mermaid-cli \
     && rm -rf /var/lib/apt/lists/*
+
+# Set Puppeteer to use system Chromium
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Create non-root user
 RUN useradd -m -u 1000 appuser
