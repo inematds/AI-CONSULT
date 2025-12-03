@@ -1530,9 +1530,18 @@ def start_analysis():
     if not company_name:
         return jsonify({"error": "Company name is required"}), 400
 
-    # Generate a job ID
+    # Generate a job ID and company slug
     job_id = str(uuid.uuid4())[:8]
     company_slug = slugify(company_name)
+
+    # Check if this company is already being analyzed (unless creating new version)
+    if not new_version:
+        for existing_job in active_jobs.values():
+            if existing_job["company_slug"] == company_slug and not existing_job.get("new_version", False):
+                return jsonify({
+                    "error": "Análise em andamento",
+                    "message": f"Já existe uma análise em andamento para '{company_name}'. Aguarde a conclusão ou marque 'Criar nova versão'."
+                }), 409
 
     # Create job entry
     active_jobs[job_id] = {
@@ -1587,6 +1596,14 @@ def resume_analysis(company_slug):
 
     # Generate a job ID
     job_id = str(uuid.uuid4())[:8]
+
+    # Check if this company is already being analyzed
+    for existing_job in active_jobs.values():
+        if existing_job["company_slug"] == company_slug:
+            return jsonify({
+                "error": "Análise em andamento",
+                "message": f"Já existe uma análise em andamento para '{company_name}'. Aguarde a conclusão."
+            }), 409
 
     # Create job entry
     active_jobs[job_id] = {
@@ -2189,6 +2206,17 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "message": "Analysis complete!"
         })
 
+        # Schedule job cleanup after 1 hour
+        def cleanup_job():
+            time.sleep(3600)  # Wait 1 hour
+            if job_id in active_jobs:
+                del active_jobs[job_id]
+                logger = logging.getLogger(__name__)
+                logger.info(f"Cleaned up completed job {job_id}")
+
+        cleanup_thread = threading.Thread(target=cleanup_job, daemon=True)
+        cleanup_thread.start()
+
     except Exception as e:
         import traceback
         traceback.print_exc()
@@ -2230,6 +2258,17 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "error_technical": error_details["technical"],
             "error_phase": current_phase
         })
+
+        # Schedule job cleanup after 1 hour even on error
+        def cleanup_job():
+            time.sleep(3600)  # Wait 1 hour
+            if job_id in active_jobs:
+                del active_jobs[job_id]
+                logger = logging.getLogger(__name__)
+                logger.info(f"Cleaned up failed job {job_id}")
+
+        cleanup_thread = threading.Thread(target=cleanup_job, daemon=True)
+        cleanup_thread.start()
 
 
 # =============================================================================
