@@ -1677,22 +1677,32 @@ def start_analysis():
 @login_required
 def resume_analysis(company_slug):
     """Resume an incomplete analysis."""
+    logger = logging.getLogger(__name__)
+    logger.info(f"=== RESUME ANALYSIS START for slug: {company_slug} ===")
+
     output_dir = OUTPUT_DIR / company_slug
+    logger.info(f"Checking directory: {output_dir}")
 
     if not output_dir.exists():
+        logger.error(f"Directory not found: {output_dir}")
         return redirect(url_for('home'))
 
     try:
         # Load the existing tracker to get company info
+        logger.info(f"Loading ProgressTracker for: {company_slug}")
         tracker = ProgressTracker(company_slug)
         company_name = tracker.state.company_name
         context = tracker.state.input_data.context if tracker.state.input_data else ""
         mode = tracker.state.input_data.mode.value if tracker.state.input_data else "quick"
+        logger.info(f"Loaded tracker: company_name={company_name}, context={context}, mode={mode}")
+        logger.info(f"Tracker state: current_phase={tracker.state.current_phase}, research_completed={tracker.state.phases['research'].status}")
     except Exception as e:
+        logger.error(f"Failed to load tracker: {e}", exc_info=True)
         return redirect(url_for('home'))
 
     # Generate a job ID
     job_id = str(uuid.uuid4())[:8]
+    logger.info(f"Generated job_id: {job_id}")
 
     # Check if this company is ACTIVELY being analyzed right now
     existing_job_id = None
@@ -1703,7 +1713,10 @@ def resume_analysis(company_slug):
 
     if existing_job_id:
         # CONFLICT: Job is actually running now - redirect to conflict page (PRG pattern)
+        logger.warning(f"CONFLICT detected: existing job {existing_job_id} is running")
         return redirect(url_for('conflict_page', company_slug=company_slug, job_id=existing_job_id, action='resume'))
+
+    logger.info(f"No conflict - proceeding with resume")
 
     # Create job entry
     active_jobs[job_id] = {
@@ -1716,14 +1729,17 @@ def resume_analysis(company_slug):
         "progress_queue": queue.Queue(),
         "started_at": datetime.now(),
     }
+    logger.info(f"Created job entry in active_jobs: {job_id}")
 
     # NO CONFLICT: Can resume safely - start the pipeline
+    logger.info(f"Starting pipeline thread for job {job_id}")
     thread = threading.Thread(
         target=run_pipeline,
         args=(job_id, company_name, context, mode, False),
         daemon=True
     )
     thread.start()
+    logger.info(f"Thread started, redirecting to progress page")
 
     # PRG Pattern: Redirect to progress page (GET route)
     return redirect(url_for('progress_page', job_id=job_id, company_name=company_name))
@@ -1782,19 +1798,27 @@ def progress_page():
 @login_required
 def conflict_page():
     """Conflict page when job is already running (GET route for PRG pattern)."""
+    logger = logging.getLogger(__name__)
     company_slug = request.args.get('company_slug')
     job_id = request.args.get('job_id')
     action = request.args.get('action', 'resume')  # 'resume' or 'start'
 
+    logger.info(f"=== CONFLICT PAGE accessed ===")
+    logger.info(f"company_slug={company_slug}, job_id={job_id}, action={action}")
+    logger.info(f"Current active_jobs: {list(active_jobs.keys())}")
+
     if not company_slug or not job_id:
+        logger.warning("Missing company_slug or job_id - redirecting to home")
         return redirect(url_for('home'))
 
     # Get company name from active job or tracker
     company_name = company_slug
     if job_id in active_jobs:
         company_name = active_jobs[job_id].get("company_name", company_slug)
+        logger.info(f"Job {job_id} found in active_jobs: company_name={company_name}")
     else:
         # Job might have finished already - redirect to results
+        logger.info(f"Job {job_id} NOT in active_jobs - redirecting to results")
         return redirect(url_for('results', company_slug=company_slug))
 
     action_text = "tentar novamente" if action == "resume" else "iniciar nova"
@@ -2255,18 +2279,26 @@ RESULTS_SCRIPTS = """
 
 def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_version: bool = False):
     """Run the full pipeline in a background thread."""
+    logger = logging.getLogger(__name__)
+    logger.info(f"=== RUN_PIPELINE START ===")
+    logger.info(f"job_id={job_id}, company_name={company_name}, mode={mode}, new_version={new_version}")
+
     job = active_jobs.get(job_id)
     if not job:
+        logger.error(f"Job {job_id} not found in active_jobs - was it cancelled?")
         return  # Job was cancelled before starting
 
     q = job["progress_queue"]
+    logger.info(f"Got job and queue for {job_id}")
 
     def check_cancelled():
         """Check if job was cancelled."""
         if job_id not in active_jobs or active_jobs[job_id].get("cancelled", False):
+            logger.info(f"Job {job_id} was cancelled")
             raise Exception("Análise cancelada pelo usuário")
 
     try:
+        logger.info("Importing dependencies...")
         # Import here to avoid circular imports
         from strategy_factory.models import CompanyInput, ResearchMode
         from strategy_factory.progress_tracker import ProgressTracker
@@ -2275,14 +2307,18 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         from strategy_factory.generation.orchestrator import GenerationOrchestrator
 
         research_mode = ResearchMode.QUICK if mode == "quick" else ResearchMode.COMPREHENSIVE
+        logger.info(f"Research mode: {research_mode}")
 
+        logger.info("Creating CompanyInput...")
         company_input = CompanyInput(
             name=company_name,
             context=context,
             mode=research_mode,
         )
 
+        logger.info(f"Initializing ProgressTracker (create_new_version={new_version})...")
         tracker = ProgressTracker(company_name, company_input, create_new_version=new_version)
+        logger.info(f"ProgressTracker initialized: output_dir={tracker.output_dir}")
 
         # Phase 1: Research
         q.put({
@@ -2541,6 +2577,11 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
 
     except Exception as e:
         import traceback
+        logger = logging.getLogger(__name__)
+        logger.error(f"=== PIPELINE EXCEPTION for job {job_id} ===")
+        logger.error(f"Error type: {type(e).__name__}")
+        logger.error(f"Error message: {str(e)}")
+        logger.error("Traceback:")
         traceback.print_exc()
 
         # Determine which phase we were in
@@ -2548,6 +2589,7 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         current_phase = "unknown"
         if 'tracker' in locals() and tracker.state.current_phase:
             current_phase = tracker.state.current_phase
+            logger.info(f"Phase determined from tracker: {current_phase}")
         else:
             # PRIORITY 2: Infer from error message (fallback)
             if "research" in str(e).lower() or "perplexity" in str(e).lower():
@@ -2556,23 +2598,29 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 current_phase = "synthesis"
             elif "generation" in str(e).lower() or "pptx" in str(e).lower() or "docx" in str(e).lower():
                 current_phase = "generation"
+            logger.info(f"Phase inferred from error message: {current_phase}")
 
         # Get detailed error information
         error_details = get_error_details(e, current_phase)
+        logger.info(f"Error details generated: title={error_details['title']}")
 
         # Save error to tracker if tracker was created
         if 'tracker' in locals():
             try:
                 # Mark the phase as failed in tracker
+                logger.info(f"Marking phase {current_phase} as failed in tracker")
                 tracker.fail_phase(current_phase, error_details["message"])
 
                 # Log the full error for debugging
-                logger = logging.getLogger(__name__)
                 logger.error(f"Pipeline failed in {current_phase} phase: {error_details['message']}")
                 logger.error(f"Technical details: {error_details['technical']}")
             except Exception as track_err:
+                logger.error(f"Warning: Could not save error to tracker: {track_err}")
                 print(f"Warning: Could not save error to tracker: {track_err}")
+        else:
+            logger.warning("Tracker not initialized - cannot save error to state")
 
+        logger.info("Sending error to progress queue...")
         q.put({
             "error": str(e),
             "error_title": error_details["title"],
@@ -2582,13 +2630,18 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "error_phase": current_phase,
             "complete": True  # Mark as complete so SSE stream ends
         })
+        logger.info("Error sent to queue")
 
         # Clean up job immediately on error (don't wait 1 hour)
         # This allows the user to retry immediately
+        logger.info(f"Checking if job {job_id} is in active_jobs for cleanup...")
         if job_id in active_jobs:
+            logger.info(f"Deleting job {job_id} from active_jobs")
             del active_jobs[job_id]
-            logger = logging.getLogger(__name__)
-            logger.info(f"Cleaned up failed job {job_id} immediately")
+            logger.info(f"Cleaned up failed job {job_id} immediately - job removed from active_jobs")
+            logger.info(f"Active jobs remaining: {list(active_jobs.keys())}")
+        else:
+            logger.warning(f"Job {job_id} was NOT in active_jobs - already cleaned up?")
 
 
 # =============================================================================
