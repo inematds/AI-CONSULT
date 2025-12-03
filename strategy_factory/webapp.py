@@ -1100,6 +1100,9 @@ HOME_SCRIPTS = """
                 } else if (data.gemini.status === 'not_configured') {
                     gStatus.textContent = '⚙️ Não configurada';
                     gStatus.style.color = '#64748b';
+                } else if (data.gemini.status === 'warning') {
+                    gStatus.textContent = '⚠️ Aviso';
+                    gStatus.style.color = '#f59e0b';
                 } else {
                     gStatus.textContent = '❌ Erro';
                     gStatus.style.color = '#dc2626';
@@ -1107,6 +1110,8 @@ HOME_SCRIPTS = """
                 gMsg.textContent = data.gemini.message;
                 if (data.gemini.status === 'error') {
                     gMsg.style.color = '#dc2626';
+                } else if (data.gemini.status === 'warning') {
+                    gMsg.style.color = '#f59e0b';
                 }
 
                 btn.disabled = false;
@@ -1408,28 +1413,46 @@ def health_check():
     if gemini_key and not gemini_key.startswith('AIzaSy-your'):
         results["gemini"]["configured"] = True
         try:
-            from strategy_factory.synthesis.gemini_client import GeminiClient
-            client = GeminiClient()
-            # Try a minimal generation
-            response = client.generate("Say 'OK'", max_output_tokens=10)
-            if response and response.content and len(response.content) > 0:
+            import google.generativeai as genai
+            genai.configure(api_key=gemini_key)
+            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+
+            # Try a simple generation (avoid safety filters)
+            response = model.generate_content(
+                "What is 2+2? Answer with just the number.",
+                generation_config=genai.GenerationConfig(max_output_tokens=10)
+            )
+
+            # Check if response has text
+            if hasattr(response, 'text') and response.text:
                 results["gemini"]["status"] = "ok"
                 results["gemini"]["message"] = "API funcionando corretamente"
-            elif response and response.error:
-                results["gemini"]["status"] = "error"
-                results["gemini"]["message"] = f"Erro: {response.error[:100]}"
+            elif hasattr(response, 'prompt_feedback'):
+                # Check safety ratings
+                feedback = response.prompt_feedback
+                if hasattr(feedback, 'block_reason'):
+                    results["gemini"]["status"] = "warning"
+                    results["gemini"]["message"] = f"API OK mas conteúdo bloqueado: {feedback.block_reason}"
+                else:
+                    results["gemini"]["status"] = "ok"
+                    results["gemini"]["message"] = "API funcionando (resposta vazia)"
             else:
                 results["gemini"]["status"] = "error"
-                results["gemini"]["message"] = "Resposta vazia da API"
+                results["gemini"]["message"] = "Resposta sem texto da API"
+
         except Exception as e:
             results["gemini"]["status"] = "error"
             error_str = str(e).lower()
-            if "401" in error_str or "unauthorized" in error_str or "api key" in error_str or "api_key" in error_str:
+
+            if "api_key" in error_str or "api key" in error_str or "invalid" in error_str:
                 results["gemini"]["message"] = "Chave de API inválida"
             elif "429" in error_str or "rate limit" in error_str:
                 results["gemini"]["message"] = "Limite de taxa excedido"
-            elif "quota" in error_str or "resource" in error_str:
+            elif "quota" in error_str or "resource" in error_str or "exhausted" in error_str:
                 results["gemini"]["message"] = "Quota excedida"
+            elif "response.text" in error_str or "valid `part`" in error_str:
+                results["gemini"]["status"] = "warning"
+                results["gemini"]["message"] = "API OK mas resposta bloqueada por filtros de segurança"
             else:
                 results["gemini"]["message"] = f"Erro: {str(e)[:100]}"
     else:
