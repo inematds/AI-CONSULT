@@ -2218,9 +2218,10 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
 
         # Check if research phase was already completed
         research_output = tracker.load_research_output()
+        research_completed = tracker.state.phases["research"].status == DeliverableStatus.COMPLETED
 
-        # Only run research if not already completed
-        if not research_output or tracker.state.phases["research"].status != DeliverableStatus.COMPLETED:
+        # Only run research if not already completed or if cache is missing
+        if not research_output or not research_completed:
             tracker.start_phase("research")
 
             research_orchestrator = ResearchOrchestrator(
@@ -2242,6 +2243,10 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 "progress": 100,
                 "detail": "Skipping research - using existing data"
             })
+
+        # Validate research output exists
+        if not research_output:
+            raise Exception("Research output is missing. Cannot proceed with synthesis.")
 
         q.put({
             "phase": "research",
@@ -2268,6 +2273,10 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             if config.get("format") == "markdown"
         ]
         pending_markdown = [d for d in pending_deliverables if d in markdown_deliverables]
+
+        synthesis_orchestrator = None  # Initialize to None
+        synthesis_output = None
+        file_paths = {}
 
         if pending_markdown:
             # Only run synthesis for pending deliverables
@@ -2312,13 +2321,16 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 deliverables={},
                 total_cost=0.0,
             )
-            file_paths = {}
+
+            # Ensure phase is marked as completed if all deliverables are done
+            if tracker.state.phases["synthesis"].status != DeliverableStatus.COMPLETED:
+                tracker.complete_phase("synthesis", "All markdown deliverables already generated")
 
         for d_id, path in file_paths.items():
             tracker.complete_deliverable(d_id, path)
 
         # Check for synthesis errors (only if we ran synthesis)
-        if pending_markdown and synthesis_orchestrator.errors:
+        if synthesis_orchestrator and synthesis_orchestrator.errors:
             error_msg = f"{len(synthesis_orchestrator.errors)} deliverable(s) failed: "
             error_details = "; ".join([f"{e['deliverable']}: {e['error'][:100]}" for e in synthesis_orchestrator.errors[:3]])
             tracker.fail_phase("synthesis", error_msg + error_details)
@@ -2358,6 +2370,10 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 "progress": 100,
                 "detail": "Skipping generation - all files complete"
             })
+
+            # Ensure phase is marked as completed if all deliverables are done
+            if tracker.state.phases["generation"].status != DeliverableStatus.COMPLETED:
+                tracker.complete_phase("generation", "All documents already generated")
         else:
             q.put({
                 "phase": "generation",
