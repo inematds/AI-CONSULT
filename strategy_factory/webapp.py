@@ -2608,7 +2608,9 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 research_output,
                 deliverables=pending_markdown
             )
-            file_paths = synthesis_orchestrator.save_deliverables(tracker.company_slug)
+            # Use the full directory name with timestamp
+            company_slug_with_timestamp = tracker.output_dir.name
+            file_paths = synthesis_orchestrator.save_deliverables(company_slug_with_timestamp)
         else:
             # All synthesis already completed
             q.put({
@@ -2705,8 +2707,10 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 progress_callback=generation_callback,
             )
 
+            # Use the full directory name with timestamp
+            company_slug_with_timestamp = tracker.output_dir.name
             result = generation_orchestrator.generate_all(
-                company_slug=tracker.company_slug,
+                company_slug=company_slug_with_timestamp,
                 company_input=company_input,
                 research=research_output,
                 synthesis=synthesis_output,
