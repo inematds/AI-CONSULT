@@ -353,6 +353,24 @@ class ProgressTracker:
         if self.research_cache_file.exists():
             with open(self.research_cache_file, 'r') as f:
                 data = json.load(f)
+
+            # Handle old cache format (backward compatibility)
+            # Old format didn't have company_name, research_timestamp, research_mode
+            if 'company_name' not in data:
+                data['company_name'] = self.company_name
+            if 'research_timestamp' not in data:
+                # Use timestamp from data if available, otherwise use file mtime
+                if 'timestamp' in data:
+                    data['research_timestamp'] = data['timestamp']
+                else:
+                    data['research_timestamp'] = datetime.fromtimestamp(
+                        self.research_cache_file.stat().st_mtime
+                    ).isoformat()
+            if 'research_mode' not in data:
+                # Default to QUICK for old caches
+                from .models import ResearchMode
+                data['research_mode'] = ResearchMode.QUICK.value
+
             return ResearchOutput(**data)
         return self.state.research_output
 
