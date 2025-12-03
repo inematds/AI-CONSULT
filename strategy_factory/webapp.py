@@ -1773,6 +1773,37 @@ def cancel_job(job_id):
     })
 
 
+@app.route('/delete/<company_slug>', methods=['POST'])
+@login_required
+def delete_analysis(company_slug):
+    """Delete an analysis and all its files."""
+    import shutil
+
+    output_dir = OUTPUT_DIR / company_slug
+
+    if not output_dir.exists():
+        flash("Análise não encontrada.", "error")
+        return redirect(url_for('home'))
+
+    # Check if analysis is currently running
+    for job_id, job_data in active_jobs.items():
+        if job_data.get("company_slug") == company_slug:
+            flash("Não é possível excluir uma análise em execução. Cancele-a primeiro.", "error")
+            return redirect(url_for('results', company_slug=company_slug))
+
+    try:
+        # Delete directory and all contents
+        shutil.rmtree(output_dir)
+        flash(f"Análise '{company_slug}' excluída com sucesso.", "success")
+        logger.info(f"Deleted analysis: {company_slug}")
+    except Exception as e:
+        flash(f"Erro ao excluir análise: {str(e)}", "error")
+        logger.error(f"Error deleting analysis {company_slug}: {e}")
+        return redirect(url_for('results', company_slug=company_slug))
+
+    return redirect(url_for('home'))
+
+
 @app.route('/progress')
 @login_required
 def progress_page():
@@ -2178,6 +2209,17 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
             <div class="stat-value">${total_cost:.4f}</div>
             <div class="stat-label">Custo</div>
         </div>
+    </div>
+    """
+
+    # Add delete button
+    html += f"""
+    <div style="margin: 1rem 0;">
+        <form action="/delete/{company_slug}" method="POST" onsubmit="return confirm('⚠️ Tem certeza que deseja excluir esta análise?\\n\\nTodos os arquivos serão permanentemente removidos e esta ação NÃO pode ser desfeita.');" style="display: inline;">
+            <button type="submit" class="btn" style="background: #dc2626; width: 100%;">
+                🗑️ Excluir Análise
+            </button>
+        </form>
     </div>
     """
 
