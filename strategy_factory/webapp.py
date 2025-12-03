@@ -1782,22 +1782,20 @@ def delete_analysis(company_slug):
     output_dir = OUTPUT_DIR / company_slug
 
     if not output_dir.exists():
-        flash("Análise não encontrada.", "error")
+        logger.warning(f"Delete attempted for non-existent analysis: {company_slug}")
         return redirect(url_for('home'))
 
     # Check if analysis is currently running
     for job_id, job_data in active_jobs.items():
         if job_data.get("company_slug") == company_slug:
-            flash("Não é possível excluir uma análise em execução. Cancele-a primeiro.", "error")
+            logger.warning(f"Cannot delete running analysis: {company_slug}")
             return redirect(url_for('results', company_slug=company_slug))
 
     try:
         # Delete directory and all contents
         shutil.rmtree(output_dir)
-        flash(f"Análise '{company_slug}' excluída com sucesso.", "success")
         logger.info(f"Deleted analysis: {company_slug}")
     except Exception as e:
-        flash(f"Erro ao excluir análise: {str(e)}", "error")
         logger.error(f"Error deleting analysis {company_slug}: {e}")
         return redirect(url_for('results', company_slug=company_slug))
 
