@@ -1374,23 +1374,27 @@ def health_check():
         results["perplexity"]["configured"] = True
         try:
             from strategy_factory.research.perplexity_client import PerplexityClient
+            from strategy_factory.config import PerplexityModel
             client = PerplexityClient()
-            # Try a minimal query
-            response = client.query("Test", model="llama-3.1-sonar-small-128k-online")
-            if response and len(response) > 0:
+            # Try a minimal search
+            response = client.search("test", max_results=1, model=PerplexityModel.SONAR)
+            if response and response.result_count > 0:
                 results["perplexity"]["status"] = "ok"
                 results["perplexity"]["message"] = "API funcionando corretamente"
-            else:
+            elif response and response.error:
                 results["perplexity"]["status"] = "error"
-                results["perplexity"]["message"] = "Resposta vazia da API"
+                results["perplexity"]["message"] = f"Erro: {response.error[:100]}"
+            else:
+                results["perplexity"]["status"] = "ok"
+                results["perplexity"]["message"] = "API funcionando (sem resultados de teste)"
         except Exception as e:
             results["perplexity"]["status"] = "error"
             error_str = str(e).lower()
-            if "401" in error_str or "unauthorized" in error_str:
+            if "401" in error_str or "unauthorized" in error_str or "api key" in error_str:
                 results["perplexity"]["message"] = "Chave de API inválida"
             elif "429" in error_str or "rate limit" in error_str:
                 results["perplexity"]["message"] = "Limite de taxa excedido"
-            elif "credit" in error_str or "quota" in error_str:
+            elif "credit" in error_str or "quota" in error_str or "billing" in error_str:
                 results["perplexity"]["message"] = "Sem créditos na conta"
             else:
                 results["perplexity"]["message"] = f"Erro: {str(e)[:100]}"
@@ -1407,21 +1411,24 @@ def health_check():
             from strategy_factory.synthesis.gemini_client import GeminiClient
             client = GeminiClient()
             # Try a minimal generation
-            response = client.generate("Say 'OK'")
-            if response and len(response) > 0:
+            response = client.generate("Say 'OK'", max_output_tokens=10)
+            if response and response.content and len(response.content) > 0:
                 results["gemini"]["status"] = "ok"
                 results["gemini"]["message"] = "API funcionando corretamente"
+            elif response and response.error:
+                results["gemini"]["status"] = "error"
+                results["gemini"]["message"] = f"Erro: {response.error[:100]}"
             else:
                 results["gemini"]["status"] = "error"
                 results["gemini"]["message"] = "Resposta vazia da API"
         except Exception as e:
             results["gemini"]["status"] = "error"
             error_str = str(e).lower()
-            if "401" in error_str or "unauthorized" in error_str or "api key" in error_str:
+            if "401" in error_str or "unauthorized" in error_str or "api key" in error_str or "api_key" in error_str:
                 results["gemini"]["message"] = "Chave de API inválida"
             elif "429" in error_str or "rate limit" in error_str:
                 results["gemini"]["message"] = "Limite de taxa excedido"
-            elif "quota" in error_str:
+            elif "quota" in error_str or "resource" in error_str:
                 results["gemini"]["message"] = "Quota excedida"
             else:
                 results["gemini"]["message"] = f"Erro: {str(e)[:100]}"
