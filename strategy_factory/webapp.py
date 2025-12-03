@@ -1706,6 +1706,7 @@ def cancel_job(job_id):
 def delete_analysis(company_slug):
     """Delete an analysis and all its files."""
     import shutil
+    logger = logging.getLogger(__name__)
 
     output_dir = OUTPUT_DIR / company_slug
 
