@@ -1639,12 +1639,61 @@ def start_analysis():
 
     # Check if this company is already being analyzed (unless creating new version)
     if not new_version:
-        for existing_job in active_jobs.values():
-            if existing_job["company_slug"] == company_slug and not existing_job.get("new_version", False):
-                return jsonify({
-                    "error": "Análise em andamento",
-                    "message": f"Já existe uma análise em andamento para '{company_name}'. Aguarde a conclusão ou marque 'Criar nova versão'."
-                }), 409
+        existing_job_id = None
+        for jid, job_data in active_jobs.items():
+            if job_data["company_slug"] == company_slug and not job_data.get("new_version", False):
+                existing_job_id = jid
+                break
+
+        if existing_job_id:
+            # Return HTML response with cancel option
+            error_html = f"""
+            <div style="max-width: 600px; margin: 3rem auto;">
+                <div class="card" style="background: #fffbeb; border-left: 4px solid #f59e0b;">
+                    <h2 style="color: #92400e; margin: 0 0 1rem 0;">⚠️ Análise em Andamento</h2>
+                    <p style="color: #78350f; margin: 0 0 1rem 0;">
+                        Já existe uma análise em andamento para <strong>{company_name}</strong>.
+                    </p>
+                    <p style="color: #78350f; margin: 0 0 1.5rem 0; font-size: 0.9rem;">
+                        Você pode:
+                    </p>
+                    <div style="display: flex; gap: 1rem; flex-direction: column;">
+                        <button onclick="cancelAndRetry('{existing_job_id}')" class="btn" style="background: #dc2626;">
+                            ❌ Cancelar análise atual e iniciar nova
+                        </button>
+                        <a href="/results/{company_slug}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
+                            👁️ Ver progresso da análise atual
+                        </a>
+                        <a href="/" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
+                            ← Voltar e marcar "Criar nova versão"
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function cancelAndRetry(jobId) {{
+                    if (!confirm('Cancelar a análise em andamento e iniciar nova?')) {{
+                        return;
+                    }}
+                    fetch('/cancel/' + jobId, {{ method: 'POST' }})
+                        .then(response => response.json())
+                        .then(data => {{
+                            if (data.success) {{
+                                // Go back to home to restart
+                                setTimeout(() => {{
+                                    window.location.href = '/';
+                                }}, 500);
+                            }} else {{
+                                alert('Erro ao cancelar: ' + (data.error || 'Erro desconhecido'));
+                            }}
+                        }})
+                        .catch(err => {{
+                            alert('Erro ao cancelar: ' + err);
+                        }});
+                }}
+            </script>
+            """
+            return render_template_string(BASE_TEMPLATE, title="Análise em Andamento", content=error_html, scripts="")
 
     # Create job entry
     active_jobs[job_id] = {
@@ -1701,12 +1750,61 @@ def resume_analysis(company_slug):
     job_id = str(uuid.uuid4())[:8]
 
     # Check if this company is already being analyzed
-    for existing_job in active_jobs.values():
-        if existing_job["company_slug"] == company_slug:
-            return jsonify({
-                "error": "Análise em andamento",
-                "message": f"Já existe uma análise em andamento para '{company_name}'. Aguarde a conclusão."
-            }), 409
+    existing_job_id = None
+    for jid, job_data in active_jobs.items():
+        if job_data["company_slug"] == company_slug:
+            existing_job_id = jid
+            break
+
+    if existing_job_id:
+        # Return HTML response with cancel option instead of JSON
+        error_html = f"""
+        <div style="max-width: 600px; margin: 3rem auto;">
+            <div class="card" style="background: #fffbeb; border-left: 4px solid #f59e0b;">
+                <h2 style="color: #92400e; margin: 0 0 1rem 0;">⚠️ Análise em Andamento</h2>
+                <p style="color: #78350f; margin: 0 0 1rem 0;">
+                    Já existe uma análise em andamento para <strong>{company_name}</strong>.
+                </p>
+                <p style="color: #78350f; margin: 0 0 1.5rem 0; font-size: 0.9rem;">
+                    Você pode:
+                </p>
+                <div style="display: flex; gap: 1rem; flex-direction: column;">
+                    <button onclick="cancelAndRetry('{existing_job_id}')" class="btn" style="background: #dc2626;">
+                        ❌ Cancelar análise atual e tentar novamente
+                    </button>
+                    <a href="/results/{company_slug}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
+                        👁️ Ver progresso da análise atual
+                    </a>
+                    <a href="/" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
+                        ← Voltar para home
+                    </a>
+                </div>
+            </div>
+        </div>
+        <script>
+            function cancelAndRetry(jobId) {{
+                if (!confirm('Tem certeza que deseja cancelar a análise em andamento?')) {{
+                    return;
+                }}
+                fetch('/cancel/' + jobId, {{ method: 'POST' }})
+                    .then(response => response.json())
+                    .then(data => {{
+                        if (data.success) {{
+                            // Wait a moment then retry
+                            setTimeout(() => {{
+                                window.location.reload();
+                            }}, 500);
+                        }} else {{
+                            alert('Erro ao cancelar: ' + (data.error || 'Erro desconhecido'));
+                        }}
+                    }})
+                    .catch(err => {{
+                        alert('Erro ao cancelar: ' + err);
+                    }});
+            }}
+        </script>
+        """
+        return render_template_string(BASE_TEMPLATE, title="Análise em Andamento", content=error_html, scripts="")
 
     # Create job entry
     active_jobs[job_id] = {
@@ -2481,19 +2579,16 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "error_message": error_details["message"],
             "error_solution": error_details["solution"],
             "error_technical": error_details["technical"],
-            "error_phase": current_phase
+            "error_phase": current_phase,
+            "complete": True  # Mark as complete so SSE stream ends
         })
 
-        # Schedule job cleanup after 1 hour even on error
-        def cleanup_job():
-            time.sleep(3600)  # Wait 1 hour
-            if job_id in active_jobs:
-                del active_jobs[job_id]
-                logger = logging.getLogger(__name__)
-                logger.info(f"Cleaned up failed job {job_id}")
-
-        cleanup_thread = threading.Thread(target=cleanup_job, daemon=True)
-        cleanup_thread.start()
+        # Clean up job immediately on error (don't wait 1 hour)
+        # This allows the user to retry immediately
+        if job_id in active_jobs:
+            del active_jobs[job_id]
+            logger = logging.getLogger(__name__)
+            logger.info(f"Cleaned up failed job {job_id} immediately")
 
 
 # =============================================================================
