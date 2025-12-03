@@ -1041,17 +1041,7 @@ HOME_CONTENT = """
                 </div>
             </div>
 
-            <div class="form-group" style="margin-top: 1rem;">
-                <label style="display: flex; align-items: center; cursor: pointer; user-select: none;">
-                    <input type="checkbox" name="new_version" value="true" style="margin-right: 0.5rem; width: auto;">
-                    <span>Criar nova versão (mantém análises anteriores)</span>
-                </label>
-                <small style="margin-left: 1.5rem; display: block; margin-top: 0.25rem;">
-                    Se desmarcado, substitui a análise existente desta empresa
-                </small>
-            </div>
-
-            <button type="submit" class="btn" style="width: 100%;">
+            <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">
                 Iniciar Análise
             </button>
         </form>
@@ -1629,31 +1619,21 @@ def start_analysis():
     company_name = request.form.get('company', '').strip()
     context = request.form.get('context', '').strip()
     mode = request.form.get('mode', 'quick')
-    new_version = request.form.get('new_version') == 'true'
 
     if not company_name:
         return jsonify({"error": "Company name is required"}), 400
 
-    # Generate a job ID and company slug
+    # Generate a job ID
     job_id = str(uuid.uuid4())[:8]
-    company_slug = slugify(company_name)
 
-    # Check if this company is already being analyzed (unless creating new version)
-    if not new_version:
-        existing_job_id = None
-        for jid, job_data in active_jobs.items():
-            if job_data["company_slug"] == company_slug and not job_data.get("new_version", False):
-                existing_job_id = jid
-                break
+    # ALWAYS create new version with timestamp (removed new_version checkbox)
+    # This prevents conflicts and keeps all analysis versions separate
+    new_version = True
 
-        if existing_job_id:
-            # CONFLICT: Job is actually running now - redirect to conflict page (PRG pattern)
-            return redirect(url_for('conflict_page', company_slug=company_slug, job_id=existing_job_id, action='start'))
-
-    # Create job entry
+    # Create job entry (company_slug will be updated after ProgressTracker creates timestamped dir)
     active_jobs[job_id] = {
         "company_name": company_name,
-        "company_slug": company_slug,
+        "company_slug": slugify(company_name),  # Temporary, will be updated with timestamp
         "context": context,
         "mode": mode,
         "new_version": new_version,
@@ -1813,7 +1793,7 @@ def conflict_page():
         return redirect(url_for('results', company_slug=company_slug))
 
     action_text = "iniciar nova"
-    back_text = "Voltar e marcar 'Criar nova versão'"
+    back_text = "Voltar para home"
 
     content = f"""
     <div style="max-width: 600px; margin: 3rem auto;">
