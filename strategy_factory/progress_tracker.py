@@ -68,7 +68,8 @@ class ProgressTracker:
         company_name: str,
         company_input: Optional[CompanyInput] = None,
         output_base: Path = OUTPUT_DIR,
-        create_new_version: bool = False
+        create_new_version: bool = False,
+        load_from_directory: Optional[str] = None
     ):
         """
         Initialize progress tracker.
@@ -78,13 +79,18 @@ class ProgressTracker:
             company_input: Optional CompanyInput model with full input data
             output_base: Base directory for outputs (default: output/)
             create_new_version: If True, creates a new timestamped version
+            load_from_directory: If provided, loads from this specific directory name
+                                (useful for continuing analyses with timestamped dirs)
         """
         self.company_name = company_name
         self.company_slug = slugify(company_name)
         self.output_base = Path(output_base)
 
+        # If loading from specific directory, use that
+        if load_from_directory:
+            self.output_dir = self.output_base / load_from_directory
         # If creating new version, add timestamp to directory
-        if create_new_version:
+        elif create_new_version:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             self.output_dir = self.output_base / f"{self.company_slug}_{timestamp}"
         else:

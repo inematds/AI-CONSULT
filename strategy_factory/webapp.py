@@ -1775,9 +1775,13 @@ def continue_analysis(company_slug):
         return redirect(url_for('home'))
 
     try:
-        # Load the existing tracker to get company info
-        logger.info(f"Loading ProgressTracker for: {company_slug}")
-        tracker = ProgressTracker(company_slug)  # Don't pass company_input - will load from state
+        # Load the existing tracker from the specific directory
+        # Use a dummy company name since we'll load the real one from state
+        logger.info(f"Loading ProgressTracker from directory: {company_slug}")
+        tracker = ProgressTracker(
+            company_name="Loading...",  # Temporary, will be loaded from state
+            load_from_directory=company_slug  # Load from this specific directory
+        )
         company_name = tracker.state.company_name
         context = tracker.state.input_data.context if tracker.state.input_data else ""
         mode = tracker.state.input_data.mode.value if tracker.state.input_data else "quick"
