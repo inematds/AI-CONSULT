@@ -909,6 +909,43 @@ BASE_TEMPLATE = """
             color: var(--text-secondary);
         }
 
+        /* Running jobs list */
+        .running-jobs-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .running-job-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: #fef3c7;
+            border-radius: 8px;
+            border: 2px solid #fbbf24;
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-cancel {
+            padding: 0.5rem 1rem;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background 0.15s;
+        }
+
+        .btn-cancel:hover {
+            background: #b91c1c;
+        }
+
         @media (max-width: 900px) {
             .results-layout {
                 grid-template-columns: 1fr;
@@ -1019,6 +1056,32 @@ HOME_CONTENT = """
         </form>
     </div>
 
+    {% if running_jobs %}
+    <div class="card">
+        <h2>🔄 Análises em Andamento</h2>
+        <div class="running-jobs-list">
+            {% for job in running_jobs %}
+            <div class="running-job-card" data-job-id="{{ job.job_id }}">
+                <div class="company-info">
+                    <h3>{{ job.company_name }}</h3>
+                    <p>⏳ Processando...</p>
+                </div>
+                <div class="job-actions">
+                    <button onclick="cancelJob('{{ job.job_id }}')" class="btn-cancel">
+                        ❌ Cancelar
+                    </button>
+                    {% if job.company_slug %}
+                    <a href="/results/{{ job.company_slug }}" class="btn-secondary" style="padding: 0.5rem 1rem; text-decoration: none;">
+                        👁️ Ver Progresso
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     {% if companies %}
     <div class="card">
         <h2>Análises Anteriores</h2>
@@ -1122,6 +1185,37 @@ HOME_SCRIPTS = """
                 btn.disabled = false;
                 btn.textContent = '🔍 Testar APIs';
             });
+    }
+
+    function cancelJob(jobId) {
+        if (!confirm('Tem certeza que deseja cancelar esta análise?')) {
+            return;
+        }
+
+        fetch('/cancel/' + jobId, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                // Remove the job card from the UI
+                const jobCard = document.querySelector(`[data-job-id="${jobId}"]`);
+                if (jobCard) {
+                    jobCard.remove();
+                }
+                // Reload page if no more running jobs
+                const runningJobs = document.querySelectorAll('.running-job-card');
+                if (runningJobs.length === 0) {
+                    location.reload();
+                }
+            } else {
+                alert('Erro ao cancelar: ' + (data.error || 'Erro desconhecido'));
+            }
+        })
+        .catch(err => {
+            alert('Erro ao cancelar análise: ' + err);
+        });
     }
 </script>
 """
@@ -1507,8 +1601,17 @@ def home():
     # Sort by company name and then by date (newest first)
     companies.sort(key=lambda x: (x["name"], x["version_date"] or datetime.min), reverse=True)
 
+    # Get active jobs
+    running_jobs = []
+    for job_id, job_data in active_jobs.items():
+        running_jobs.append({
+            "job_id": job_id,
+            "company_name": job_data.get("company_name", "Unknown"),
+            "company_slug": job_data.get("company_slug", ""),
+        })
+
     from jinja2 import Template
-    content = Template(HOME_CONTENT).render(companies=companies)
+    content = Template(HOME_CONTENT).render(companies=companies, running_jobs=running_jobs)
 
     return render_template_string(
         BASE_TEMPLATE,
@@ -1636,6 +1739,33 @@ def resume_analysis(company_slug):
         content=content,
         scripts=scripts
     )
+
+
+@app.route('/cancel/<job_id>', methods=['POST'])
+@login_required
+def cancel_job(job_id):
+    """Cancel a running analysis job."""
+    if job_id not in active_jobs:
+        return jsonify({"error": "Job not found"}), 404
+
+    job = active_jobs[job_id]
+    company_name = job.get("company_name", "Unknown")
+
+    # Mark job as cancelled
+    job["cancelled"] = True
+    job["progress_queue"].put({
+        "error": True,
+        "message": "Análise cancelada pelo usuário",
+        "complete": True
+    })
+
+    # Remove from active jobs
+    del active_jobs[job_id]
+
+    return jsonify({
+        "success": True,
+        "message": f"Análise de '{company_name}' cancelada com sucesso."
+    })
 
 
 @app.route('/progress/<job_id>')
@@ -2039,8 +2169,16 @@ RESULTS_SCRIPTS = """
 
 def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_version: bool = False):
     """Run the full pipeline in a background thread."""
-    job = active_jobs[job_id]
+    job = active_jobs.get(job_id)
+    if not job:
+        return  # Job was cancelled before starting
+
     q = job["progress_queue"]
+
+    def check_cancelled():
+        """Check if job was cancelled."""
+        if job_id not in active_jobs or active_jobs[job_id].get("cancelled", False):
+            raise Exception("Análise cancelada pelo usuário")
 
     try:
         # Import here to avoid circular imports
@@ -2110,6 +2248,9 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "completed": True,
             "message": "Research complete"
         })
+
+        # Check if cancelled before continuing
+        check_cancelled()
 
         # Phase 2: Synthesis
         q.put({
@@ -2196,6 +2337,9 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "completed": True,
             "message": "Synthesis complete"
         })
+
+        # Check if cancelled before continuing
+        check_cancelled()
 
         # Phase 3: Generation
         # Check which generation deliverables are pending
