@@ -35,9 +35,10 @@ RUN apt-get update && apt-get install -y \
     && npm install -g @mermaid-js/mermaid-cli \
     && rm -rf /var/lib/apt/lists/*
 
-# Set Puppeteer to use system Chromium
+# Set Puppeteer to use system Chromium with no-sandbox mode
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
+    PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage"
 
 # Create non-root user
 RUN useradd -m -u 1000 appuser

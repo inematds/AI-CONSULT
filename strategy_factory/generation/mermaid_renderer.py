@@ -234,7 +234,7 @@ class MermaidRenderer:
                 config_path = config_file.name
 
             try:
-                # Run mmdc - use simpler command without puppeteerConfigFile
+                # Run mmdc with puppeteer args for Docker/headless environment
                 cmd = [
                     "mmdc",
                     "-i", mmd_path,
@@ -243,6 +243,7 @@ class MermaidRenderer:
                     "-w", str(width),
                     "-H", str(height),
                     "-b", background,
+                    "--puppeteerConfigFile", "/app/.puppeteerrc.json",
                 ]
 
                 print(f"Running: {' '.join(cmd)}")
