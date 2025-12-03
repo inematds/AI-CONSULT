@@ -943,6 +943,31 @@ BASE_TEMPLATE = """
 
 HOME_CONTENT = """
 <div style="max-width: 700px; margin: 2rem auto;">
+    <div class="card" style="margin-bottom: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="margin: 0;">Status das APIs</h3>
+            <button onclick="checkAPIs()" class="btn btn-secondary" style="padding: 0.5rem 1rem;" id="check-btn">
+                🔍 Testar APIs
+            </button>
+        </div>
+        <div id="api-status" style="display: none;">
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 4px; margin-bottom: 0.5rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span><strong>Perplexity AI</strong> (Fase 1: Research)</span>
+                    <span id="perplexity-status">⏳ Testando...</span>
+                </div>
+                <small id="perplexity-msg" style="color: #64748b; display: block; margin-top: 0.25rem;"></small>
+            </div>
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 4px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span><strong>Google Gemini</strong> (Fase 2: Synthesis)</span>
+                    <span id="gemini-status">⏳ Testando...</span>
+                </div>
+                <small id="gemini-msg" style="color: #64748b; display: block; margin-top: 0.25rem;"></small>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <h2>Gerar Estratégia de IA</h2>
         <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
@@ -1030,6 +1055,69 @@ HOME_SCRIPTS = """
             this.querySelector('input').checked = true;
         });
     });
+
+    function checkAPIs() {
+        const btn = document.getElementById('check-btn');
+        const statusDiv = document.getElementById('api-status');
+
+        btn.disabled = true;
+        btn.textContent = '⏳ Testando...';
+        statusDiv.style.display = 'block';
+
+        // Reset status
+        document.getElementById('perplexity-status').textContent = '⏳ Testando...';
+        document.getElementById('gemini-status').textContent = '⏳ Testando...';
+        document.getElementById('perplexity-msg').textContent = '';
+        document.getElementById('gemini-msg').textContent = '';
+
+        fetch('/api/health-check')
+            .then(response => response.json())
+            .then(data => {
+                // Perplexity
+                const pStatus = document.getElementById('perplexity-status');
+                const pMsg = document.getElementById('perplexity-msg');
+                if (data.perplexity.status === 'ok') {
+                    pStatus.textContent = '✅ OK';
+                    pStatus.style.color = '#059669';
+                } else if (data.perplexity.status === 'not_configured') {
+                    pStatus.textContent = '⚙️ Não configurada';
+                    pStatus.style.color = '#64748b';
+                } else {
+                    pStatus.textContent = '❌ Erro';
+                    pStatus.style.color = '#dc2626';
+                }
+                pMsg.textContent = data.perplexity.message;
+                if (data.perplexity.status === 'error') {
+                    pMsg.style.color = '#dc2626';
+                }
+
+                // Gemini
+                const gStatus = document.getElementById('gemini-status');
+                const gMsg = document.getElementById('gemini-msg');
+                if (data.gemini.status === 'ok') {
+                    gStatus.textContent = '✅ OK';
+                    gStatus.style.color = '#059669';
+                } else if (data.gemini.status === 'not_configured') {
+                    gStatus.textContent = '⚙️ Não configurada';
+                    gStatus.style.color = '#64748b';
+                } else {
+                    gStatus.textContent = '❌ Erro';
+                    gStatus.style.color = '#dc2626';
+                }
+                gMsg.textContent = data.gemini.message;
+                if (data.gemini.status === 'error') {
+                    gMsg.style.color = '#dc2626';
+                }
+
+                btn.disabled = false;
+                btn.textContent = '🔍 Testar APIs';
+            })
+            .catch(err => {
+                alert('Erro ao testar APIs: ' + err);
+                btn.disabled = false;
+                btn.textContent = '🔍 Testar APIs';
+            });
+    }
 </script>
 """
 
@@ -1267,6 +1355,82 @@ def logout():
     """Logout and redirect to login."""
     session.pop('logged_in', None)
     return redirect(url_for('login'))
+
+
+@app.route('/api/health-check')
+@login_required
+def health_check():
+    """Check if APIs are working."""
+    import os
+
+    results = {
+        "perplexity": {"status": "unknown", "message": "", "configured": False},
+        "gemini": {"status": "unknown", "message": "", "configured": False}
+    }
+
+    # Check Perplexity
+    perplexity_key = os.getenv('PERPLEXITY_API_KEY', '')
+    if perplexity_key and not perplexity_key.startswith('pplx-your'):
+        results["perplexity"]["configured"] = True
+        try:
+            from strategy_factory.research.perplexity_client import PerplexityClient
+            client = PerplexityClient()
+            # Try a minimal query
+            response = client.query("Test", model="llama-3.1-sonar-small-128k-online")
+            if response and len(response) > 0:
+                results["perplexity"]["status"] = "ok"
+                results["perplexity"]["message"] = "API funcionando corretamente"
+            else:
+                results["perplexity"]["status"] = "error"
+                results["perplexity"]["message"] = "Resposta vazia da API"
+        except Exception as e:
+            results["perplexity"]["status"] = "error"
+            error_str = str(e).lower()
+            if "401" in error_str or "unauthorized" in error_str:
+                results["perplexity"]["message"] = "Chave de API inválida"
+            elif "429" in error_str or "rate limit" in error_str:
+                results["perplexity"]["message"] = "Limite de taxa excedido"
+            elif "credit" in error_str or "quota" in error_str:
+                results["perplexity"]["message"] = "Sem créditos na conta"
+            else:
+                results["perplexity"]["message"] = f"Erro: {str(e)[:100]}"
+    else:
+        results["perplexity"]["configured"] = False
+        results["perplexity"]["status"] = "not_configured"
+        results["perplexity"]["message"] = "Chave de API não configurada"
+
+    # Check Gemini
+    gemini_key = os.getenv('GEMINI_API_KEY', '')
+    if gemini_key and not gemini_key.startswith('AIzaSy-your'):
+        results["gemini"]["configured"] = True
+        try:
+            from strategy_factory.synthesis.gemini_client import GeminiClient
+            client = GeminiClient()
+            # Try a minimal generation
+            response = client.generate("Say 'OK'")
+            if response and len(response) > 0:
+                results["gemini"]["status"] = "ok"
+                results["gemini"]["message"] = "API funcionando corretamente"
+            else:
+                results["gemini"]["status"] = "error"
+                results["gemini"]["message"] = "Resposta vazia da API"
+        except Exception as e:
+            results["gemini"]["status"] = "error"
+            error_str = str(e).lower()
+            if "401" in error_str or "unauthorized" in error_str or "api key" in error_str:
+                results["gemini"]["message"] = "Chave de API inválida"
+            elif "429" in error_str or "rate limit" in error_str:
+                results["gemini"]["message"] = "Limite de taxa excedido"
+            elif "quota" in error_str:
+                results["gemini"]["message"] = "Quota excedida"
+            else:
+                results["gemini"]["message"] = f"Erro: {str(e)[:100]}"
+    else:
+        results["gemini"]["configured"] = False
+        results["gemini"]["status"] = "not_configured"
+        results["gemini"]["message"] = "Chave de API não configurada"
+
+    return jsonify(results)
 
 
 @app.route('/')
