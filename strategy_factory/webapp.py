@@ -2626,16 +2626,11 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "message": "Analysis complete!"
         })
 
-        # Schedule job cleanup after 1 hour
-        def cleanup_job():
-            time.sleep(3600)  # Wait 1 hour
-            if job_id in active_jobs:
-                del active_jobs[job_id]
-                logger = logging.getLogger(__name__)
-                logger.info(f"Cleaned up completed job {job_id}")
-
-        cleanup_thread = threading.Thread(target=cleanup_job, daemon=True)
-        cleanup_thread.start()
+        # Remove from active jobs immediately when complete
+        if job_id in active_jobs:
+            del active_jobs[job_id]
+            logger.info(f"Job {job_id} completed successfully - removed from active_jobs")
+            logger.info(f"Active jobs remaining: {list(active_jobs.keys())}")
 
     except Exception as e:
         import traceback
