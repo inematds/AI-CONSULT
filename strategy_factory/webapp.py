@@ -1646,54 +1646,8 @@ def start_analysis():
                 break
 
         if existing_job_id:
-            # Return HTML response with cancel option
-            error_html = f"""
-            <div style="max-width: 600px; margin: 3rem auto;">
-                <div class="card" style="background: #fffbeb; border-left: 4px solid #f59e0b;">
-                    <h2 style="color: #92400e; margin: 0 0 1rem 0;">⚠️ Análise em Andamento</h2>
-                    <p style="color: #78350f; margin: 0 0 1rem 0;">
-                        Já existe uma análise em andamento para <strong>{company_name}</strong>.
-                    </p>
-                    <p style="color: #78350f; margin: 0 0 1.5rem 0; font-size: 0.9rem;">
-                        Você pode:
-                    </p>
-                    <div style="display: flex; gap: 1rem; flex-direction: column;">
-                        <button onclick="cancelAndRetry('{existing_job_id}')" class="btn" style="background: #dc2626;">
-                            ❌ Cancelar análise atual e iniciar nova
-                        </button>
-                        <a href="/results/{company_slug}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
-                            👁️ Ver progresso da análise atual
-                        </a>
-                        <a href="/" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
-                            ← Voltar e marcar "Criar nova versão"
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <script>
-                function cancelAndRetry(jobId) {{
-                    if (!confirm('Cancelar a análise em andamento e iniciar nova?')) {{
-                        return;
-                    }}
-                    fetch('/cancel/' + jobId, {{ method: 'POST' }})
-                        .then(response => response.json())
-                        .then(data => {{
-                            if (data.success) {{
-                                // Go back to home to restart
-                                setTimeout(() => {{
-                                    window.location.href = '/';
-                                }}, 500);
-                            }} else {{
-                                alert('Erro ao cancelar: ' + (data.error || 'Erro desconhecido'));
-                            }}
-                        }})
-                        .catch(err => {{
-                            alert('Erro ao cancelar: ' + err);
-                        }});
-                }}
-            </script>
-            """
-            return render_template_string(BASE_TEMPLATE, title="Análise em Andamento", content=error_html, scripts="")
+            # CONFLICT: Job is actually running now - redirect to conflict page (PRG pattern)
+            return redirect(url_for('conflict_page', company_slug=company_slug, job_id=existing_job_id, action='start'))
 
     # Create job entry
     active_jobs[job_id] = {
@@ -1715,17 +1669,8 @@ def start_analysis():
     )
     thread.start()
 
-    # Redirect to progress page
-    from jinja2 import Template
-    content = Template(PROGRESS_CONTENT).render(company_name=company_name)
-    scripts = Template(PROGRESS_SCRIPTS).render(job_id=job_id)
-
-    return render_template_string(
-        BASE_TEMPLATE,
-        title=f"Analyzing {company_name}",
-        content=content,
-        scripts=scripts
-    )
+    # PRG Pattern: Redirect to progress page (GET route)
+    return redirect(url_for('progress_page', job_id=job_id, company_name=company_name))
 
 
 @app.route('/resume/<company_slug>', methods=['POST'])
@@ -1749,7 +1694,7 @@ def resume_analysis(company_slug):
     # Generate a job ID
     job_id = str(uuid.uuid4())[:8]
 
-    # Check if this company is already being analyzed
+    # Check if this company is ACTIVELY being analyzed right now
     existing_job_id = None
     for jid, job_data in active_jobs.items():
         if job_data["company_slug"] == company_slug:
@@ -1757,54 +1702,8 @@ def resume_analysis(company_slug):
             break
 
     if existing_job_id:
-        # Return HTML response with cancel option instead of JSON
-        error_html = f"""
-        <div style="max-width: 600px; margin: 3rem auto;">
-            <div class="card" style="background: #fffbeb; border-left: 4px solid #f59e0b;">
-                <h2 style="color: #92400e; margin: 0 0 1rem 0;">⚠️ Análise em Andamento</h2>
-                <p style="color: #78350f; margin: 0 0 1rem 0;">
-                    Já existe uma análise em andamento para <strong>{company_name}</strong>.
-                </p>
-                <p style="color: #78350f; margin: 0 0 1.5rem 0; font-size: 0.9rem;">
-                    Você pode:
-                </p>
-                <div style="display: flex; gap: 1rem; flex-direction: column;">
-                    <button onclick="cancelAndRetry('{existing_job_id}')" class="btn" style="background: #dc2626;">
-                        ❌ Cancelar análise atual e tentar novamente
-                    </button>
-                    <a href="/results/{company_slug}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
-                        👁️ Ver progresso da análise atual
-                    </a>
-                    <a href="/" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
-                        ← Voltar para home
-                    </a>
-                </div>
-            </div>
-        </div>
-        <script>
-            function cancelAndRetry(jobId) {{
-                if (!confirm('Tem certeza que deseja cancelar a análise em andamento?')) {{
-                    return;
-                }}
-                fetch('/cancel/' + jobId, {{ method: 'POST' }})
-                    .then(response => response.json())
-                    .then(data => {{
-                        if (data.success) {{
-                            // Wait a moment then retry
-                            setTimeout(() => {{
-                                window.location.reload();
-                            }}, 500);
-                        }} else {{
-                            alert('Erro ao cancelar: ' + (data.error || 'Erro desconhecido'));
-                        }}
-                    }})
-                    .catch(err => {{
-                        alert('Erro ao cancelar: ' + err);
-                    }});
-            }}
-        </script>
-        """
-        return render_template_string(BASE_TEMPLATE, title="Análise em Andamento", content=error_html, scripts="")
+        # CONFLICT: Job is actually running now - redirect to conflict page (PRG pattern)
+        return redirect(url_for('conflict_page', company_slug=company_slug, job_id=existing_job_id, action='resume'))
 
     # Create job entry
     active_jobs[job_id] = {
@@ -1818,7 +1717,7 @@ def resume_analysis(company_slug):
         "started_at": datetime.now(),
     }
 
-    # Start the pipeline in a background thread (will resume from saved state)
+    # NO CONFLICT: Can resume safely - start the pipeline
     thread = threading.Thread(
         target=run_pipeline,
         args=(job_id, company_name, context, mode, False),
@@ -1826,17 +1725,8 @@ def resume_analysis(company_slug):
     )
     thread.start()
 
-    # Redirect to progress page
-    from jinja2 import Template
-    content = Template(PROGRESS_CONTENT).render(company_name=company_name)
-    scripts = Template(PROGRESS_SCRIPTS).render(job_id=job_id)
-
-    return render_template_string(
-        BASE_TEMPLATE,
-        title=f"Retomando {company_name}",
-        content=content,
-        scripts=scripts
-    )
+    # PRG Pattern: Redirect to progress page (GET route)
+    return redirect(url_for('progress_page', job_id=job_id, company_name=company_name))
 
 
 @app.route('/cancel/<job_id>', methods=['POST'])
@@ -1864,6 +1754,104 @@ def cancel_job(job_id):
         "success": True,
         "message": f"Análise de '{company_name}' cancelada com sucesso."
     })
+
+
+@app.route('/progress')
+@login_required
+def progress_page():
+    """Progress page (GET route for PRG pattern)."""
+    job_id = request.args.get('job_id')
+    company_name = request.args.get('company_name', 'Company')
+
+    if not job_id:
+        return redirect(url_for('home'))
+
+    from jinja2 import Template
+    content = Template(PROGRESS_CONTENT).render(company_name=company_name)
+    scripts = Template(PROGRESS_SCRIPTS).render(job_id=job_id)
+
+    return render_template_string(
+        BASE_TEMPLATE,
+        title=f"Analisando {company_name}",
+        content=content,
+        scripts=scripts
+    )
+
+
+@app.route('/conflict')
+@login_required
+def conflict_page():
+    """Conflict page when job is already running (GET route for PRG pattern)."""
+    company_slug = request.args.get('company_slug')
+    job_id = request.args.get('job_id')
+    action = request.args.get('action', 'resume')  # 'resume' or 'start'
+
+    if not company_slug or not job_id:
+        return redirect(url_for('home'))
+
+    # Get company name from active job or tracker
+    company_name = company_slug
+    if job_id in active_jobs:
+        company_name = active_jobs[job_id].get("company_name", company_slug)
+    else:
+        # Job might have finished already - redirect to results
+        return redirect(url_for('results', company_slug=company_slug))
+
+    action_text = "tentar novamente" if action == "resume" else "iniciar nova"
+    back_text = "Voltar para home" if action == "resume" else "Voltar e marcar 'Criar nova versão'"
+
+    content = f"""
+    <div style="max-width: 600px; margin: 3rem auto;">
+        <div class="card" style="background: #fffbeb; border-left: 4px solid #f59e0b;">
+            <h2 style="color: #92400e; margin: 0 0 1rem 0;">⚠️ Análise em Andamento</h2>
+            <p style="color: #78350f; margin: 0 0 1rem 0;">
+                Já existe uma análise em andamento para <strong>{company_name}</strong>.
+            </p>
+            <p style="color: #78350f; margin: 0 0 1.5rem 0; font-size: 0.9rem;">
+                Você pode:
+            </p>
+            <div style="display: flex; gap: 1rem; flex-direction: column;">
+                <button onclick="cancelAndRetry('{job_id}', '{company_slug}', '{action}')" class="btn" style="background: #dc2626;">
+                    ❌ Cancelar análise atual e {action_text}
+                </button>
+                <a href="/results/{company_slug}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
+                    👁️ Ver progresso da análise atual
+                </a>
+                <a href="/" class="btn btn-secondary" style="text-align: center; text-decoration: none;">
+                    ← {back_text}
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function cancelAndRetry(jobId, companySlug, action) {{
+            if (!confirm('Tem certeza que deseja cancelar a análise em andamento?')) {{
+                return;
+            }}
+            fetch('/cancel/' + jobId, {{ method: 'POST' }})
+                .then(response => response.json())
+                .then(data => {{
+                    if (data.success) {{
+                        // Wait a moment then go back to home or results
+                        setTimeout(() => {{
+                            if (action === 'resume') {{
+                                window.location.href = '/results/' + companySlug;
+                            }} else {{
+                                window.location.href = '/';
+                            }}
+                        }}, 500);
+                    }} else {{
+                        alert('Erro ao cancelar: ' + (data.error || 'Erro desconhecido'));
+                    }}
+                }})
+                .catch(err => {{
+                    alert('Erro ao cancelar: ' + err);
+                }});
+        }}
+    </script>
+    """
+
+    return render_template_string(BASE_TEMPLATE, title="Análise em Andamento", content=content, scripts="")
 
 
 @app.route('/progress/<job_id>')
