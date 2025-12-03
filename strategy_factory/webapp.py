@@ -2303,8 +2303,19 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             })
 
         # Check if research phase was already completed
-        research_output = tracker.load_research_output()
+        logger = logging.getLogger(__name__)
+        try:
+            research_output = tracker.load_research_output()
+        except Exception as load_err:
+            logger.error(f"Failed to load research cache: {load_err}")
+            research_output = None
+
         research_completed = tracker.state.phases["research"].status == DeliverableStatus.COMPLETED
+
+        # Debug logging
+        logger.info(f"Resume check: research_output={'present' if research_output else 'MISSING'}, research_completed={research_completed}")
+        logger.info(f"Current phase in state: {tracker.state.current_phase}")
+        logger.info(f"Research cache file exists: {tracker.research_cache_file.exists()}")
 
         # Only run research if not already completed or if cache is missing
         if not research_output or not research_completed:
@@ -2330,9 +2341,9 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 "detail": "Skipping research - using existing data"
             })
 
-        # Validate research output exists
+        # Validate research output exists (critical dependency for all phases)
         if not research_output:
-            raise Exception("Research output is missing. Cannot proceed with synthesis.")
+            raise Exception("Cache de dados da fase inicial está ausente ou corrompido. Não é possível continuar.")
 
         q.put({
             "phase": "research",
@@ -2533,13 +2544,18 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         traceback.print_exc()
 
         # Determine which phase we were in
+        # PRIORITY 1: Use tracker's current_phase (most accurate)
         current_phase = "unknown"
-        if "research" in str(e).lower() or "perplexity" in str(e).lower():
-            current_phase = "research"
-        elif "synthesis" in str(e).lower() or "gemini" in str(e).lower():
-            current_phase = "synthesis"
-        elif "generation" in str(e).lower() or "pptx" in str(e).lower() or "docx" in str(e).lower():
-            current_phase = "generation"
+        if 'tracker' in locals() and tracker.state.current_phase:
+            current_phase = tracker.state.current_phase
+        else:
+            # PRIORITY 2: Infer from error message (fallback)
+            if "research" in str(e).lower() or "perplexity" in str(e).lower():
+                current_phase = "research"
+            elif "synthesis" in str(e).lower() or "gemini" in str(e).lower():
+                current_phase = "synthesis"
+            elif "generation" in str(e).lower() or "pptx" in str(e).lower() or "docx" in str(e).lower():
+                current_phase = "generation"
 
         # Get detailed error information
         error_details = get_error_details(e, current_phase)
@@ -2547,10 +2563,6 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         # Save error to tracker if tracker was created
         if 'tracker' in locals():
             try:
-                # Try to determine actual phase from tracker state
-                if tracker.state.current_phase:
-                    current_phase = tracker.state.current_phase
-
                 # Mark the phase as failed in tracker
                 tracker.fail_phase(current_phase, error_details["message"])
 
