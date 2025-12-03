@@ -978,6 +978,16 @@ HOME_CONTENT = """
                 </div>
             </div>
 
+            <div class="form-group" style="margin-top: 1rem;">
+                <label style="display: flex; align-items: center; cursor: pointer; user-select: none;">
+                    <input type="checkbox" name="new_version" value="true" style="margin-right: 0.5rem; width: auto;">
+                    <span>Criar nova versão (mantém análises anteriores)</span>
+                </label>
+                <small style="margin-left: 1.5rem; display: block; margin-top: 0.25rem;">
+                    Se desmarcado, substitui a análise existente desta empresa
+                </small>
+            </div>
+
             <button type="submit" class="btn" style="width: 100%;">
                 Iniciar Análise
             </button>
@@ -993,6 +1003,11 @@ HOME_CONTENT = """
                 <div class="company-info">
                     <h3>{{ company.name }}</h3>
                     <p>{{ company.phase }}</p>
+                    {% if company.version_date %}
+                    <small style="color: #64748b; font-size: 0.8rem;">
+                        📅 {{ company.version_date.strftime("%d/%m/%Y %H:%M") }}
+                    </small>
+                    {% endif %}
                 </div>
                 <div class="company-meta">
                     <div class="progress">{{ company.progress }}%</div>
@@ -1266,18 +1281,40 @@ def home():
                 try:
                     tracker = ProgressTracker(item.name)
                     summary = tracker.get_progress_summary()
+
+                    # Parse timestamp from directory name if versioned (e.g., empresa_20250102_143000)
+                    dir_name = item.name
+                    version_date = None
+                    if '_' in dir_name and len(dir_name.split('_')) >= 3:
+                        parts = dir_name.split('_')
+                        # Check if last two parts look like timestamp
+                        if len(parts[-1]) == 6 and len(parts[-2]) == 8:
+                            try:
+                                timestamp_str = f"{parts[-2]}_{parts[-1]}"
+                                version_date = datetime.strptime(timestamp_str, "%Y%m%d_%H%M%S")
+                            except:
+                                pass
+
+                    # If no timestamp in folder name, use created_at from state
+                    if not version_date and tracker.state.created_at:
+                        version_date = tracker.state.created_at
+
                     companies.append({
                         "name": summary["company_name"],
                         "slug": item.name,
                         "phase": summary["current_phase"],
                         "progress": summary["deliverables"]["progress_percent"],
                         "cost": summary["costs"]["total"],
+                        "version_date": version_date,
                     })
                 except:
                     pass
 
+    # Sort by company name and then by date (newest first)
+    companies.sort(key=lambda x: (x["name"], x["version_date"] or datetime.min), reverse=True)
+
     from jinja2 import Template
-    content = Template(HOME_CONTENT).render(companies=sorted(companies, key=lambda x: x["name"]))
+    content = Template(HOME_CONTENT).render(companies=companies)
 
     return render_template_string(
         BASE_TEMPLATE,
@@ -1294,6 +1331,7 @@ def start_analysis():
     company_name = request.form.get('company', '').strip()
     context = request.form.get('context', '').strip()
     mode = request.form.get('mode', 'quick')
+    new_version = request.form.get('new_version') == 'true'
 
     if not company_name:
         return jsonify({"error": "Company name is required"}), 400
@@ -1308,6 +1346,7 @@ def start_analysis():
         "company_slug": company_slug,
         "context": context,
         "mode": mode,
+        "new_version": new_version,
         "status": "starting",
         "progress_queue": queue.Queue(),
         "started_at": datetime.now(),
@@ -1316,7 +1355,7 @@ def start_analysis():
     # Start the pipeline in a background thread
     thread = threading.Thread(
         target=run_pipeline,
-        args=(job_id, company_name, context, mode),
+        args=(job_id, company_name, context, mode, new_version),
         daemon=True
     )
     thread.start()
@@ -1375,10 +1414,35 @@ def results(company_slug):
     output_dir = OUTPUT_DIR / company_slug
 
     if not output_dir.exists():
-        return "Company not found", 404
+        return render_template_string(
+            BASE_TEMPLATE,
+            title="Não Encontrado",
+            content=f"""
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h2 style="color: var(--error);">❌ Análise não encontrada</h2>
+                <p>O diretório <code>{company_slug}</code> não existe.</p>
+                <a href="/" class="btn">Voltar para Home</a>
+            </div>
+            """,
+            scripts=""
+        ), 404
 
-    tracker = ProgressTracker(company_slug)
-    summary = tracker.get_progress_summary()
+    try:
+        tracker = ProgressTracker(company_slug)
+        summary = tracker.get_progress_summary()
+    except Exception as e:
+        return render_template_string(
+            BASE_TEMPLATE,
+            title="Erro",
+            content=f"""
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h2 style="color: var(--error);">⚠️ Erro ao carregar análise</h2>
+                <p>Erro: {str(e)}</p>
+                <a href="/" class="btn">Voltar para Home</a>
+            </div>
+            """,
+            scripts=""
+        ), 500
 
     # Get markdown files
     markdown_files = []
@@ -1428,7 +1492,8 @@ def results(company_slug):
         markdown_files=markdown_files,
         mermaid_images=mermaid_images,
         presentations=presentations,
-        documents=documents
+        documents=documents,
+        summary=summary
     )
 
     return render_template_string(
@@ -1525,51 +1590,84 @@ def serve_file(company_slug, filepath):
     return send_from_directory(directory, filepath)
 
 
-def render_results_page(company_name, company_slug, total_cost, markdown_files, mermaid_images, presentations, documents):
+def render_results_page(company_name, company_slug, total_cost, markdown_files, mermaid_images, presentations, documents, summary):
     """Render the results page HTML."""
+
+    # Check analysis completion status
+    phases = summary.get('phases', {})
+    current_phase = summary.get('current_phase', 'unknown')
+    deliverables = summary.get('deliverables', {})
+
     html = f"""
     <div class="stats-bar">
         <div class="stat-item">
             <div class="stat-value">{len(markdown_files)}</div>
-            <div class="stat-label">Documentos</div>
+            <div class="stat-label">Documentos MD</div>
         </div>
         <div class="stat-item">
             <div class="stat-value">{len(mermaid_images)}</div>
             <div class="stat-label">Diagramas</div>
         </div>
         <div class="stat-item">
+            <div class="stat-value">{len(presentations) + len(documents)}</div>
+            <div class="stat-label">PPTX/DOCX</div>
+        </div>
+        <div class="stat-item">
             <div class="stat-value">${total_cost:.4f}</div>
-            <div class="stat-label">Custo Total</div>
+            <div class="stat-label">Custo</div>
         </div>
     </div>
+    """
 
+    # Show warning if analysis incomplete
+    if deliverables.get('progress_percent', 0) < 100:
+        html += f"""
+        <div class="card" style="background: #fffbeb; border-left: 4px solid #f59e0b; margin-bottom: 1rem;">
+            <h4 style="color: #92400e; margin: 0 0 0.5rem 0;">⚠️ Análise Incompleta</h4>
+            <p style="color: #78350f; margin: 0; font-size: 0.9rem;">
+                Esta análise está {deliverables.get('progress_percent', 0):.0f}% concluída.
+                Fase atual: <strong>{current_phase}</strong>
+            </p>
+        </div>
+        """
+
+    html += """
     <div class="results-layout">
         <aside class="sidebar">
             <h3>Documentos Estratégicos</h3>
-            <ul class="nav-list" id="doc-list">
     """
 
-    for md in markdown_files:
-        html += f'<li><a href="#" data-file="{md["filename"]}" class="doc-link">{md["name"]}</a></li>\n'
+    if markdown_files:
+        html += '<ul class="nav-list" id="doc-list">\n'
+        for md in markdown_files:
+            html += f'<li><a href="#" data-file="{md["filename"]}" class="doc-link">{md["name"]}</a></li>\n'
+        html += '</ul>\n'
+    else:
+        html += '<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem;">Nenhum documento markdown gerado ainda.</p>\n'
 
-    html += """
-            </ul>
-
-            <h3>Diagramas</h3>
+    html += '<h3>Diagramas</h3>\n'
+    if mermaid_images:
+        html += """
             <ul class="nav-list">
                 <li><a href="#" id="show-diagrams">Ver Todos os Diagramas</a></li>
             </ul>
-    """
+        """
+    else:
+        html += '<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem;">Nenhum diagrama gerado ainda.</p>\n'
 
+    html += '<h3>Apresentações</h3>\n'
     if presentations:
-        html += '<h3>Apresentações</h3>\n'
         for pres in presentations:
             html += f'<a href="/files/{company_slug}/presentations/{pres["filename"]}" class="download-btn" download>📊 {pres["name"]}<span class="size">{pres["size"]}</span></a>\n'
+    else:
+        html += '<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem;">Apresentações serão geradas após os documentos markdown.</p>\n'
 
+    html += '<h3>Documentos</h3>\n'
     if documents:
-        html += '<h3>Documentos</h3>\n'
         for doc in documents:
             html += f'<a href="/files/{company_slug}/documents/{doc["filename"]}" class="download-btn" download>📄 {doc["name"]}<span class="size">{doc["size"]}</span></a>\n'
+    else:
+        html += '<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem;">Documentos Word serão gerados após os documentos markdown.</p>\n'
 
     html += f"""
         </aside>
@@ -1647,7 +1745,7 @@ RESULTS_SCRIPTS = """
 # Pipeline Execution
 # =============================================================================
 
-def run_pipeline(job_id: str, company_name: str, context: str, mode: str):
+def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_version: bool = False):
     """Run the full pipeline in a background thread."""
     job = active_jobs[job_id]
     q = job["progress_queue"]
@@ -1668,7 +1766,7 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str):
             mode=research_mode,
         )
 
-        tracker = ProgressTracker(company_name, company_input)
+        tracker = ProgressTracker(company_name, company_input, create_new_version=new_version)
 
         # Phase 1: Research
         q.put({
