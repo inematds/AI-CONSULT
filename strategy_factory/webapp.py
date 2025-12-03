@@ -2166,9 +2166,8 @@ def fix_malformed_tables(content: str) -> str:
 
 
 @app.route('/api/markdown/<company_slug>/<filename>')
-@login_required
 def get_markdown(company_slug, filename):
-    """Get rendered markdown content."""
+    """Get rendered markdown content (public)."""
     md_path = OUTPUT_DIR / company_slug / "markdown" / filename
 
     if not md_path.exists():
