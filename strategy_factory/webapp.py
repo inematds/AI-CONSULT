@@ -2027,9 +2027,8 @@ def progress_stream(job_id):
 
 
 @app.route('/results/<company_slug>')
-@login_required
 def results(company_slug):
-    """View results for a company."""
+    """View results for a company (public - no login required)."""
     output_dir = OUTPUT_DIR / company_slug
 
     if not output_dir.exists():
@@ -2202,17 +2201,15 @@ def get_markdown(company_slug, filename):
 
 
 @app.route('/files/<company_slug>/<path:filepath>')
-@login_required
 def serve_file(company_slug, filepath):
-    """Serve static files (images, presentations, documents)."""
+    """Serve static files (images, presentations, documents) - public."""
     directory = OUTPUT_DIR / company_slug
     return send_from_directory(directory, filepath)
 
 
 @app.route('/download-all-markdown/<company_slug>')
-@login_required
 def download_all_markdown(company_slug):
-    """Download all markdown files as a ZIP."""
+    """Download all markdown files as a ZIP (public)."""
     import zipfile
     import io
 
@@ -2238,9 +2235,8 @@ def download_all_markdown(company_slug):
 
 
 @app.route('/download-all-diagrams/<company_slug>')
-@login_required
 def download_all_diagrams(company_slug):
-    """Download all diagram images as a ZIP."""
+    """Download all diagram images as a ZIP (public)."""
     import zipfile
     import io
 
