@@ -2209,22 +2209,18 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
             <div class="stat-value">${total_cost:.4f}</div>
             <div class="stat-label">Custo</div>
         </div>
-    </div>
-    """
-
-    # Add regenerate and delete buttons
-    html += f"""
-    <div style="margin: 1rem 0; display: flex; gap: 0.75rem;">
-        <form action="/resume/{company_slug}" method="POST" style="flex: 1;">
-            <button type="submit" class="btn" style="background: #2563eb; width: 100%;">
-                🔄 Regenerar Análise
-            </button>
-        </form>
-        <form action="/delete/{company_slug}" method="POST" onsubmit="return confirm('⚠️ Tem certeza que deseja excluir esta análise?\\n\\nTodos os arquivos serão permanentemente removidos e esta ação NÃO pode ser desfeita.');" style="flex: 1;">
-            <button type="submit" class="btn" style="background: #dc2626; width: 100%;">
-                🗑️ Excluir Análise
-            </button>
-        </form>
+        <div class="stat-item" style="flex: 2; display: flex; gap: 0.5rem; align-items: center;">
+            <form action="/resume/{company_slug}" method="POST" style="flex: 1;">
+                <button type="submit" class="btn" style="background: #2563eb; width: 100%; font-size: 0.75rem; padding: 0.4rem 0.6rem;">
+                    🔄 Regenerar
+                </button>
+            </form>
+            <form action="/delete/{company_slug}" method="POST" onsubmit="return confirm('⚠️ Tem certeza que deseja excluir esta análise?\\n\\nTodos os arquivos serão permanentemente removidos e esta ação NÃO pode ser desfeita.');" style="flex: 1;">
+                <button type="submit" class="btn" style="background: #dc2626; width: 100%; font-size: 0.75rem; padding: 0.4rem 0.6rem;">
+                    🗑️ Excluir
+                </button>
+            </form>
+        </div>
     </div>
     """
 
