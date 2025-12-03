@@ -2164,6 +2164,16 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             synthesis=synthesis_output,
         )
 
+        # Update tracker for generated files
+        for deliverable in result.deliverables:
+            d_name = deliverable["name"]
+            d_path = deliverable["path"]
+            # Find the deliverable ID from the name
+            for d_id, config in DELIVERABLES.items():
+                if config.get("name") == d_name:
+                    tracker.complete_deliverable(d_id, d_path)
+                    break
+
         tracker.complete_phase("generation", f"Generated {len(result.deliverables)} documents")
 
         q.put({
