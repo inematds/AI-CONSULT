@@ -32,7 +32,7 @@ from markdown.extensions.fenced_code import FencedCodeExtension
 from markdown.extensions.toc import TocExtension
 
 from strategy_factory.config import OUTPUT_DIR, DELIVERABLES
-from strategy_factory.models import CompanyInput, ResearchMode
+from strategy_factory.models import CompanyInput, ResearchMode, DeliverableStatus
 from strategy_factory.progress_tracker import ProgressTracker, slugify
 
 load_dotenv()
@@ -2078,18 +2078,32 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 "detail": message
             })
 
-        tracker.start_phase("research")
+        # Check if research phase was already completed
+        research_output = tracker.load_research_output()
 
-        research_orchestrator = ResearchOrchestrator(
-            mode=research_mode,
-            cache_dir=Path(tracker.output_dir),
-            progress_callback=research_callback,
-        )
+        # Only run research if not already completed
+        if not research_output or tracker.state.phases["research"].status != DeliverableStatus.COMPLETED:
+            tracker.start_phase("research")
 
-        research_output = research_orchestrator.research(company_input)
-        tracker.save_research_output(research_output)
-        research_orchestrator.save_research_cache(Path(tracker.output_dir))
-        tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
+            research_orchestrator = ResearchOrchestrator(
+                mode=research_mode,
+                cache_dir=Path(tracker.output_dir),
+                progress_callback=research_callback,
+            )
+
+            research_output = research_orchestrator.research(company_input)
+            tracker.save_research_output(research_output)
+            research_orchestrator.save_research_cache(Path(tracker.output_dir))
+            tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
+        else:
+            # Research already completed, skip and report
+            q.put({
+                "phase": "research",
+                "message": "Using cached research data (already completed)",
+                "status": "Cached",
+                "progress": 100,
+                "detail": "Skipping research - using existing data"
+            })
 
         q.put({
             "phase": "research",
@@ -2106,30 +2120,64 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "detail": "Initializing"
         })
 
-        tracker.start_phase("synthesis")
+        # Check which deliverables are pending
+        pending_deliverables = tracker.get_pending_deliverables()
+        markdown_deliverables = [
+            d_id for d_id, config in DELIVERABLES.items()
+            if config.get("format") == "markdown"
+        ]
+        pending_markdown = [d for d in pending_deliverables if d in markdown_deliverables]
 
-        def synthesis_callback(message: str, progress: float):
+        if pending_markdown:
+            # Only run synthesis for pending deliverables
+            tracker.start_phase("synthesis")
+
+            def synthesis_callback(message: str, progress: float):
+                q.put({
+                    "phase": "synthesis",
+                    "message": f"Synthesis: {message}",
+                    "status": "Synthesizing",
+                    "progress": int(progress * 100),
+                    "detail": message
+                })
+
+            synthesis_orchestrator = SynthesisOrchestrator(
+                output_dir=OUTPUT_DIR,
+                progress_callback=synthesis_callback,
+            )
+
+            # Only synthesize pending deliverables
+            synthesis_output = synthesis_orchestrator.synthesize(
+                company_input,
+                research_output,
+                deliverables=pending_markdown
+            )
+            file_paths = synthesis_orchestrator.save_deliverables(tracker.company_slug)
+        else:
+            # All synthesis already completed
             q.put({
                 "phase": "synthesis",
-                "message": f"Synthesis: {message}",
-                "status": "Synthesizing",
-                "progress": int(progress * 100),
-                "detail": message
+                "message": "All markdown deliverables already generated",
+                "status": "Cached",
+                "progress": 100,
+                "detail": "Skipping synthesis - all deliverables complete"
             })
 
-        synthesis_orchestrator = SynthesisOrchestrator(
-            output_dir=OUTPUT_DIR,
-            progress_callback=synthesis_callback,
-        )
-
-        synthesis_output = synthesis_orchestrator.synthesize(company_input, research_output)
-        file_paths = synthesis_orchestrator.save_deliverables(tracker.company_slug)
+            # Load existing synthesis from files
+            from strategy_factory.models import SynthesisOutput
+            synthesis_output = SynthesisOutput(
+                company_name=company_input.name,
+                synthesis_timestamp=datetime.now(),
+                deliverables={},
+                total_cost=0.0,
+            )
+            file_paths = {}
 
         for d_id, path in file_paths.items():
             tracker.complete_deliverable(d_id, path)
 
-        # Check for synthesis errors
-        if synthesis_orchestrator.errors:
+        # Check for synthesis errors (only if we ran synthesis)
+        if pending_markdown and synthesis_orchestrator.errors:
             error_msg = f"{len(synthesis_orchestrator.errors)} deliverable(s) failed: "
             error_details = "; ".join([f"{e['deliverable']}: {e['error'][:100]}" for e in synthesis_orchestrator.errors[:3]])
             tracker.fail_phase("synthesis", error_msg + error_details)
@@ -2150,48 +2198,65 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         })
 
         # Phase 3: Generation
-        q.put({
-            "phase": "generation",
-            "message": "Starting document generation...",
-            "status": "Creating presentations and reports",
-            "progress": 0,
-            "detail": "Initializing"
-        })
+        # Check which generation deliverables are pending
+        generation_deliverables = [
+            d_id for d_id, config in DELIVERABLES.items()
+            if config.get("format") in ["pptx", "docx"]
+        ]
+        pending_generation = [d for d in tracker.get_pending_deliverables() if d in generation_deliverables]
 
-        tracker.start_phase("generation")
-
-        def generation_callback(message: str, progress: float):
+        if not pending_generation:
+            # All generation already completed
             q.put({
                 "phase": "generation",
-                "message": f"Generation: {message}",
-                "status": "Generating",
-                "progress": int(progress * 100),
-                "detail": message
+                "message": "All presentations and documents already generated",
+                "status": "Cached",
+                "progress": 100,
+                "detail": "Skipping generation - all files complete"
+            })
+        else:
+            q.put({
+                "phase": "generation",
+                "message": "Starting document generation...",
+                "status": "Creating presentations and reports",
+                "progress": 0,
+                "detail": "Initializing"
             })
 
-        generation_orchestrator = GenerationOrchestrator(
-            output_dir=OUTPUT_DIR,
-            progress_callback=generation_callback,
-        )
+            tracker.start_phase("generation")
 
-        result = generation_orchestrator.generate_all(
-            company_slug=tracker.company_slug,
-            company_input=company_input,
-            research=research_output,
-            synthesis=synthesis_output,
-        )
+            def generation_callback(message: str, progress: float):
+                q.put({
+                    "phase": "generation",
+                    "message": f"Generation: {message}",
+                    "status": "Generating",
+                    "progress": int(progress * 100),
+                    "detail": message
+                })
 
-        # Update tracker for generated files
-        for deliverable in result.deliverables:
-            d_name = deliverable["name"]
-            d_path = deliverable["path"]
-            # Find the deliverable ID from the name
-            for d_id, config in DELIVERABLES.items():
-                if config.get("name") == d_name:
-                    tracker.complete_deliverable(d_id, d_path)
-                    break
+            generation_orchestrator = GenerationOrchestrator(
+                output_dir=OUTPUT_DIR,
+                progress_callback=generation_callback,
+            )
 
-        tracker.complete_phase("generation", f"Generated {len(result.deliverables)} documents")
+            result = generation_orchestrator.generate_all(
+                company_slug=tracker.company_slug,
+                company_input=company_input,
+                research=research_output,
+                synthesis=synthesis_output,
+            )
+
+            # Update tracker for generated files
+            for deliverable in result.deliverables:
+                d_name = deliverable["name"]
+                d_path = deliverable["path"]
+                # Find the deliverable ID from the name
+                for d_id, config in DELIVERABLES.items():
+                    if config.get("name") == d_name:
+                        tracker.complete_deliverable(d_id, d_path)
+                        break
+
+            tracker.complete_phase("generation", f"Generated {len(result.deliverables)} documents")
 
         q.put({
             "phase": "generation",
