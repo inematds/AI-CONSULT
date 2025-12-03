@@ -23,7 +23,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 
-from flask import Flask, render_template_string, request, jsonify, Response, send_from_directory, session, redirect, url_for
+from flask import Flask, render_template_string, request, jsonify, Response, send_from_directory, send_file, session, redirect, url_for
 from dotenv import load_dotenv
 from functools import wraps
 
@@ -2096,6 +2096,62 @@ def serve_file(company_slug, filepath):
     return send_from_directory(directory, filepath)
 
 
+@app.route('/download-all-markdown/<company_slug>')
+@login_required
+def download_all_markdown(company_slug):
+    """Download all markdown files as a ZIP."""
+    import zipfile
+    import io
+
+    output_dir = OUTPUT_DIR / company_slug / "markdown"
+
+    if not output_dir.exists():
+        return "Markdown files not found", 404
+
+    # Create ZIP in memory
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        for md_file in sorted(output_dir.glob("*.md")):
+            zip_file.write(md_file, arcname=md_file.name)
+
+    zip_buffer.seek(0)
+
+    return send_file(
+        zip_buffer,
+        mimetype='application/zip',
+        as_attachment=True,
+        download_name=f'{company_slug}_markdown_docs.zip'
+    )
+
+
+@app.route('/download-all-diagrams/<company_slug>')
+@login_required
+def download_all_diagrams(company_slug):
+    """Download all diagram images as a ZIP."""
+    import zipfile
+    import io
+
+    output_dir = OUTPUT_DIR / company_slug / "mermaid_images"
+
+    if not output_dir.exists():
+        return "Diagrams not found", 404
+
+    # Create ZIP in memory
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        for img_file in sorted(output_dir.glob("*.png")):
+            zip_file.write(img_file, arcname=img_file.name)
+
+    zip_buffer.seek(0)
+
+    return send_file(
+        zip_buffer,
+        mimetype='application/zip',
+        as_attachment=True,
+        download_name=f'{company_slug}_diagrams.zip'
+    )
+
+
 def render_results_page(company_name, company_slug, total_cost, markdown_files, mermaid_images, presentations, documents, summary):
     """Render the results page HTML."""
 
@@ -2173,18 +2229,23 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
     if markdown_files:
         html += '<ul class="nav-list" id="doc-list">\n'
         for md in markdown_files:
-            html += f'<li><a href="#" data-file="{md["filename"]}" class="doc-link">{md["name"]}</a></li>\n'
+            html += f'''<li style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="#" data-file="{md["filename"]}" class="doc-link" style="flex: 1;">{md["name"]}</a>
+                <a href="/files/{company_slug}/markdown/{md["filename"]}" download style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; background: #10b981; color: white; border-radius: 4px; text-decoration: none; font-size: 0.75rem;">⬇️</a>
+            </li>\n'''
         html += '</ul>\n'
+        html += f'<a href="/download-all-markdown/{company_slug}" class="download-btn" download style="margin-top: 0.5rem; font-size: 0.85rem;">📦 Baixar Todos os MD</a>\n'
     else:
         html += '<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem;">Nenhum documento markdown gerado ainda.</p>\n'
 
     html += '<h3>Diagramas</h3>\n'
     if mermaid_images:
-        html += """
-            <ul class="nav-list">
-                <li><a href="#" id="show-diagrams">Ver Todos os Diagramas</a></li>
-            </ul>
-        """
+        html += '<ul class="nav-list">\n'
+        html += '<li><a href="#" id="show-diagrams">👁️ Ver Todos os Diagramas</a></li>\n'
+        for img in mermaid_images:
+            html += f'<li style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">{img["name"]}<a href="/files/{company_slug}/mermaid_images/{img["filename"]}" download style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; background: #10b981; color: white; border-radius: 4px; text-decoration: none; font-size: 0.75rem;">⬇️</a></li>\n'
+        html += '</ul>\n'
+        html += f'<a href="/download-all-diagrams/{company_slug}" class="download-btn" download style="margin-top: 0.5rem; font-size: 0.85rem;">📦 Baixar Todos os Diagramas</a>\n'
     else:
         html += '<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem;">Nenhum diagrama gerado ainda.</p>\n'
 
