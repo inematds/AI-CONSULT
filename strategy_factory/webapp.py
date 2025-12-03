@@ -713,7 +713,7 @@ BASE_TEMPLATE = """
         }
 
         .download-btn:hover {
-            background: var(--primary);
+            background: #64748b;
             color: white;
         }
 
@@ -2231,7 +2231,7 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
         for md in markdown_files:
             html += f'''<li style="display: flex; justify-content: space-between; align-items: center;">
                 <a href="#" data-file="{md["filename"]}" class="doc-link" style="flex: 1;">{md["name"]}</a>
-                <a href="/files/{company_slug}/markdown/{md["filename"]}" download style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; background: #10b981; color: white; border-radius: 4px; text-decoration: none; font-size: 0.75rem;">⬇️</a>
+                <a href="/files/{company_slug}/markdown/{md["filename"]}" download style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; background: #64748b; color: white; border-radius: 4px; text-decoration: none; font-size: 0.75rem; opacity: 0.8; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">⬇️</a>
             </li>\n'''
         html += '</ul>\n'
         html += f'<a href="/download-all-markdown/{company_slug}" class="download-btn" download style="margin-top: 0.5rem; font-size: 0.85rem;">📦 Baixar Todos os MD</a>\n'
@@ -2243,7 +2243,7 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
         html += '<ul class="nav-list">\n'
         html += '<li><a href="#" id="show-diagrams">👁️ Ver Todos os Diagramas</a></li>\n'
         for img in mermaid_images:
-            html += f'<li style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">{img["name"]}<a href="/files/{company_slug}/mermaid_images/{img["filename"]}" download style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; background: #10b981; color: white; border-radius: 4px; text-decoration: none; font-size: 0.75rem;">⬇️</a></li>\n'
+            html += f'<li style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">{img["name"]}<a href="/files/{company_slug}/mermaid_images/{img["filename"]}" download style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; background: #64748b; color: white; border-radius: 4px; text-decoration: none; font-size: 0.75rem; opacity: 0.8; transition: opacity 0.2s;" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'0.8\'">⬇️</a></li>\n'
         html += '</ul>\n'
         html += f'<a href="/download-all-diagrams/{company_slug}" class="download-btn" download style="margin-top: 0.5rem; font-size: 0.85rem;">📦 Baixar Todos os Diagramas</a>\n'
     else:
