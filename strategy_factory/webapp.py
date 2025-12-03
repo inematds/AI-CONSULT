@@ -2571,9 +2571,15 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         })
 
         # Complete
+        # Use the actual directory name (with timestamp) not just the base slug
+        actual_company_slug = tracker.output_dir.name
+        logger.info(f"=== PIPELINE COMPLETE for job {job_id} ===")
+        logger.info(f"Company slug with timestamp: {actual_company_slug}")
+        logger.info(f"Output directory: {tracker.output_dir}")
+
         q.put({
             "complete": True,
-            "company_slug": tracker.company_slug,
+            "company_slug": actual_company_slug,
             "message": "Analysis complete!"
         })
 
@@ -2582,6 +2588,8 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             del active_jobs[job_id]
             logger.info(f"Job {job_id} completed successfully - removed from active_jobs")
             logger.info(f"Active jobs remaining: {list(active_jobs.keys())}")
+        else:
+            logger.warning(f"Job {job_id} was not in active_jobs when trying to remove it")
 
     except Exception as e:
         import traceback
