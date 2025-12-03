@@ -2252,8 +2252,12 @@ def download_all_diagrams(company_slug):
     # Create ZIP in memory
     zip_buffer = io.BytesIO()
     with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        # Add PNG images
         for img_file in sorted(output_dir.glob("*.png")):
             zip_file.write(img_file, arcname=img_file.name)
+        # Add Mermaid source scripts
+        for mmd_file in sorted(output_dir.glob("*.mmd")):
+            zip_file.write(mmd_file, arcname=mmd_file.name)
 
     zip_buffer.seek(0)
 
