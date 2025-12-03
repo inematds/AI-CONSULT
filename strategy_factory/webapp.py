@@ -1869,6 +1869,23 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
 
     # Show warning if analysis incomplete
     if deliverables.get('progress_percent', 0) < 100:
+        # Show error details if available
+        error_details_html = ""
+        if summary.get('errors'):
+            latest_error = summary['errors'][-1]  # Get most recent error
+            error_phase = latest_error.get('phase', latest_error.get('deliverable', 'unknown'))
+            error_msg = latest_error.get('error', 'Unknown error')
+            error_details_html = f"""
+            <div style="background: #fee; padding: 0.75rem; border-radius: 6px; margin-top: 0.75rem; border: 1px solid #fcc;">
+                <p style="margin: 0; font-size: 0.85rem; color: #dc2626;">
+                    <strong>🔴 Erro detectado:</strong> {error_phase}
+                </p>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem; color: #991b1b; font-family: monospace;">
+                    {error_msg[:200]}{'...' if len(error_msg) > 200 else ''}
+                </p>
+            </div>
+            """
+
         html += f"""
         <div class="card" style="background: #fffbeb; border-left: 4px solid #f59e0b; margin-bottom: 1rem;">
             <h4 style="color: #92400e; margin: 0 0 0.5rem 0;">⚠️ Análise Incompleta</h4>
@@ -1880,8 +1897,9 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
                 💡 <strong>Por que parou?</strong> Provável erro de API, perda de conexão, ou reinício do servidor.
                 A análise NÃO continua automaticamente.
             </p>
+            {error_details_html}
             <form action="/resume/{company_slug}" method="POST" style="margin: 0;">
-                <button type="submit" class="btn" style="background: #f59e0b; width: 100%;">
+                <button type="submit" class="btn" style="background: #f59e0b; width: 100%; margin-top: 0.75rem;">
                     🔄 Retomar Análise
                 </button>
             </form>
@@ -2043,6 +2061,8 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 "detail": message
             })
 
+        tracker.start_phase("research")
+
         research_orchestrator = ResearchOrchestrator(
             mode=research_mode,
             cache_dir=Path(tracker.output_dir),
@@ -2052,6 +2072,7 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         research_output = research_orchestrator.research(company_input)
         tracker.save_research_output(research_output)
         research_orchestrator.save_research_cache(Path(tracker.output_dir))
+        tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
 
         q.put({
             "phase": "research",
@@ -2067,6 +2088,8 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "progress": 0,
             "detail": "Initializing"
         })
+
+        tracker.start_phase("synthesis")
 
         def synthesis_callback(message: str, progress: float):
             q.put({
@@ -2088,6 +2111,21 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         for d_id, path in file_paths.items():
             tracker.complete_deliverable(d_id, path)
 
+        # Check for synthesis errors
+        if synthesis_orchestrator.errors:
+            error_msg = f"{len(synthesis_orchestrator.errors)} deliverable(s) failed: "
+            error_details = "; ".join([f"{e['deliverable']}: {e['error'][:100]}" for e in synthesis_orchestrator.errors[:3]])
+            tracker.fail_phase("synthesis", error_msg + error_details)
+
+            # Log each individual error
+            for error in synthesis_orchestrator.errors:
+                logger = logging.getLogger(__name__)
+                logger.error(f"Synthesis error for {error['deliverable']}: {error['error']}")
+
+            raise Exception(error_msg + error_details)
+
+        tracker.complete_phase("synthesis", f"Generated {len(file_paths)} deliverables")
+
         q.put({
             "phase": "synthesis",
             "completed": True,
@@ -2102,6 +2140,8 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             "progress": 0,
             "detail": "Initializing"
         })
+
+        tracker.start_phase("generation")
 
         def generation_callback(message: str, progress: float):
             q.put({
@@ -2123,6 +2163,8 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             research=research_output,
             synthesis=synthesis_output,
         )
+
+        tracker.complete_phase("generation", f"Generated {len(result.deliverables)} documents")
 
         q.put({
             "phase": "generation",
@@ -2152,6 +2194,23 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
 
         # Get detailed error information
         error_details = get_error_details(e, current_phase)
+
+        # Save error to tracker if tracker was created
+        if 'tracker' in locals():
+            try:
+                # Try to determine actual phase from tracker state
+                if tracker.state.current_phase:
+                    current_phase = tracker.state.current_phase
+
+                # Mark the phase as failed in tracker
+                tracker.fail_phase(current_phase, error_details["message"])
+
+                # Log the full error for debugging
+                logger = logging.getLogger(__name__)
+                logger.error(f"Pipeline failed in {current_phase} phase: {error_details['message']}")
+                logger.error(f"Technical details: {error_details['technical']}")
+            except Exception as track_err:
+                print(f"Warning: Could not save error to tracker: {track_err}")
 
         q.put({
             "error": str(e),
