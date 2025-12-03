@@ -1674,78 +1674,6 @@ def start_analysis():
     return redirect(url_for('progress_page', job_id=job_id, company_name=company_name))
 
 
-@app.route('/resume/<company_slug>', methods=['POST'])
-@login_required
-def resume_analysis(company_slug):
-    """Resume an incomplete analysis."""
-    logger = logging.getLogger(__name__)
-    logger.info(f"=== RESUME ANALYSIS START for slug: {company_slug} ===")
-
-    output_dir = OUTPUT_DIR / company_slug
-    logger.info(f"Checking directory: {output_dir}")
-
-    if not output_dir.exists():
-        logger.error(f"Directory not found: {output_dir}")
-        return redirect(url_for('home'))
-
-    try:
-        # Load the existing tracker to get company info
-        logger.info(f"Loading ProgressTracker for: {company_slug}")
-        tracker = ProgressTracker(company_slug)
-        company_name = tracker.state.company_name
-        context = tracker.state.input_data.context if tracker.state.input_data else ""
-        mode = tracker.state.input_data.mode.value if tracker.state.input_data else "quick"
-        logger.info(f"Loaded tracker: company_name={company_name}, context={context}, mode={mode}")
-        logger.info(f"Tracker state: current_phase={tracker.state.current_phase}, research_completed={tracker.state.phases['research'].status}")
-    except Exception as e:
-        logger.error(f"Failed to load tracker: {e}", exc_info=True)
-        return redirect(url_for('home'))
-
-    # Generate a job ID
-    job_id = str(uuid.uuid4())[:8]
-    logger.info(f"Generated job_id: {job_id}")
-
-    # Check if this company is ACTIVELY being analyzed right now
-    existing_job_id = None
-    for jid, job_data in active_jobs.items():
-        if job_data["company_slug"] == company_slug:
-            existing_job_id = jid
-            break
-
-    if existing_job_id:
-        # CONFLICT: Job is actually running now - redirect to conflict page (PRG pattern)
-        logger.warning(f"CONFLICT detected: existing job {existing_job_id} is running")
-        return redirect(url_for('conflict_page', company_slug=company_slug, job_id=existing_job_id, action='resume'))
-
-    logger.info(f"No conflict - proceeding with resume")
-
-    # Create job entry
-    active_jobs[job_id] = {
-        "company_name": company_name,
-        "company_slug": company_slug,
-        "context": context,
-        "mode": mode,
-        "new_version": False,  # Resume uses existing directory
-        "status": "resuming",
-        "progress_queue": queue.Queue(),
-        "started_at": datetime.now(),
-    }
-    logger.info(f"Created job entry in active_jobs: {job_id}")
-
-    # NO CONFLICT: Can resume safely - start the pipeline
-    logger.info(f"Starting pipeline thread for job {job_id}")
-    thread = threading.Thread(
-        target=run_pipeline,
-        args=(job_id, company_name, context, mode, False),
-        daemon=True
-    )
-    thread.start()
-    logger.info(f"Thread started, redirecting to progress page")
-
-    # PRG Pattern: Redirect to progress page (GET route)
-    return redirect(url_for('progress_page', job_id=job_id, company_name=company_name))
-
-
 @app.route('/cancel/<job_id>', methods=['POST'])
 @login_required
 def cancel_job(job_id):
@@ -1831,7 +1759,7 @@ def conflict_page():
     logger = logging.getLogger(__name__)
     company_slug = request.args.get('company_slug')
     job_id = request.args.get('job_id')
-    action = request.args.get('action', 'resume')  # 'resume' or 'start'
+    action = request.args.get('action', 'start')  # 'start' only now
 
     logger.info(f"=== CONFLICT PAGE accessed ===")
     logger.info(f"company_slug={company_slug}, job_id={job_id}, action={action}")
@@ -1851,8 +1779,8 @@ def conflict_page():
         logger.info(f"Job {job_id} NOT in active_jobs - redirecting to results")
         return redirect(url_for('results', company_slug=company_slug))
 
-    action_text = "tentar novamente" if action == "resume" else "iniciar nova"
-    back_text = "Voltar para home" if action == "resume" else "Voltar e marcar 'Criar nova versão'"
+    action_text = "iniciar nova"
+    back_text = "Voltar e marcar 'Criar nova versão'"
 
     content = f"""
     <div style="max-width: 600px; margin: 3rem auto;">
@@ -1886,13 +1814,9 @@ def conflict_page():
                 .then(response => response.json())
                 .then(data => {{
                     if (data.success) {{
-                        // Wait a moment then go back to home or results
+                        // Wait a moment then go back to home
                         setTimeout(() => {{
-                            if (action === 'resume') {{
-                                window.location.href = '/results/' + companySlug;
-                            }} else {{
-                                window.location.href = '/';
-                            }}
+                            window.location.href = '/';
                         }}, 500);
                     }} else {{
                         alert('Erro ao cancelar: ' + (data.error || 'Erro desconhecido'));
@@ -2208,11 +2132,6 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
             <div class="stat-label">Custo</div>
         </div>
         <div class="stat-item" style="flex: 2; display: flex; gap: 0.5rem; align-items: center;">
-            <form action="/resume/{company_slug}" method="POST" style="flex: 1;">
-                <button type="submit" class="btn" style="background: #2563eb; width: 100%; padding: 0.5rem; font-size: 0.75rem;">
-                    Regenerar
-                </button>
-            </form>
             <form action="/delete/{company_slug}" method="POST" onsubmit="return confirm('⚠️ Tem certeza que deseja excluir esta análise?\\n\\nTodos os arquivos serão permanentemente removidos e esta ação NÃO pode ser desfeita.');" style="flex: 1;">
                 <button type="submit" class="btn" style="background: #dc2626; width: 100%; padding: 0.5rem; font-size: 0.75rem;">
                     Excluir
@@ -2250,14 +2169,8 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
             </p>
             <p style="color: #78350f; margin: 0 0 1rem 0; font-size: 0.85rem;">
                 💡 <strong>Por que parou?</strong> Provável erro de API, perda de conexão, ou reinício do servidor.
-                A análise NÃO continua automaticamente.
             </p>
             {error_details_html}
-            <form action="/resume/{company_slug}" method="POST" style="margin: 0;">
-                <button type="submit" class="btn" style="background: #f59e0b; width: 100%; margin-top: 0.75rem;">
-                    🔄 Retomar Análise
-                </button>
-            </form>
         </div>
         """
 
@@ -2475,10 +2388,9 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             research_orchestrator.save_research_cache(Path(tracker.output_dir))
             tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
         else:
-            # Either resuming/regenerating, or research already completed
-            # Load from cache if not already loaded
+            # Research already completed - load from cache if not already loaded
             if not research_output:
-                logger.info("Attempting to load research cache for resume/regenerate...")
+                logger.info("Attempting to load research cache...")
                 research_output = tracker.load_research_output()
 
             if research_output:
@@ -2495,8 +2407,8 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 if not research_completed:
                     tracker.complete_phase("research", "Used cached research data")
             else:
-                # No cache available and this is a resume/regenerate operation
-                raise Exception("Cache de pesquisa não encontrado. Para regenerar a análise, é necessário ter os dados de pesquisa salvos. Execute uma nova análise completa.")
+                # No cache available
+                raise Exception("Cache de pesquisa não encontrado. Execute uma nova análise completa.")
 
         # Validate research output exists (critical dependency for all phases)
         if not research_output:
