@@ -2211,12 +2211,12 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
         </div>
         <div class="stat-item" style="flex: 2; display: flex; gap: 0.5rem; align-items: center;">
             <form action="/resume/{company_slug}" method="POST" style="flex: 1;">
-                <button type="submit" class="btn" style="background: #2563eb; width: 100%; padding: 0.5rem;">
+                <button type="submit" class="btn" style="background: #2563eb; width: 100%; padding: 0.5rem; font-size: 0.75rem;">
                     Regenerar
                 </button>
             </form>
             <form action="/delete/{company_slug}" method="POST" onsubmit="return confirm('⚠️ Tem certeza que deseja excluir esta análise?\\n\\nTodos os arquivos serão permanentemente removidos e esta ação NÃO pode ser desfeita.');" style="flex: 1;">
-                <button type="submit" class="btn" style="background: #dc2626; width: 100%; padding: 0.5rem;">
+                <button type="submit" class="btn" style="background: #dc2626; width: 100%; padding: 0.5rem; font-size: 0.75rem;">
                     Excluir
                 </button>
             </form>
