@@ -1717,15 +1717,47 @@ def delete_analysis(company_slug):
     for job_id, job_data in active_jobs.items():
         if job_data.get("company_slug") == company_slug:
             logger.warning(f"Cannot delete running analysis: {company_slug}")
-            return redirect(url_for('results', company_slug=company_slug))
+            content = f"""
+            <div style="max-width: 600px; margin: 3rem auto;">
+                <div class="card" style="background: #fee; border-left: 4px solid #dc2626;">
+                    <h2 style="color: #991b1b; margin: 0 0 1rem 0;">❌ Não é possível excluir</h2>
+                    <p style="color: #7f1d1d; margin: 0 0 1rem 0;">
+                        A análise <strong>{company_slug}</strong> está em andamento e não pode ser excluída.
+                    </p>
+                    <p style="color: #7f1d1d; margin: 0 0 1.5rem 0; font-size: 0.9rem;">
+                        Cancele a análise primeiro antes de tentar excluir.
+                    </p>
+                    <a href="/" class="btn" style="background: #2563eb; text-decoration: none; display: inline-block;">
+                        ← Voltar para home
+                    </a>
+                </div>
+            </div>
+            """
+            return render_template_string(BASE_TEMPLATE, title="Erro ao Excluir", content=content, scripts="")
 
     try:
         # Delete directory and all contents
         shutil.rmtree(output_dir)
-        logger.info(f"Deleted analysis: {company_slug}")
+        logger.info(f"Successfully deleted analysis: {company_slug}")
     except Exception as e:
-        logger.error(f"Error deleting analysis {company_slug}: {e}")
-        return redirect(url_for('results', company_slug=company_slug))
+        logger.error(f"Error deleting analysis {company_slug}: {e}", exc_info=True)
+        content = f"""
+        <div style="max-width: 600px; margin: 3rem auto;">
+            <div class="card" style="background: #fee; border-left: 4px solid #dc2626;">
+                <h2 style="color: #991b1b; margin: 0 0 1rem 0;">❌ Erro ao Excluir</h2>
+                <p style="color: #7f1d1d; margin: 0 0 1rem 0;">
+                    Ocorreu um erro ao tentar excluir a análise <strong>{company_slug}</strong>.
+                </p>
+                <p style="color: #7f1d1d; margin: 0 0 1.5rem 0; font-size: 0.9rem; font-family: monospace;">
+                    Erro: {str(e)}
+                </p>
+                <a href="/" class="btn" style="background: #2563eb; text-decoration: none; display: inline-block;">
+                    ← Voltar para home
+                </a>
+            </div>
+        </div>
+        """
+        return render_template_string(BASE_TEMPLATE, title="Erro ao Excluir", content=content, scripts="")
 
     return redirect(url_for('home'))
 
