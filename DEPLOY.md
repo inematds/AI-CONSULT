@@ -62,10 +62,26 @@ cp .env.example .env
 nano .env
 ```
 
-Dentro do `.env`, adicione:
+Dentro do `.env`, configure:
 ```env
+# API Keys
 PERPLEXITY_API_KEY=pplx-xxxxxxxxxxxxxxxxxxxxxxx
 GEMINI_API_KEY=AIzaSyxxxxxxxxxxxxxxxxxxxxxxx
+
+# Login credentials (ALTERE ESTES VALORES!)
+APP_USERNAME=admin
+APP_PASSWORD=SuaSenhaForte123!
+
+# Secret key para sessões (gere uma chave aleatória)
+SECRET_KEY=cole-aqui-uma-chave-aleatoria-gerada
+```
+
+**IMPORTANTE - Gerar SECRET_KEY:**
+```bash
+# Execute este comando para gerar uma chave aleatória
+python3 -c "import os; print(os.urandom(24).hex())"
+
+# Copie o resultado e cole no SECRET_KEY no arquivo .env
 ```
 
 Salve com `Ctrl+O`, `Enter`, `Ctrl+X`
@@ -83,6 +99,10 @@ docker compose logs -f
 ```
 http://SEU-IP-VPS:8888
 ```
+
+**Você verá uma tela de login.** Use as credenciais que configurou no `.env`:
+- **Usuário**: o valor de `APP_USERNAME`
+- **Senha**: o valor de `APP_PASSWORD`
 
 ## 3️⃣ Configurar Firewall (Segurança)
 
@@ -284,6 +304,34 @@ docker stats
 - [ ] Backup configurado
 
 ## 🔐 Segurança Adicional
+
+### Alterar credenciais de login da aplicação:
+
+**IMPORTANTE:** As credenciais padrão (`admin/sua-senha-segura-aqui`) devem ser alteradas imediatamente após o deploy!
+
+```bash
+# Editar arquivo .env
+nano ~/AI-CONSULT/.env
+
+# Altere:
+APP_USERNAME=seu-usuario-unico
+APP_PASSWORD=SenhaForte@2024!Muito$Segura
+
+# Gere uma nova SECRET_KEY
+python3 -c "import os; print(os.urandom(24).hex())"
+
+# Cole o resultado em SECRET_KEY no .env
+
+# Reinicie a aplicação
+cd ~/AI-CONSULT
+docker compose restart
+```
+
+**Dicas para senha segura:**
+- Mínimo 12 caracteres
+- Combine letras maiúsculas, minúsculas, números e símbolos
+- Não use informações pessoais
+- Use um gerenciador de senhas
 
 ### Desabilitar login root via SSH:
 ```bash

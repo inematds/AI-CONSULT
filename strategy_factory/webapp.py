@@ -22,8 +22,9 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 
-from flask import Flask, render_template_string, request, jsonify, Response, send_from_directory
+from flask import Flask, render_template_string, request, jsonify, Response, send_from_directory, session, redirect, url_for
 from dotenv import load_dotenv
+from functools import wraps
 
 import markdown
 from markdown.extensions.tables import TableExtension
@@ -37,14 +38,180 @@ from strategy_factory.progress_tracker import ProgressTracker, slugify
 load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))
+
+# Authentication credentials from .env
+APP_USERNAME = os.getenv('APP_USERNAME', 'admin')
+APP_PASSWORD = os.getenv('APP_PASSWORD', 'admin')
 
 # Store for active jobs and their progress
 active_jobs = {}
 
 
 # =============================================================================
+# Authentication
+# =============================================================================
+
+def login_required(f):
+    """Decorator to require login for routes."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('logged_in'):
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+# =============================================================================
 # HTML Templates
 # =============================================================================
+
+LOGIN_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Strategy Factory</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .login-card {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 1.75rem;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .error {
+            background: #fee;
+            color: var(--error);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #fcc;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>🔐 AI Strategy Factory</h1>
+        <p class="subtitle">Faça login para acessar o sistema</p>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" name="username" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+
+        <div class="footer">
+            AI Strategy Factory &copy; 2024
+        </div>
+    </div>
+</body>
+</html>
+"""
 
 BASE_TEMPLATE = """
 <!DOCTYPE html>
@@ -115,6 +282,20 @@ BASE_TEMPLATE = """
         }
 
         header a:hover {
+            opacity: 1;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: background 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
             opacity: 1;
         }
 
@@ -662,7 +843,8 @@ BASE_TEMPLATE = """
         <div class="container">
             <a href="/"><h1>AI Strategy Factory</h1></a>
             <nav>
-                <a href="/">New Analysis</a>
+                <a href="/">Nova Análise</a>
+                <a href="/logout" class="logout-btn">Sair</a>
             </nav>
         </div>
     </header>
@@ -895,7 +1077,39 @@ PROGRESS_SCRIPTS = """
 # Routes
 # =============================================================================
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Login page."""
+    if request.method == 'POST':
+        username = request.form.get('username', '')
+        password = request.form.get('password', '')
+
+        if username == APP_USERNAME and password == APP_PASSWORD:
+            session['logged_in'] = True
+            return redirect(url_for('home'))
+        else:
+            from jinja2 import Template
+            return render_template_string(
+                Template(LOGIN_TEMPLATE).render(error="Usuário ou senha incorretos")
+            )
+
+    # If already logged in, redirect to home
+    if session.get('logged_in'):
+        return redirect(url_for('home'))
+
+    from jinja2 import Template
+    return render_template_string(Template(LOGIN_TEMPLATE).render())
+
+
+@app.route('/logout')
+def logout():
+    """Logout and redirect to login."""
+    session.pop('logged_in', None)
+    return redirect(url_for('login'))
+
+
 @app.route('/')
+@login_required
 def home():
     """Home page with form to start new analysis."""
     # Get list of previous analyses
@@ -928,6 +1142,7 @@ def home():
 
 
 @app.route('/start', methods=['POST'])
+@login_required
 def start_analysis():
     """Start a new analysis job."""
     company_name = request.form.get('company', '').strip()
@@ -974,6 +1189,7 @@ def start_analysis():
 
 
 @app.route('/progress/<job_id>')
+@login_required
 def progress_stream(job_id):
     """Server-Sent Events stream for progress updates."""
     if job_id not in active_jobs:
@@ -1007,6 +1223,7 @@ def progress_stream(job_id):
 
 
 @app.route('/results/<company_slug>')
+@login_required
 def results(company_slug):
     """View results for a company."""
     output_dir = OUTPUT_DIR / company_slug
@@ -1120,6 +1337,7 @@ def fix_malformed_tables(content: str) -> str:
 
 
 @app.route('/api/markdown/<company_slug>/<filename>')
+@login_required
 def get_markdown(company_slug, filename):
     """Get rendered markdown content."""
     md_path = OUTPUT_DIR / company_slug / "markdown" / filename
@@ -1154,6 +1372,7 @@ def get_markdown(company_slug, filename):
 
 
 @app.route('/files/<company_slug>/<path:filepath>')
+@login_required
 def serve_file(company_slug, filepath):
     """Serve static files (images, presentations, documents)."""
     directory = OUTPUT_DIR / company_slug
