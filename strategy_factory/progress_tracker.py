@@ -371,7 +371,18 @@ class ProgressTracker:
                 from .models import ResearchMode
                 data['research_mode'] = ResearchMode.QUICK.value
 
-            return ResearchOutput(**data)
+            research_output = ResearchOutput(**data)
+
+            # Restore research cost to state if it's not already set
+            if self.state.total_research_cost == 0.0 and research_output.total_cost > 0:
+                self.state.total_research_cost = research_output.total_cost
+                self.state.total_cost = (
+                    self.state.total_research_cost + self.state.total_synthesis_cost
+                )
+                self._save_state()
+                logger.info(f"Restored research cost from cache: ${research_output.total_cost:.4f}")
+
+            return research_output
         return self.state.research_output
 
     # ========================================================================
