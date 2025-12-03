@@ -205,6 +205,9 @@ class MermaidRenderer:
         # Sanitize mermaid code to fix common syntax issues
         mermaid_code = self._sanitize_mermaid_code(mermaid_code)
 
+        # ALWAYS save the .mmd script file for reference
+        self._save_mermaid_script(output_path, mermaid_code)
+
         # Re-check mmdc availability (in case it was installed after init)
         if not self._mmdc_available:
             self._mmdc_available = self._check_mmdc()
@@ -302,6 +305,27 @@ class MermaidRenderer:
             self._create_placeholder(output_path, mermaid_code)
             return True
 
+    def _save_mermaid_script(self, output_path: Path, mermaid_code: str) -> None:
+        """
+        Save the mermaid script to a .mmd file.
+
+        This saves the source code for future editing and reference.
+
+        Args:
+            output_path: Path to the PNG file (will be converted to .mmd).
+            mermaid_code: Mermaid diagram code.
+        """
+        script_path = output_path.with_suffix('.mmd')
+
+        content = f"""# Mermaid Diagram
+# Edit this diagram at https://mermaid.live/
+
+{mermaid_code}
+"""
+
+        with open(script_path, 'w') as f:
+            f.write(content)
+
     def _create_placeholder(self, output_path: Path, mermaid_code: str) -> None:
         """
         Create a placeholder text file when rendering fails.
@@ -309,16 +333,8 @@ class MermaidRenderer:
         The placeholder contains the mermaid code so users can
         render it manually using mermaid.live or similar tools.
         """
-        placeholder_path = output_path.with_suffix('.mmd')
-
-        content = f"""# Mermaid Diagram
-# Render this diagram at https://mermaid.live/
-
-{mermaid_code}
-"""
-
-        with open(placeholder_path, 'w') as f:
-            f.write(content)
+        # The .mmd file is already saved by _save_mermaid_script
+        # So we just need to create a placeholder PNG
 
         # Also create a simple text-based "image" placeholder
         try:
