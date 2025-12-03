@@ -62,6 +62,89 @@ def login_required(f):
     return decorated_function
 
 
+def get_error_details(exception, phase="unknown"):
+    """
+    Parse exception and return user-friendly error details.
+
+    Returns:
+        dict with 'title', 'message', 'solution', 'technical'
+    """
+    error_str = str(exception).lower()
+    error_type = type(exception).__name__
+
+    # API Key errors
+    if "api key" in error_str or "unauthorized" in error_str or "401" in error_str:
+        if "perplexity" in error_str or phase == "research":
+            return {
+                "title": "Erro na API Perplexity",
+                "message": "A chave de API do Perplexity está inválida ou não foi configurada.",
+                "solution": "Verifique se PERPLEXITY_API_KEY está correta no arquivo .env e reinicie a aplicação.",
+                "technical": f"{error_type}: {exception}"
+            }
+        elif "gemini" in error_str or phase == "synthesis":
+            return {
+                "title": "Erro na API Gemini",
+                "message": "A chave de API do Google Gemini está inválida ou não foi configurada.",
+                "solution": "Verifique se GEMINI_API_KEY está correta no arquivo .env e reinicie a aplicação.",
+                "technical": f"{error_type}: {exception}"
+            }
+
+    # Rate limit / quota errors
+    if "rate limit" in error_str or "quota" in error_str or "429" in error_str:
+        return {
+            "title": "Limite de Taxa Excedido",
+            "message": "Você atingiu o limite de requisições da API.",
+            "solution": "Aguarde alguns minutos antes de tentar novamente, ou verifique seus créditos na plataforma da API.",
+            "technical": f"{error_type}: {exception}"
+        }
+
+    # Credit/billing errors
+    if "credit" in error_str or "billing" in error_str or "payment" in error_str or "insufficient" in error_str:
+        return {
+            "title": "Sem Créditos na API",
+            "message": "Sua conta da API não tem créditos suficientes.",
+            "solution": "Adicione créditos na sua conta Perplexity (perplexity.ai) ou Google AI Studio (aistudio.google.com).",
+            "technical": f"{error_type}: {exception}"
+        }
+
+    # Network errors
+    if "connection" in error_str or "timeout" in error_str or "network" in error_str:
+        return {
+            "title": "Erro de Conexão",
+            "message": "Não foi possível conectar ao serviço de API.",
+            "solution": "Verifique sua conexão com a internet e tente novamente. Se persistir, o serviço pode estar temporariamente indisponível.",
+            "technical": f"{error_type}: {exception}"
+        }
+
+    # File permission errors
+    if "permission" in error_str or "permissionerror" in error_type.lower():
+        return {
+            "title": "Erro de Permissão",
+            "message": "Não foi possível criar ou escrever arquivos.",
+            "solution": "Verifique as permissões da pasta 'output/'. Se usando Docker, reconstrua a imagem com 'docker compose up -d --build'.",
+            "technical": f"{error_type}: {exception}"
+        }
+
+    # Generic error
+    return {
+        "title": "Erro Inesperado",
+        "message": f"Ocorreu um erro durante a {get_phase_name(phase)}.",
+        "solution": "Tente novamente. Se o erro persistir, verifique os logs do servidor para mais detalhes.",
+        "technical": f"{error_type}: {exception}"
+    }
+
+
+def get_phase_name(phase):
+    """Get user-friendly phase name."""
+    phase_names = {
+        "research": "fase de pesquisa",
+        "synthesis": "fase de síntese",
+        "generation": "geração de documentos",
+        "unknown": "execução"
+    }
+    return phase_names.get(phase, "execução")
+
+
 # =============================================================================
 # HTML Templates
 # =============================================================================
@@ -982,9 +1065,29 @@ PROGRESS_CONTENT = """
 
     <div id="error-container" style="display: none;">
         <div class="card" style="border-color: var(--error); background: #fef2f2;">
-            <h3 style="color: var(--error);">Erro</h3>
-            <p id="error-message"></p>
-            <a href="/" class="btn btn-secondary" style="margin-top: 1rem;">Tentar Novamente</a>
+            <h2 style="color: var(--error); margin-bottom: 1rem;">
+                <span id="error-title">Erro</span>
+            </h2>
+
+            <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4 style="color: #64748b; margin-bottom: 0.5rem;">O que aconteceu:</h4>
+                <p id="error-message" style="color: var(--text); margin: 0;"></p>
+            </div>
+
+            <div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                <h4 style="color: #92400e; margin-bottom: 0.5rem;">💡 Como resolver:</h4>
+                <p id="error-solution" style="color: #78350f; margin: 0;"></p>
+            </div>
+
+            <details style="margin-bottom: 1rem;">
+                <summary style="cursor: pointer; color: #64748b; font-size: 0.9rem;">Detalhes técnicos</summary>
+                <pre id="error-technical" style="background: #f1f5f9; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; margin-top: 0.5rem; color: #334155;"></pre>
+            </details>
+
+            <div style="display: flex; gap: 1rem;">
+                <a href="/" class="btn" style="flex: 1;">Tentar Novamente</a>
+                <button onclick="copyErrorDetails()" class="btn btn-secondary" style="flex: 1;">Copiar Detalhes</button>
+            </div>
         </div>
     </div>
 </div>
@@ -1058,14 +1161,57 @@ PROGRESS_SCRIPTS = """
             if (data.error) {
                 eventSource.close();
                 document.getElementById('error-container').style.display = 'block';
-                document.getElementById('error-message').textContent = data.error;
-                document.getElementById('status-text').textContent = 'Error occurred';
+
+                // Display detailed error information
+                document.getElementById('error-title').textContent = data.error_title || 'Erro';
+                document.getElementById('error-message').textContent = data.error_message || data.error;
+                document.getElementById('error-solution').textContent = data.error_solution || 'Tente novamente.';
+                document.getElementById('error-technical').textContent = data.error_technical || data.error;
+
+                document.getElementById('status-text').textContent = 'Erro durante a execução';
+
+                // Hide all phase indicators
+                document.querySelectorAll('.phase-item').forEach(phase => {
+                    phase.querySelector('.phase-icon').innerHTML = '';
+                });
             }
         };
 
         eventSource.onerror = function(err) {
             console.error('EventSource error:', err);
         };
+    }
+
+    function copyErrorDetails() {
+        const title = document.getElementById('error-title').textContent;
+        const message = document.getElementById('error-message').textContent;
+        const solution = document.getElementById('error-solution').textContent;
+        const technical = document.getElementById('error-technical').textContent;
+
+        const errorText = `
+ERRO: ${title}
+
+O que aconteceu:
+${message}
+
+Como resolver:
+${solution}
+
+Detalhes técnicos:
+${technical}
+        `.trim();
+
+        navigator.clipboard.writeText(errorText).then(() => {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Copiado!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error('Erro ao copiar:', err);
+            alert('Erro ao copiar. Use Ctrl+C manualmente.');
+        });
     }
 
     startEventStream();
@@ -1639,9 +1785,26 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str):
     except Exception as e:
         import traceback
         traceback.print_exc()
+
+        # Determine which phase we were in
+        current_phase = "unknown"
+        if "research" in str(e).lower() or "perplexity" in str(e).lower():
+            current_phase = "research"
+        elif "synthesis" in str(e).lower() or "gemini" in str(e).lower():
+            current_phase = "synthesis"
+        elif "generation" in str(e).lower() or "pptx" in str(e).lower() or "docx" in str(e).lower():
+            current_phase = "generation"
+
+        # Get detailed error information
+        error_details = get_error_details(e, current_phase)
+
         q.put({
             "error": str(e),
-            "message": "Error occurred"
+            "error_title": error_details["title"],
+            "error_message": error_details["message"],
+            "error_solution": error_details["solution"],
+            "error_technical": error_details["technical"],
+            "error_phase": current_phase
         })
 
 
