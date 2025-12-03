@@ -41,8 +41,8 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copy application code
 COPY --chown=appuser:appuser . .
 
-# Create output directory
-RUN mkdir -p /app/output && chown appuser:appuser /app/output
+# Create output directory with full permissions
+RUN mkdir -p /app/output && chmod 777 /app/output
 
 # Switch to non-root user
 USER appuser
