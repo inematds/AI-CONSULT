@@ -2382,6 +2382,13 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         tracker = ProgressTracker(company_name, company_input, create_new_version=new_version)
         logger.info(f"ProgressTracker initialized: output_dir={tracker.output_dir}")
 
+        # Update company_slug in active_jobs to match actual directory name
+        # This is critical when new_version=True creates a timestamped directory
+        if job_id in active_jobs:
+            actual_slug = tracker.output_dir.name
+            active_jobs[job_id]["company_slug"] = actual_slug
+            logger.info(f"Updated company_slug in active_jobs: {actual_slug}")
+
         # Phase 1: Research
         q.put({
             "phase": "research",
