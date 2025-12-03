@@ -36,18 +36,18 @@ def slugify(text: str) -> str:
         text: Text to convert
 
     Returns:
-        Lowercase, hyphenated slug
+        Lowercase slug with underscores (to match timestamp format)
     """
     # Convert to lowercase
     text = text.lower()
-    # Replace spaces and underscores with hyphens
-    text = re.sub(r'[\s_]+', '-', text)
-    # Remove non-alphanumeric characters (except hyphens)
-    text = re.sub(r'[^a-z0-9-]', '', text)
-    # Remove multiple consecutive hyphens
-    text = re.sub(r'-+', '-', text)
-    # Remove leading/trailing hyphens
-    text = text.strip('-')
+    # Replace spaces and hyphens with underscores
+    text = re.sub(r'[\s-]+', '_', text)
+    # Remove non-alphanumeric characters (except underscores)
+    text = re.sub(r'[^a-z0-9_]', '', text)
+    # Remove multiple consecutive underscores
+    text = re.sub(r'_+', '_', text)
+    # Remove leading/trailing underscores
+    text = text.strip('_')
     return text
 
 
