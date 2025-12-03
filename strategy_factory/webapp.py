@@ -1373,6 +1373,60 @@ def start_analysis():
     )
 
 
+@app.route('/resume/<company_slug>', methods=['POST'])
+@login_required
+def resume_analysis(company_slug):
+    """Resume an incomplete analysis."""
+    output_dir = OUTPUT_DIR / company_slug
+
+    if not output_dir.exists():
+        return redirect(url_for('home'))
+
+    try:
+        # Load the existing tracker to get company info
+        tracker = ProgressTracker(company_slug)
+        company_name = tracker.state.company_name
+        context = tracker.state.input_data.context if tracker.state.input_data else ""
+        mode = tracker.state.input_data.mode.value if tracker.state.input_data else "quick"
+    except Exception as e:
+        return redirect(url_for('home'))
+
+    # Generate a job ID
+    job_id = str(uuid.uuid4())[:8]
+
+    # Create job entry
+    active_jobs[job_id] = {
+        "company_name": company_name,
+        "company_slug": company_slug,
+        "context": context,
+        "mode": mode,
+        "new_version": False,  # Resume uses existing directory
+        "status": "resuming",
+        "progress_queue": queue.Queue(),
+        "started_at": datetime.now(),
+    }
+
+    # Start the pipeline in a background thread (will resume from saved state)
+    thread = threading.Thread(
+        target=run_pipeline,
+        args=(job_id, company_name, context, mode, False),
+        daemon=True
+    )
+    thread.start()
+
+    # Redirect to progress page
+    from jinja2 import Template
+    content = Template(PROGRESS_CONTENT).render(company_name=company_name)
+    scripts = Template(PROGRESS_SCRIPTS).render(job_id=job_id)
+
+    return render_template_string(
+        BASE_TEMPLATE,
+        title=f"Retomando {company_name}",
+        content=content,
+        scripts=scripts
+    )
+
+
 @app.route('/progress/<job_id>')
 @login_required
 def progress_stream(job_id):
@@ -1624,10 +1678,19 @@ def render_results_page(company_name, company_slug, total_cost, markdown_files, 
         html += f"""
         <div class="card" style="background: #fffbeb; border-left: 4px solid #f59e0b; margin-bottom: 1rem;">
             <h4 style="color: #92400e; margin: 0 0 0.5rem 0;">⚠️ Análise Incompleta</h4>
-            <p style="color: #78350f; margin: 0; font-size: 0.9rem;">
+            <p style="color: #78350f; margin: 0 0 1rem 0; font-size: 0.9rem;">
                 Esta análise está {deliverables.get('progress_percent', 0):.0f}% concluída.
                 Fase atual: <strong>{current_phase}</strong>
             </p>
+            <p style="color: #78350f; margin: 0 0 1rem 0; font-size: 0.85rem;">
+                💡 <strong>Por que parou?</strong> Provável erro de API, perda de conexão, ou reinício do servidor.
+                A análise NÃO continua automaticamente.
+            </p>
+            <form action="/resume/{company_slug}" method="POST" style="margin: 0;">
+                <button type="submit" class="btn" style="background: #f59e0b; width: 100%;">
+                    🔄 Retomar Análise
+                </button>
+            </form>
         </div>
         """
 
