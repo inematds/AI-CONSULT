@@ -2487,12 +2487,21 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             mode=research_mode,
         )
 
-        logger.info(f"Initializing ProgressTracker (create_new_version={new_version})...")
+        logger.info(f"Initializing ProgressTracker (create_new_version={new_version}, continue_mode={continue_mode})...")
 
-        # If NOT creating new version but starting fresh analysis (from /start endpoint),
-        # we should ALWAYS do new research regardless of cached state
-        # Only when new_version=False from removed /resume endpoint would we use cache
-        tracker = ProgressTracker(company_name, company_input, create_new_version=new_version)
+        # If continuing, use the existing directory from active_jobs
+        # Otherwise create new with or without timestamp
+        if continue_mode and job_id in active_jobs:
+            existing_slug = active_jobs[job_id].get("company_slug")
+            logger.info(f"Continue mode: loading from directory {existing_slug}")
+            tracker = ProgressTracker(
+                company_name=company_name,
+                company_input=company_input,
+                load_from_directory=existing_slug
+            )
+        else:
+            tracker = ProgressTracker(company_name, company_input, create_new_version=new_version)
+
         logger.info(f"ProgressTracker initialized: output_dir={tracker.output_dir}")
 
         # Update company_slug in active_jobs to match actual directory name
