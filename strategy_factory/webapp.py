@@ -2361,6 +2361,10 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
         )
 
         logger.info(f"Initializing ProgressTracker (create_new_version={new_version})...")
+
+        # If NOT creating new version but starting fresh analysis (from /start endpoint),
+        # we should ALWAYS do new research regardless of cached state
+        # Only when new_version=False from removed /resume endpoint would we use cache
         tracker = ProgressTracker(company_name, company_input, create_new_version=new_version)
         logger.info(f"ProgressTracker initialized: output_dir={tracker.output_dir}")
 
@@ -2389,59 +2393,22 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
                 "detail": message
             })
 
-        # Check if research phase was already completed
+        # ALWAYS run new research when starting from /start endpoint
+        # (We removed /resume endpoint, so all calls here are fresh starts)
         logger = logging.getLogger(__name__)
-        try:
-            research_output = tracker.load_research_output()
-        except Exception as load_err:
-            logger.error(f"Failed to load research cache: {load_err}")
-            research_output = None
+        logger.info(f"Starting new research phase (new_version={new_version})")
+        tracker.start_phase("research")
 
-        research_completed = tracker.state.phases["research"].status == DeliverableStatus.COMPLETED
+        research_orchestrator = ResearchOrchestrator(
+            mode=research_mode,
+            cache_dir=Path(tracker.output_dir),
+            progress_callback=research_callback,
+        )
 
-        # Debug logging
-        logger.info(f"Resume check: research_output={'present' if research_output else 'MISSING'}, research_completed={research_completed}")
-        logger.info(f"Current phase in state: {tracker.state.current_phase}")
-        logger.info(f"Research cache file exists: {tracker.research_cache_file.exists()}")
-        logger.info(f"new_version={new_version}")
-
-        # Only run NEW research if this is a NEW analysis (new_version=True)
-        # When resuming/regenerating (new_version=False), ALWAYS use cache
-        if new_version and (not research_output or not research_completed):
-            tracker.start_phase("research")
-
-            research_orchestrator = ResearchOrchestrator(
-                mode=research_mode,
-                cache_dir=Path(tracker.output_dir),
-                progress_callback=research_callback,
-            )
-
-            research_output = research_orchestrator.research(company_input)
-            tracker.save_research_output(research_output)
-            research_orchestrator.save_research_cache(Path(tracker.output_dir))
-            tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
-        else:
-            # Research already completed - load from cache if not already loaded
-            if not research_output:
-                logger.info("Attempting to load research cache...")
-                research_output = tracker.load_research_output()
-
-            if research_output:
-                # Research cache found, use it
-                q.put({
-                    "phase": "research",
-                    "message": "Using cached research data (already completed)",
-                    "status": "Cached",
-                    "progress": 100,
-                    "detail": "Skipping research - using existing data"
-                })
-
-                # Mark research as completed if it wasn't already
-                if not research_completed:
-                    tracker.complete_phase("research", "Used cached research data")
-            else:
-                # No cache available
-                raise Exception("Cache de pesquisa não encontrado. Execute uma nova análise completa.")
+        research_output = research_orchestrator.research(company_input)
+        tracker.save_research_output(research_output)
+        research_orchestrator.save_research_cache(Path(tracker.output_dir))
+        tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
 
         # Validate research output exists (critical dependency for all phases)
         if not research_output:
