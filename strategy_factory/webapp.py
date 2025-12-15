@@ -2551,16 +2551,16 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
             logger.info(f"Starting new research phase (continue_mode={continue_mode}, new_version={new_version})")
             tracker.start_phase("research")
 
-        research_orchestrator = ResearchOrchestrator(
-            mode=research_mode,
-            cache_dir=Path(tracker.output_dir),
-            progress_callback=research_callback,
-        )
+            research_orchestrator = ResearchOrchestrator(
+                mode=research_mode,
+                cache_dir=Path(tracker.output_dir),
+                progress_callback=research_callback,
+            )
 
-        research_output = research_orchestrator.research(company_input)
-        tracker.save_research_output(research_output)
-        research_orchestrator.save_research_cache(Path(tracker.output_dir))
-        tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
+            research_output = research_orchestrator.research(company_input)
+            tracker.save_research_output(research_output)
+            research_orchestrator.save_research_cache(Path(tracker.output_dir))
+            tracker.complete_phase("research", f"Completed research with {len(research_orchestrator.results)} queries")
 
         # Validate research output exists (critical dependency for all phases)
         if not research_output:
@@ -2662,7 +2662,9 @@ def run_pipeline(job_id: str, company_name: str, context: str, mode: str, new_ve
 
             raise Exception(error_msg + error_details)
 
-        tracker.complete_phase("synthesis", f"Generated {len(file_paths)} deliverables")
+        # Only mark synthesis complete if we actually ran it
+        if pending_markdown:
+            tracker.complete_phase("synthesis", f"Generated {len(file_paths)} deliverables")
 
         q.put({
             "phase": "synthesis",
