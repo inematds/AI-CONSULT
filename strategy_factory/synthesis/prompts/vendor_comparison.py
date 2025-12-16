@@ -4,161 +4,161 @@ PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate Vendor Comparison & Build vs Buy Framework
+# Tarefa: Gerar Comparativo de Fornecedores e Framework Build vs Buy
 
-Based on the technology inventory and use cases identified above, create a comprehensive vendor comparison and build vs buy analysis.
+Com base no inventário tecnológico e nos casos de uso identificados acima, crie uma análise abrangente de comparação de fornecedores e análise de construir versus comprar.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Executive Summary
-- Key vendor recommendations by category
-- Build vs buy recommendations
-- Estimated total cost of ownership
-- Critical decision factors
+### 1. Resumo Executivo
+- Principais recomendações de fornecedores por categoria
+- Recomendações de construir vs comprar
+- Custo total de propriedade estimado
+- Fatores críticos de decisão
 
-### 2. AI Platform Comparison
+### 2. Comparativo de Plataformas de IA
 
-#### Enterprise AI Platforms
-| Vendor | Strengths | Weaknesses | Best For | Pricing Model |
-|--------|-----------|------------|----------|---------------|
+#### Plataformas Enterprise de IA
+| Fornecedor | Pontos Fortes | Pontos Fracos | Melhor Para | Modelo de Precificação |
+|------------|---------------|---------------|-------------|------------------------|
 | Microsoft Azure AI | | | | |
 | Google Cloud AI | | | | |
 | AWS AI Services | | | | |
 | OpenAI/ChatGPT Enterprise | | | | |
 | Anthropic Claude | | | | |
 
-#### Category-Specific Tools
+#### Ferramentas por Categoria
 
-**Document Processing**
-| Vendor | Features | Integration | Pricing | Fit Score |
-|--------|----------|-------------|---------|-----------|
+**Processamento de Documentos**
+| Fornecedor | Funcionalidades | Integração | Precificação | Score de Adequação |
+|------------|-----------------|------------|--------------|-------------------|
 
-**Conversational AI**
-| Vendor | Features | Integration | Pricing | Fit Score |
-|--------|----------|-------------|---------|-----------|
+**IA Conversacional**
+| Fornecedor | Funcionalidades | Integração | Precificação | Score de Adequação |
+|------------|-----------------|------------|--------------|-------------------|
 
 **Analytics & BI**
-| Vendor | Features | Integration | Pricing | Fit Score |
-|--------|----------|-------------|---------|-----------|
+| Fornecedor | Funcionalidades | Integração | Precificação | Score de Adequação |
+|------------|-----------------|------------|--------------|-------------------|
 
-**Process Automation**
-| Vendor | Features | Integration | Pricing | Fit Score |
-|--------|----------|-------------|---------|-----------|
+**Automação de Processos**
+| Fornecedor | Funcionalidades | Integração | Precificação | Score de Adequação |
+|------------|-----------------|------------|--------------|-------------------|
 
-### 3. Build vs Buy Framework
+### 3. Framework Build vs Buy
 
-#### Decision Matrix
-For each use case, evaluate:
+#### Matriz de Decisão
+Para cada caso de uso, avaliar:
 
-| Factor | Weight | Build Score | Buy Score |
-|--------|--------|-------------|-----------|
-| Time to Value | 25% | | |
-| Total Cost (3 yr) | 20% | | |
-| Customization Need | 15% | | |
-| Strategic Value | 15% | | |
-| Internal Capability | 10% | | |
-| Maintenance Burden | 10% | | |
-| Risk Level | 5% | | |
-| **Weighted Total** | 100% | | |
+| Fator | Peso | Score Construir | Score Comprar |
+|-------|------|-----------------|---------------|
+| Tempo para Valor | 25% | | |
+| Custo Total (3 anos) | 20% | | |
+| Necessidade de Customização | 15% | | |
+| Valor Estratégico | 15% | | |
+| Capacidade Interna | 10% | | |
+| Carga de Manutenção | 10% | | |
+| Nível de Risco | 5% | | |
+| **Total Ponderado** | 100% | | |
 
-#### Use Case Recommendations
+#### Recomendações por Caso de Uso
 
-| Use Case | Recommendation | Rationale | Vendor (if Buy) |
-|----------|---------------|-----------|-----------------|
+| Caso de Uso | Recomendação | Justificativa | Fornecedor (se Comprar) |
+|-------------|--------------|---------------|-------------------------|
 
-### 4. Vendor Evaluation Criteria
+### 4. Critérios de Avaliação de Fornecedores
 
-#### Must-Have Requirements
-- [ ] SOC 2 compliance
-- [ ] Data residency options
-- [ ] API availability
-- [ ] SSO integration
-- [ ] Audit logging
+#### Requisitos Obrigatórios
+- [ ] Conformidade SOC 2
+- [ ] Opções de residência de dados
+- [ ] Disponibilidade de API
+- [ ] Integração SSO
+- [ ] Logs de auditoria
 
-#### Nice-to-Have Requirements
-- [ ] Custom model training
-- [ ] On-premise option
-- [ ] White-label capability
-- [ ] 24/7 support
+#### Requisitos Desejáveis
+- [ ] Treinamento de modelo customizado
+- [ ] Opção on-premise
+- [ ] Capacidade white-label
+- [ ] Suporte 24/7
 
-### 5. Cost Analysis
+### 5. Análise de Custos
 
-#### Build Scenario (Internal Development)
-| Cost Category | Year 1 | Year 2 | Year 3 | Total |
-|---------------|--------|--------|--------|-------|
-| Development | | | | |
-| Infrastructure | | | | |
-| Maintenance | | | | |
-| Training | | | | |
+#### Cenário Construir (Desenvolvimento Interno)
+| Categoria de Custo | Ano 1 | Ano 2 | Ano 3 | Total |
+|--------------------|-------|-------|-------|-------|
+| Desenvolvimento | | | | |
+| Infraestrutura | | | | |
+| Manutenção | | | | |
+| Treinamento | | | | |
 | **Total** | | | | |
 
-#### Buy Scenario (Vendor Solution)
-| Cost Category | Year 1 | Year 2 | Year 3 | Total |
-|---------------|--------|--------|--------|-------|
-| Licensing | | | | |
-| Implementation | | | | |
-| Integration | | | | |
-| Training | | | | |
+#### Cenário Comprar (Solução de Fornecedor)
+| Categoria de Custo | Ano 1 | Ano 2 | Ano 3 | Total |
+|--------------------|-------|-------|-------|-------|
+| Licenciamento | | | | |
+| Implementação | | | | |
+| Integração | | | | |
+| Treinamento | | | | |
 | **Total** | | | | |
 
-### 6. Vendor Shortlist
+### 6. Lista de Fornecedores Selecionados
 
-#### Recommended Primary Vendors
-1. **[Vendor Name]** - [Category]
-   - Why: [Rationale]
-   - Fit score: X/10
-   - Estimated cost: $X/year
+#### Fornecedores Primários Recomendados
+1. **[Nome do Fornecedor]** - [Categoria]
+   - Por quê: [Justificativa]
+   - Score de adequação: X/10
+   - Custo estimado: R$ X/ano
 
-2. **[Vendor Name]** - [Category]
-   - Why: [Rationale]
-   - Fit score: X/10
-   - Estimated cost: $X/year
+2. **[Nome do Fornecedor]** - [Categoria]
+   - Por quê: [Justificativa]
+   - Score de adequação: X/10
+   - Custo estimado: R$ X/ano
 
-#### Recommended for Evaluation
-- [Vendor]: Schedule demo for [use case]
-- [Vendor]: POC for [use case]
+#### Recomendados para Avaliação
+- [Fornecedor]: Agendar demo para [caso de uso]
+- [Fornecedor]: POC para [caso de uso]
 
-### 7. Integration Considerations
+### 7. Considerações de Integração
 
-#### Current Stack Compatibility
-| Vendor | CRM Integration | ERP Integration | Data Warehouse | Auth/SSO |
-|--------|-----------------|-----------------|----------------|----------|
+#### Compatibilidade com Stack Atual
+| Fornecedor | Integração CRM | Integração ERP | Data Warehouse | Auth/SSO |
+|------------|----------------|----------------|----------------|----------|
 
-#### API & Extensibility
-| Vendor | REST API | Webhooks | SDK | Custom Models |
-|--------|----------|----------|-----|---------------|
+#### API & Extensibilidade
+| Fornecedor | REST API | Webhooks | SDK | Modelos Custom |
+|------------|----------|----------|-----|----------------|
 
-### 8. Risk Assessment
+### 8. Avaliação de Riscos
 
-| Vendor | Vendor Risk | Lock-in Risk | Security Risk | Mitigation |
-|--------|-------------|--------------|---------------|------------|
+| Fornecedor | Risco do Fornecedor | Risco de Lock-in | Risco de Segurança | Mitigação |
+|------------|---------------------|------------------|-------------------|-----------|
 
-### 9. Negotiation Guidance
+### 9. Orientações para Negociação
 
-#### Leverage Points
-- Multi-year commitment discounts
-- Volume pricing tiers
-- Bundling opportunities
-- Competitive alternatives
+#### Pontos de Alavancagem
+- Descontos por compromisso multi-ano
+- Faixas de preço por volume
+- Oportunidades de bundling
+- Alternativas competitivas
 
-#### Key Terms to Negotiate
-- Data portability clauses
-- SLA guarantees
-- Price protection
-- Exit provisions
+#### Termos-Chave para Negociar
+- Cláusulas de portabilidade de dados
+- Garantias de SLA
+- Proteção de preço
+- Provisões de saída
 
-### 10. Recommendation Summary
+### 10. Resumo de Recomendações
 
-| Category | Recommendation | Vendor | Action |
-|----------|---------------|--------|--------|
-| Platform | Build/Buy | [Name] | [Next step] |
-| Document AI | Build/Buy | [Name] | [Next step] |
-| Conversational AI | Build/Buy | [Name] | [Next step] |
+| Categoria | Recomendação | Fornecedor | Ação |
+|-----------|--------------|------------|------|
+| Plataforma | Construir/Comprar | [Nome] | [Próximo passo] |
+| Document AI | Construir/Comprar | [Nome] | [Próximo passo] |
+| IA Conversacional | Construir/Comprar | [Nome] | [Próximo passo] |
 
-## Output Format
-- Use comparison tables extensively
-- Include specific vendor names
-- Provide cost estimates where possible
-- Make recommendations clear and actionable
-- Note assumptions in cost calculations
+## Formato de Saída
+- Use tabelas comparativas extensivamente
+- Inclua nomes específicos de fornecedores
+- Forneça estimativas de custo quando possível
+- Faça recomendações claras e acionáveis
+- Anote as premissas nos cálculos de custo
 """
