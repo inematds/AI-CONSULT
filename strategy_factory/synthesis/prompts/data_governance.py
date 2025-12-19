@@ -1,215 +1,215 @@
-"""Prompt para Framework de Governança de Dados."""
+"""Prompt for Data Governance Framework."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Tarefa: Gerar Framework de Governança de Dados
+# Task: Generate Data Governance Framework
 
-Com base no inventário de tecnologia, contexto regulatório e política de IA acima, crie um framework abrangente de governança de dados para iniciativas de IA.
+Based on the technology inventory, regulatory context, and AI policy above, create a comprehensive data governance framework for AI initiatives.
 
-## Seções Obrigatórias
+## Required Sections
 
-### 1. Resumo Executivo
-- Avaliação de maturidade de governança de dados
-- Principais riscos identificados
-- Recomendações prioritárias
-- Requisitos de recursos
+### 1. Executive Summary
+- Data governance maturity assessment
+- Key risks identified
+- Priority recommendations
+- Resource requirements
 
-### 2. Visão de Governança de Dados
+### 2. Data Governance Vision
 
-#### Princípios
-1. **Dados como Ativo**: Tratar dados como recurso estratégico
-2. **Qualidade na Origem**: Garantir precisão no ponto de entrada
-3. **Segurança por Design**: Construir proteção em todos os processos
-4. **Transparência**: Propriedade e linhagem claras
-5. **Compliance em Primeiro Lugar**: Requisitos regulatórios são inegociáveis
+#### Principles
+1. **Data as an Asset**: Treat data as a strategic resource
+2. **Quality at Source**: Ensure accuracy at point of entry
+3. **Security by Design**: Build protection into all processes
+4. **Transparency**: Clear ownership and lineage
+5. **Compliance First**: Regulatory requirements are non-negotiable
 
-#### Objetivos
-- Habilitar iniciativas de IA com dados confiáveis
-- Minimizar riscos relacionados a dados
-- Estabelecer responsabilidades claras
-- Simplificar acesso a dados
+#### Objectives
+- Enable AI initiatives with trusted data
+- Minimize data-related risks
+- Establish clear accountability
+- Streamline data access
 
-### 3. Estrutura de Governança de Dados
+### 3. Data Governance Structure
 
-#### Modelo Organizacional
+#### Organizational Model
 
 ```
-[Conselho de Governança de Dados]
+[Data Governance Council]
         |
-[Escritório de Governança de Dados]
+[Data Governance Office]
         |
     ----------
     |        |
-[Stewards de Domínio] [Stewards Técnicos]
+[Domain Stewards] [Technical Stewards]
 ```
 
-#### Papéis e Responsabilidades
+#### Roles & Responsibilities
 
-| Papel | Responsabilidades | Reporta Para |
-|-------|-------------------|--------------|
-| Sponsor Executivo | Estratégia, orçamento, escalações | CEO |
-| Conselho de Governança de Dados | Aprovação de políticas, prioridades | Sponsor Exec |
-| Chief Data Officer | Liderança do programa | Conselho |
-| Stewards de Dados de Domínio | Propriedade de dados de negócio | CDO |
-| Stewards de Dados Técnicos | Qualidade de dados, metadados | CDO |
-| Custodiantes de Dados | Gestão em nível de sistema | Stewards Técnicos |
+| Role | Responsibilities | Reports To |
+|------|-----------------|------------|
+| Executive Sponsor | Strategy, budget, escalations | CEO |
+| Data Governance Council | Policy approval, priorities | Exec Sponsor |
+| Chief Data Officer | Program leadership | Council |
+| Domain Data Stewards | Business data ownership | CDO |
+| Technical Data Stewards | Data quality, metadata | CDO |
+| Data Custodians | System-level management | Tech Stewards |
 
-### 4. Framework de Classificação de Dados
+### 4. Data Classification Framework
 
-#### Níveis de Classificação
+#### Classification Levels
 
-| Nível | Definição | Exemplos | Requisitos de Tratamento |
-|-------|-----------|----------|--------------------------|
-| Público | Livremente compartilhável | Conteúdo de marketing | Nenhum |
-| Interno | Apenas uso da empresa | Organogramas, políticas | Controles de acesso |
-| Confidencial | Sensível ao negócio | Dados financeiros, estratégias | Criptografia, logs |
-| Restrito | Altamente sensível | PII, dados de saúde, segredos | Controles completos, aprovação |
+| Level | Definition | Examples | Handling Requirements |
+|-------|------------|----------|----------------------|
+| Public | Freely shareable | Marketing content | None |
+| Internal | Company use only | Org charts, policies | Access controls |
+| Confidential | Business sensitive | Financial data, strategies | Encryption, logging |
+| Restricted | Highly sensitive | PII, health data, secrets | Full controls, approval |
 
-#### Classificações Específicas para IA
+#### AI-Specific Classifications
 
-| Tipo de Dado | Treinamento de IA | Entrada de IA | Saída de IA |
-|--------------|-------------------|---------------|-------------|
-| Dados de clientes | Proibido | Restrito | Revisão necessária |
-| Dados transacionais | Com consentimento | Anonimizado | Permitido |
-| Dados operacionais | Permitido | Permitido | Permitido |
-| Dados públicos | Permitido | Permitido | Permitido |
+| Data Type | AI Training | AI Input | AI Output |
+|-----------|-------------|----------|-----------|
+| Customer data | Prohibited | Restricted | Review required |
+| Transaction data | With consent | Anonymized | Permitted |
+| Operational data | Permitted | Permitted | Permitted |
+| Public data | Permitted | Permitted | Permitted |
 
-### 5. Framework de Qualidade de Dados
+### 5. Data Quality Framework
 
-#### Dimensões de Qualidade
+#### Quality Dimensions
 
-| Dimensão | Definição | Medição | Meta |
-|----------|-----------|---------|------|
-| Precisão | Correção | Taxa de erros | <1% |
-| Completude | Sem valores faltantes | Taxa de nulos | >95% |
-| Consistência | Igual entre sistemas | Taxa de correspondência | >99% |
-| Atualidade | Atual/atualizado | Frescor | <24 hrs |
-| Unicidade | Sem duplicatas | Taxa de duplicação | <0,1% |
-| Validade | Conforme regras | Taxa de validação | >99% |
+| Dimension | Definition | Measurement | Target |
+|-----------|------------|-------------|--------|
+| Accuracy | Correctness | Error rate | <1% |
+| Completeness | No missing values | Null rate | >95% |
+| Consistency | Same across systems | Match rate | >99% |
+| Timeliness | Current/updated | Freshness | <24 hrs |
+| Uniqueness | No duplicates | Dup rate | <0.1% |
+| Validity | Conforms to rules | Validation rate | >99% |
 
-#### Monitoramento de Qualidade
+#### Quality Monitoring
 
-| Sistema | Verificações de Qualidade | Frequência | Responsável |
-|---------|---------------------------|------------|-------------|
-| [Sistema 1] | | Diária | |
-| [Sistema 2] | | Semanal | |
+| System | Quality Checks | Frequency | Owner |
+|--------|---------------|-----------|-------|
+| [System 1] | | Daily | |
+| [System 2] | | Weekly | |
 
-### 6. Gestão do Ciclo de Vida de Dados
+### 6. Data Lifecycle Management
 
-#### Estágios do Ciclo de Vida
+#### Lifecycle Stages
 
-| Estágio | Atividades | Controles | Retenção |
-|---------|------------|-----------|----------|
-| Criação | Captura, entrada | Validação | - |
-| Armazenamento | Persistência | Criptografia | Por política |
-| Processamento | Transformação, análise | Logging | - |
-| Compartilhamento | Distribuição | Controle de acesso | - |
-| Arquivamento | Armazenamento de longo prazo | Verificações de integridade | Por regulação |
-| Descarte | Exclusão segura | Verificação | - |
+| Stage | Activities | Controls | Retention |
+|-------|-----------|----------|-----------|
+| Creation | Capture, entry | Validation | - |
+| Storage | Persistence | Encryption | Per policy |
+| Processing | Transform, analyze | Logging | - |
+| Sharing | Distribution | Access control | - |
+| Archival | Long-term storage | Integrity checks | Per regulation |
+| Disposal | Secure deletion | Verification | - |
 
-#### Ciclo de Vida de Dados para IA
+#### AI Data Lifecycle
 
-| Estágio | Considerações | Requisitos |
-|---------|---------------|------------|
-| Coleta | Consentimento, propósito | Documentação |
-| Preparação | Anonimização | Verificações de qualidade |
-| Treinamento | Controle de versão | Trilha de auditoria |
-| Inferência | Validação de entrada | Monitoramento |
-| Atualizações de Modelo | Dados de retreinamento | Aprovação |
+| Stage | Considerations | Requirements |
+|-------|---------------|--------------|
+| Collection | Consent, purpose | Documentation |
+| Preparation | Anonymization | Quality checks |
+| Training | Version control | Audit trail |
+| Inference | Input validation | Monitoring |
+| Model Updates | Retraining data | Approval |
 
-### 7. Privacidade e Proteção de Dados
+### 7. Data Privacy & Protection
 
-#### Princípios de Privacidade
-- Minimização de dados
-- Limitação de propósito
-- Gestão de consentimento
-- Direitos individuais
+#### Privacy Principles
+- Data minimization
+- Purpose limitation
+- Consent management
+- Individual rights
 
-#### Requisitos de Compliance
+#### Compliance Requirements
 
-| Regulamentação | Escopo | Requisitos Principais | Status |
-|----------------|--------|----------------------|--------|
-| LGPD | Dados brasileiros | Consentimento, direitos | |
-| GDPR | Dados da UE | Consentimento, direitos | |
-| [Específico do setor] | | | |
+| Regulation | Scope | Key Requirements | Status |
+|------------|-------|------------------|--------|
+| GDPR | EU data | Consent, rights | |
+| CCPA | CA residents | Disclosure, opt-out | |
+| [Industry-specific] | | | |
 
-#### Controles de Privacidade
-| Controle | Propósito | Implementação |
-|----------|-----------|---------------|
-| Anonimização | Remover identificadores | [Método] |
-| Pseudonimização | Substituir identificadores | [Método] |
-| Criptografia | Proteger dados | [Padrão] |
-| Controles de acesso | Limitar acesso | [Sistema] |
+#### Privacy Controls
+| Control | Purpose | Implementation |
+|---------|---------|----------------|
+| Anonymization | Remove identifiers | [Method] |
+| Pseudonymization | Replace identifiers | [Method] |
+| Encryption | Protect data | [Standard] |
+| Access controls | Limit access | [System] |
 
-### 8. Gestão de Metadados
+### 8. Metadata Management
 
-#### Padrões de Metadados
+#### Metadata Standards
 
-| Tipo de Metadados | Descrição | Campos Obrigatórios |
-|-------------------|-----------|---------------------|
-| Técnicos | Schema, formatos | Nome da tabela, colunas, tipos |
-| Negócio | Definições, propriedade | Definição, steward, domínio |
-| Operacionais | Qualidade, linhagem | Score de qualidade, origem, atualizações |
+| Metadata Type | Description | Required Fields |
+|---------------|-------------|-----------------|
+| Technical | Schema, formats | Table name, columns, types |
+| Business | Definitions, ownership | Definition, steward, domain |
+| Operational | Quality, lineage | Quality score, source, updates |
 
-#### Requisitos do Catálogo de Dados
-- Inventário pesquisável de todos os ativos de dados
-- Integração com glossário de negócios
-- Visualização de linhagem
-- Exibição de métricas de qualidade
+#### Data Catalog Requirements
+- Searchable inventory of all data assets
+- Business glossary integration
+- Lineage visualization
+- Quality metrics display
 
-### 9. Acesso e Segurança de Dados
+### 9. Data Access & Security
 
-#### Modelo de Controle de Acesso
+#### Access Control Model
 
-| Classificação de Dados | Modelo de Acesso | Aprovação Necessária |
-|------------------------|------------------|----------------------|
-| Público | Aberto | Não |
-| Interno | Baseado em papel | Não |
-| Confidencial | Need-to-know | Gestor |
-| Restrito | Concessão explícita | Proprietário + Segurança |
+| Data Classification | Access Model | Approval Required |
+|--------------------|--------------|-------------------|
+| Public | Open | No |
+| Internal | Role-based | No |
+| Confidential | Need-to-know | Manager |
+| Restricted | Explicit grant | Data owner + Security |
 
-#### Acesso de Modelos de IA
-| Tipo de Modelo | Acesso a Dados | Restrições |
-|----------------|----------------|------------|
-| Modelos internos | Completo (dados aprovados) | Log de auditoria |
-| Ferramentas de IA externas | Limitado | Sem dados restritos |
-| Modelos de fornecedores | Conforme contrato | DPA obrigatório |
+#### AI Model Access
+| Model Type | Data Access | Restrictions |
+|------------|-------------|--------------|
+| Internal models | Full (approved data) | Audit logging |
+| External AI tools | Limited | No restricted data |
+| Vendor models | As contracted | DPA required |
 
-### 10. Roadmap de Implementação
+### 10. Implementation Roadmap
 
-#### Fase 1: Fundação (Meses 1-3)
-- [ ] Estabelecer conselho de governança
-- [ ] Definir esquema de classificação
-- [ ] Identificar ativos de dados críticos
-- [ ] Nomear stewards de dados
+#### Phase 1: Foundation (Months 1-3)
+- [ ] Establish governance council
+- [ ] Define classification scheme
+- [ ] Identify critical data assets
+- [ ] Appoint data stewards
 
-#### Fase 2: Construção (Meses 4-6)
-- [ ] Implementar catálogo de dados
-- [ ] Implantar monitoramento de qualidade
-- [ ] Criar controles de privacidade
-- [ ] Desenvolver programa de treinamento
+#### Phase 2: Build (Months 4-6)
+- [ ] Implement data catalog
+- [ ] Deploy quality monitoring
+- [ ] Create privacy controls
+- [ ] Develop training program
 
-#### Fase 3: Escala (Meses 7-12)
-- [ ] Expandir cobertura
-- [ ] Automatizar verificações de qualidade
-- [ ] Rastreamento avançado de linhagem
-- [ ] Melhoria contínua
+#### Phase 3: Scale (Months 7-12)
+- [ ] Expand coverage
+- [ ] Automate quality checks
+- [ ] Advanced lineage tracking
+- [ ] Continuous improvement
 
-### 11. Métricas e Monitoramento
+### 11. Metrics & Monitoring
 
-| Métrica | Meta | Frequência | Responsável |
-|---------|------|------------|-------------|
-| Score de qualidade de dados | >90% | Semanal | |
-| Compliance com políticas | 100% | Mensal | |
-| Tempo de resposta a incidentes | <4 hrs | Por incidente | |
-| Conclusão de treinamento | 100% | Trimestral | |
+| Metric | Target | Frequency | Owner |
+|--------|--------|-----------|-------|
+| Data quality score | >90% | Weekly | |
+| Policy compliance | 100% | Monthly | |
+| Incident response time | <4 hrs | Per incident | |
+| Training completion | 100% | Quarterly | |
 
-## Formato de Saída
-- Use linguagem profissional de governança
-- Inclua políticas e procedimentos específicos
-- Customize para requisitos do setor
-- Torne papéis e responsabilidades claros
-- Inclua passos de implementação acionáveis
+## Output Format
+- Use professional governance language
+- Include specific policies and procedures
+- Customize to industry requirements
+- Make roles and responsibilities clear
+- Include actionable implementation steps
 """

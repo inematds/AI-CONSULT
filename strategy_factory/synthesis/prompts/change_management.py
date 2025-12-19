@@ -1,274 +1,274 @@
-"""Prompt para Playbook de Gestão de Mudanças e Treinamento."""
+"""Prompt for Change Management & Training Playbook."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Tarefa: Gerar Playbook de Gestão de Mudanças e Treinamento
+# Task: Generate Change Management & Training Playbook
 
-Com base no roadmap, biblioteca de casos de uso e contexto organizacional acima, crie um playbook abrangente de gestão de mudanças e treinamento para adoção de IA.
+Based on the roadmap, use case library, and organizational context above, create a comprehensive change management and training playbook for AI adoption.
 
-## Seções Obrigatórias
+## Required Sections
 
-### 1. Resumo Executivo
-- Abordagem de gestão de mudanças
-- Principais grupos de stakeholders
-- Visão geral do programa de treinamento
-- Fatores críticos de sucesso
-- Cronograma e marcos
+### 1. Executive Summary
+- Change management approach
+- Key stakeholder groups
+- Training program overview
+- Critical success factors
+- Timeline and milestones
 
-### 2. Framework de Gestão de Mudanças
+### 2. Change Management Framework
 
-#### Aplicação do Modelo ADKAR
+#### ADKAR Model Application
 
-| Fase | Foco | Atividades | Métricas |
-|------|------|------------|----------|
-| **A**wareness (Consciência) | Por que a mudança é necessária | Comunicações, town halls | Scores de pesquisa |
-| **D**esire (Desejo) | Disposição para participar | Mensagens WIIFM, champions | Taxas de engajamento |
-| **K**nowledge (Conhecimento) | Como mudar | Treinamento, documentação | Testes de competência |
-| **A**bility (Habilidade) | Capacidade de implementar | Prática, coaching, suporte | Métricas de uso |
-| **R**einforcement (Reforço) | Sustentação da mudança | Reconhecimento, loops de feedback | Taxas de adoção |
+| Phase | Focus | Activities | Metrics |
+|-------|-------|-----------|---------|
+| **A**wareness | Why change is needed | Communications, town halls | Survey scores |
+| **D**esire | Willingness to participate | WIIFM messaging, champions | Engagement rates |
+| **K**nowledge | How to change | Training, documentation | Competency tests |
+| **A**bility | Capability to implement | Practice, coaching, support | Usage metrics |
+| **R**einforcement | Sustaining change | Recognition, feedback loops | Adoption rates |
 
-#### Avaliação de Prontidão para Mudança
+#### Change Readiness Assessment
 
-| Fator | Estado Atual | Lacuna | Ação |
-|-------|--------------|--------|------|
-| Apoio da liderança | | | |
-| Abertura dos funcionários | | | |
-| Histórico de sucesso em mudanças | | | |
-| Canais de comunicação | | | |
-| Infraestrutura de treinamento | | | |
+| Factor | Current State | Gap | Action |
+|--------|--------------|-----|--------|
+| Leadership support | | | |
+| Employee openness | | | |
+| Historical change success | | | |
+| Communication channels | | | |
+| Training infrastructure | | | |
 
-### 3. Análise de Stakeholders
+### 3. Stakeholder Analysis
 
-#### Matriz de Stakeholders
+#### Stakeholder Matrix
 
-| Grupo de Stakeholders | Impacto | Influência | Posição | Estratégia |
-|----------------------|---------|------------|---------|------------|
-| Equipe executiva | Alto | Alto | Champion | Engajar como sponsors |
-| Gestores intermediários | Alto | Médio | Varia | Converter em defensores |
-| Funcionários da linha de frente | Alto | Baixo | Varia | Habilitar e apoiar |
-| Equipe de TI | Médio | Médio | Apoiador | Parceria técnica |
-| Equipe de RH | Médio | Médio | Apoiador | Alinhamento de processos |
+| Stakeholder Group | Impact | Influence | Position | Strategy |
+|-------------------|--------|-----------|----------|----------|
+| Executive team | High | High | Champion | Engage as sponsors |
+| Middle managers | High | Medium | Varies | Convert to advocates |
+| Front-line employees | High | Low | Varies | Enable and support |
+| IT team | Medium | Medium | Supportive | Technical partnership |
+| HR team | Medium | Medium | Supportive | Process alignment |
 
-#### Mensagens-Chave por Stakeholder
+#### Key Messages by Stakeholder
 
-**Para Executivos**
-- Valor estratégico e vantagem competitiva
-- Projeções de ROI e ganhos de eficiência
-- Mitigação de riscos através de governança
+**For Executives**
+- Strategic value and competitive advantage
+- ROI projections and efficiency gains
+- Risk mitigation through governance
 
-**Para Gestores**
-- Melhorias de produtividade da equipe
-- Redução de carga administrativa
-- Melhores ferramentas de tomada de decisão
-- Suporte para implementação
+**For Managers**
+- Team productivity improvements
+- Reduced administrative burden
+- Better decision-making tools
+- Support for implementation
 
-**Para Funcionários**
-- Aprimoramento do trabalho, não substituição
-- Desenvolvimento de novas habilidades
-- Redução de tarefas tediosas
-- Oportunidades de crescimento na carreira
+**For Employees**
+- Job enhancement, not replacement
+- New skills development
+- Reduced tedious tasks
+- Career growth opportunities
 
-### 4. Plano de Comunicação
+### 4. Communication Plan
 
-#### Calendário de Comunicação
+#### Communication Calendar
 
-| Semana | Público | Mensagem | Canal | Responsável |
-|--------|---------|----------|-------|-------------|
-| 1 | Todos | Anúncio da iniciativa de IA | Town hall | CEO |
-| 2 | Gestores | Detalhes de implementação | Reunião de gestores | Líder do projeto |
-| 3 | Todos | FAQ e Q&A | E-mail + intranet | Comunicação |
-| 4 | Equipes | Planos específicos por departamento | Reuniões de equipe | Gestores |
+| Week | Audience | Message | Channel | Owner |
+|------|----------|---------|---------|-------|
+| 1 | All | AI initiative announcement | Town hall | CEO |
+| 2 | Managers | Implementation details | Manager meeting | Project lead |
+| 3 | All | FAQ and Q&A | Email + intranet | Comms |
+| 4 | Teams | Department-specific plans | Team meetings | Managers |
 
-#### Pontos de Contato de Comunicação Principais
+#### Key Communication Touchpoints
 
-**Comunicações de Lançamento**
-- E-mail de anúncio executivo
-- Apresentação em town hall
-- Documento de FAQ
-- Página na intranet
+**Launch Communications**
+- Executive announcement email
+- Town hall presentation
+- FAQ document
+- Intranet landing page
 
-**Comunicações Contínuas**
-- Atualizações semanais de progresso
-- Destaques de histórias de sucesso
-- Newsletter de dicas e truques
-- Canais de feedback
+**Ongoing Communications**
+- Weekly progress updates
+- Success story spotlights
+- Tips and tricks newsletter
+- Feedback channels
 
-#### Templates de Comunicação
+#### Communication Templates
 
-**Template de E-mail de Anúncio**
+**Announcement Email Template**
 ```
-Assunto: Apresentando IA na {company_name}: Aprimorando Como Trabalhamos
+Subject: Introducing AI at {company_name}: Enhancing How We Work
 
-Prezados(as),
+Dear Team,
 
-[Abertura sobre o compromisso da empresa com inovação]
+[Opening about company's commitment to innovation]
 
-[Breve visão geral da iniciativa de IA]
+[Brief overview of AI initiative]
 
-[O que isso significa para os funcionários - enfatizar aumento de capacidades]
+[What this means for employees - emphasize augmentation]
 
-[Cronograma e próximos passos]
+[Timeline and next steps]
 
-[Convite para saber mais]
+[Invitation to learn more]
 
-[Assinatura]
+[Signature]
 ```
 
-### 5. Design do Programa de Treinamento
+### 5. Training Program Design
 
-#### Visão Geral do Currículo de Treinamento
+#### Training Curriculum Overview
 
-| Nível | Público | Duração | Formato | Conteúdo |
-|-------|---------|---------|---------|----------|
-| Fundamentos | Todos os funcionários | 2 horas | Auto-instrucional | Básico de IA, política, ferramentas |
-| Praticante | Usuários avançados | 8 horas | Workshop | Uso avançado, prompting |
-| Champion | Champions de IA | 16 horas | Turma | Melhores práticas, coaching |
-| Técnico | TI/Dev | 24 horas | Técnico | Integração, segurança |
+| Level | Audience | Duration | Format | Content |
+|-------|----------|----------|--------|---------|
+| Foundations | All employees | 2 hours | Self-paced | AI basics, policy, tools |
+| Practitioner | Power users | 8 hours | Workshop | Advanced usage, prompting |
+| Champion | AI champions | 16 hours | Cohort | Best practices, coaching |
+| Technical | IT/Dev | 24 hours | Technical | Integration, security |
 
-#### Curso 1: Fundamentos de IA para Todos
+#### Course 1: AI Foundations for Everyone
 
-**Objetivos de Aprendizagem**
-- Entender o que IA é e não é
-- Conhecer ferramentas e políticas aprovadas
-- Realizar tarefas básicas de IA
-- Identificar oportunidades de IA em sua função
+**Learning Objectives**
+- Understand what AI is and isn't
+- Know approved tools and policies
+- Perform basic AI tasks
+- Identify AI opportunities in your role
 
-**Módulos**
-1. Introdução à IA (30 min)
-   - O que é IA?
-   - Tipos de IA que usamos
-   - Conceitos equivocados comuns
+**Modules**
+1. Introduction to AI (30 min)
+   - What is AI?
+   - Types of AI we use
+   - Common misconceptions
+   
+2. AI at {company_name} (30 min)
+   - Our AI strategy
+   - Approved tools
+   - Acceptable use policy
+   
+3. Getting Started (45 min)
+   - Accessing AI tools
+   - Basic prompting
+   - Hands-on exercises
+   
+4. AI in Your Role (15 min)
+   - Department-specific use cases
+   - Next steps
 
-2. IA na {company_name} (30 min)
-   - Nossa estratégia de IA
-   - Ferramentas aprovadas
-   - Política de uso aceitável
+**Assessment**
+- Knowledge check quiz (80% pass)
+- Practical exercise completion
 
-3. Primeiros Passos (45 min)
-   - Acessando ferramentas de IA
-   - Prompting básico
-   - Exercícios práticos
+#### Course 2: AI Practitioner Workshop
 
-4. IA na Sua Função (15 min)
-   - Casos de uso específicos do departamento
-   - Próximos passos
+**Learning Objectives**
+- Master advanced prompting techniques
+- Apply AI to complex tasks
+- Ensure quality and accuracy
+- Share knowledge with peers
 
-**Avaliação**
-- Quiz de verificação de conhecimento (80% para aprovação)
-- Conclusão de exercício prático
+**Modules**
+1. Advanced Prompting (2 hours)
+2. Complex Use Cases (2 hours)
+3. Quality Assurance (2 hours)
+4. Practical Application (2 hours)
 
-#### Curso 2: Workshop de Praticante de IA
+#### Training Resources
 
-**Objetivos de Aprendizagem**
-- Dominar técnicas avançadas de prompting
-- Aplicar IA a tarefas complexas
-- Garantir qualidade e precisão
-- Compartilhar conhecimento com colegas
+| Resource | Description | Access |
+|----------|-------------|--------|
+| Learning portal | All courses | [URL] |
+| Prompt library | Ready-to-use prompts | [URL] |
+| Best practices guide | Tips and tricks | [URL] |
+| Office hours | Live Q&A | [Calendar] |
 
-**Módulos**
-1. Prompting Avançado (2 horas)
-2. Casos de Uso Complexos (2 horas)
-3. Garantia de Qualidade (2 horas)
-4. Aplicação Prática (2 horas)
+### 6. AI Champions Program
 
-#### Recursos de Treinamento
+#### Program Overview
+- Select 1-2 champions per department
+- Additional training and early access
+- Peer support and coaching role
+- Feedback loop to central team
 
-| Recurso | Descrição | Acesso |
-|---------|-----------|--------|
-| Portal de aprendizagem | Todos os cursos | [URL] |
-| Biblioteca de prompts | Prompts prontos para uso | [URL] |
-| Guia de melhores práticas | Dicas e truques | [URL] |
-| Horário de atendimento | Q&A ao vivo | [Calendário] |
+#### Champion Responsibilities
+- Complete champion training
+- Support colleagues with AI adoption
+- Gather and relay feedback
+- Share success stories
+- Escalate issues to project team
 
-### 6. Programa de Champions de IA
+#### Champion Selection Criteria
+- Enthusiasm for technology
+- Respected by peers
+- Good communication skills
+- Available capacity
 
-#### Visão Geral do Programa
-- Selecionar 1-2 champions por departamento
-- Treinamento adicional e acesso antecipado
-- Papel de suporte e coaching a pares
-- Loop de feedback para equipe central
+### 7. Resistance Management
 
-#### Responsabilidades do Champion
-- Completar treinamento de champion
-- Apoiar colegas na adoção de IA
-- Coletar e transmitir feedback
-- Compartilhar histórias de sucesso
-- Escalar problemas para equipe do projeto
+#### Anticipated Resistance
 
-#### Critérios de Seleção de Champions
-- Entusiasmo por tecnologia
-- Respeitado pelos colegas
-- Boas habilidades de comunicação
-- Capacidade disponível
+| Concern | Response | Action |
+|---------|----------|--------|
+| "AI will take my job" | Augmentation focus, reskilling | Training, WIIFM |
+| "I don't trust AI" | Governance, human oversight | Policy education |
+| "Too much to learn" | Incremental approach | Bite-sized training |
+| "My work is too complex" | Start simple, build up | Quick wins demo |
+| "Privacy concerns" | Data policies, controls | Transparency |
 
-### 7. Gestão de Resistência
+#### Resistance Mitigation Strategies
+1. Early involvement in pilots
+2. Success story sharing
+3. One-on-one coaching
+4. Manager support
+5. Feedback incorporation
 
-#### Resistência Antecipada
+### 8. Measurement & Feedback
 
-| Preocupação | Resposta | Ação |
-|-------------|----------|------|
-| "IA vai tomar meu emprego" | Foco em aumento de capacidades, requalificação | Treinamento, WIIFM |
-| "Não confio em IA" | Governança, supervisão humana | Educação sobre políticas |
-| "Muito para aprender" | Abordagem incremental | Treinamento em pequenas doses |
-| "Meu trabalho é muito complexo" | Começar simples, evoluir | Demo de quick wins |
-| "Preocupações com privacidade" | Políticas de dados, controles | Transparência |
+#### Adoption Metrics
 
-#### Estratégias de Mitigação de Resistência
-1. Envolvimento antecipado em pilotos
-2. Compartilhamento de histórias de sucesso
-3. Coaching individual
-4. Suporte de gestores
-5. Incorporação de feedback
+| Metric | Target | Measurement | Frequency |
+|--------|--------|-------------|-----------|
+| Training completion | 90% | LMS data | Weekly |
+| Tool activation | 80% | Login data | Weekly |
+| Active usage | 60% | Usage logs | Monthly |
+| Satisfaction score | 4.0/5 | Survey | Monthly |
 
-### 8. Medição e Feedback
+#### Feedback Mechanisms
+- Post-training surveys
+- Monthly pulse checks
+- AI feedback form
+- Champion feedback sessions
+- Manager check-ins
 
-#### Métricas de Adoção
+### 9. Sustainability Plan
 
-| Métrica | Meta | Medição | Frequência |
-|---------|------|---------|------------|
-| Conclusão de treinamento | 90% | Dados LMS | Semanal |
-| Ativação de ferramentas | 80% | Dados de login | Semanal |
-| Uso ativo | 60% | Logs de uso | Mensal |
-| Score de satisfação | 4,0/5 | Pesquisa | Mensal |
+#### Reinforcement Activities
+- Monthly best practices webinars
+- Quarterly AI innovation showcases
+- Annual AI skills refresher
+- Continuous prompt library updates
 
-#### Mecanismos de Feedback
-- Pesquisas pós-treinamento
-- Verificações de pulso mensais
-- Formulário de feedback de IA
-- Sessões de feedback com champions
-- Check-ins com gestores
+#### Long-term Support
+- Ongoing help desk
+- Community of practice
+- Updated training for new features
+- Performance integration
 
-### 9. Plano de Sustentabilidade
+### 10. Implementation Timeline
 
-#### Atividades de Reforço
-- Webinars mensais de melhores práticas
-- Showcases trimestrais de inovação em IA
-- Atualização anual de habilidades de IA
-- Atualizações contínuas da biblioteca de prompts
+| Month | Activities | Milestones |
+|-------|-----------|------------|
+| 1 | Communications launch, champion selection | Awareness established |
+| 2 | Foundations training rollout | 50% trained |
+| 3 | Practitioner workshops, first pilots | First use cases live |
+| 4 | Full deployment, advanced training | 80% trained |
+| 5 | Optimization, feedback incorporation | Adoption targets met |
+| 6 | Sustainability handoff | Self-sustaining program |
 
-#### Suporte de Longo Prazo
-- Help desk contínuo
-- Comunidade de prática
-- Treinamento atualizado para novos recursos
-- Integração com avaliação de desempenho
-
-### 10. Cronograma de Implementação
-
-| Mês | Atividades | Marcos |
-|-----|------------|--------|
-| 1 | Lançamento de comunicações, seleção de champions | Consciência estabelecida |
-| 2 | Rollout de treinamento de fundamentos | 50% treinados |
-| 3 | Workshops de praticantes, primeiros pilotos | Primeiros casos de uso ao vivo |
-| 4 | Implantação completa, treinamento avançado | 80% treinados |
-| 5 | Otimização, incorporação de feedback | Metas de adoção atingidas |
-| 6 | Handoff de sustentabilidade | Programa autossustentável |
-
-## Formato de Saída
-- Orientação prática e acionável
-- Templates e exemplos
-- Específico para contexto da empresa
-- Resultados mensuráveis
-- Cronograma realista
+## Output Format
+- Practical, actionable guidance
+- Templates and examples
+- Specific to company context
+- Measurable outcomes
+- Realistic timeline
 """

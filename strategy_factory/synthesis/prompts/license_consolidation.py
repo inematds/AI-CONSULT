@@ -1,147 +1,147 @@
-"""Prompt para Recomendações de Consolidação de Licenças."""
+"""Prompt for License Consolidation Recommendations."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Tarefa: Gerar Recomendações de Consolidação de Licenças
+# Task: Generate License Consolidation Recommendations
 
-Com base no inventário de tecnologia e comparação de fornecedores acima, identifique oportunidades para consolidar licenças de software e reduzir custos.
+Based on the technology inventory and vendor comparison above, identify opportunities to consolidate software licenses and reduce costs.
 
-## Seções Obrigatórias
+## Required Sections
 
-### 1. Resumo Executivo
-- Total de economia potencial identificada
-- Número de oportunidades de consolidação
-- Complexidade de implementação
-- Ações prioritárias recomendadas
+### 1. Executive Summary
+- Total potential savings identified
+- Number of consolidation opportunities
+- Implementation complexity
+- Recommended priority actions
 
-### 2. Panorama Atual de Licenças
+### 2. Current License Landscape
 
-#### Inventário de Software
-| Categoria | Ferramenta | Fornecedor | Tipo de Licença | Usuários | Custo Anual | Data de Renovação |
-|-----------|------------|------------|-----------------|----------|-------------|-------------------|
+#### Software Inventory
+| Category | Tool | Vendor | License Type | Users | Annual Cost | Renewal Date |
+|----------|------|--------|--------------|-------|-------------|--------------|
 
-#### Categorias de Licenças
-- **Produtividade e Colaboração**: [Liste ferramentas]
-- **Desenvolvimento e DevOps**: [Liste ferramentas]
-- **Analytics e BI**: [Liste ferramentas]
-- **CRM e Vendas**: [Liste ferramentas]
-- **Segurança e Compliance**: [Liste ferramentas]
-- **IA e Automação**: [Liste ferramentas]
+#### License Categories
+- **Productivity & Collaboration**: [List tools]
+- **Development & DevOps**: [List tools]
+- **Analytics & BI**: [List tools]
+- **CRM & Sales**: [List tools]
+- **Security & Compliance**: [List tools]
+- **AI & Automation**: [List tools]
 
-### 3. Oportunidades de Consolidação
+### 3. Consolidation Opportunities
 
-#### Oportunidade #1: [Nome da Categoria]
+#### Opportunity #1: [Category Name]
 
-**Estado Atual**
-| Ferramenta | Propósito | Usuários | Custo |
-|------------|-----------|----------|-------|
+**Current State**
+| Tool | Purpose | Users | Cost |
+|------|---------|-------|------|
 
-**Consolidação Proposta**
-- Consolidar para: [Nome da Ferramenta]
-- Justificativa: [Por que esta escolha]
-- Complexidade de migração: Baixa/Média/Alta
+**Proposed Consolidation**
+- Consolidate to: [Tool Name]
+- Rationale: [Why this choice]
+- Migration complexity: Low/Medium/High
 
-**Análise de Economia**
-| Métrica | Atual | Proposto | Economia |
-|---------|-------|----------|----------|
-| Custo Anual | | | |
-| Overhead Administrativo | | | |
-| Custo de Treinamento | | | |
-| **Economia Total** | | | |
+**Savings Analysis**
+| Metric | Current | Proposed | Savings |
+|--------|---------|----------|---------|
+| Annual Cost | | | |
+| Admin Overhead | | | |
+| Training Cost | | | |
+| **Total Savings** | | | |
 
-**Plano de Implementação**
-1. [Passo 1]
-2. [Passo 2]
-3. [Passo 3]
+**Implementation Plan**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
 
 ---
 
-[Repetir para cada oportunidade de consolidação]
+[Repeat for each consolidation opportunity]
 
-### 4. Análise de Sobreposição
+### 4. Overlap Analysis
 
-#### Funcionalidade Redundante
-| Capacidade | Ferramentas que Fornecem | Ferramenta Única Recomendada |
-|------------|--------------------------|------------------------------|
+#### Redundant Functionality
+| Capability | Tools Providing | Recommended Single Tool |
+|------------|-----------------|-------------------------|
 
-#### Licenças Subutilizadas
-| Ferramenta | Licenças Adquiridas | Usuários Ativos | Utilização | Ação |
-|------------|---------------------|-----------------|------------|------|
+#### Underutilized Licenses
+| Tool | Purchased Licenses | Active Users | Utilization | Action |
+|------|-------------------|--------------|-------------|--------|
 
-### 5. Oportunidades de Contrato Enterprise
+### 5. Enterprise Agreement Opportunities
 
-#### Candidatos Potenciais a EA
-| Fornecedor | Produtos Atuais | Benefícios do EA | Desconto Estimado |
-|------------|-----------------|------------------|-------------------|
+#### Potential EA Candidates
+| Vendor | Current Products | EA Benefits | Estimated Discount |
+|--------|-----------------|-------------|-------------------|
 
-#### Recomendações de Bundle
-- **Microsoft 365 E5**: Consolidar [ferramentas] para economia de R$ X
-- **Google Workspace**: Consolidar [ferramentas] para economia de R$ X
-- **Plataforma Salesforce**: Consolidar [ferramentas] para economia de R$ X
+#### Bundle Recommendations
+- **Microsoft 365 E5**: Consolidate [tools] for $X savings
+- **Google Workspace**: Consolidate [tools] for $X savings
+- **Salesforce Platform**: Consolidate [tools] for $X savings
 
-### 6. Consolidação de Ferramentas de IA
+### 6. AI Tool Consolidation
 
-#### Ferramentas de IA Atuais
-| Ferramenta | Caso de Uso | Custo | Sobrepõe Com |
-|------------|-------------|-------|--------------|
+#### Current AI Tools
+| Tool | Use Case | Cost | Overlap With |
+|------|----------|------|--------------|
 
-#### Stack de IA Recomendado
-| Camada | Ferramenta Recomendada | Substitui | Economia |
-|--------|------------------------|-----------|----------|
-| Plataforma | | | |
-| Assistentes | | | |
-| Automação | | | |
+#### Recommended AI Stack
+| Layer | Recommended Tool | Replaces | Savings |
+|-------|-----------------|----------|---------|
+| Platform | | | |
+| Assistants | | | |
+| Automation | | | |
 | Analytics | | | |
 
-### 7. Resumo de Economias
+### 7. Savings Summary
 
-#### Por Categoria
-| Categoria | Gasto Atual | Gasto Proposto | Economia | % Redução |
-|-----------|-------------|----------------|----------|-----------|
-| Produtividade | | | | |
-| Desenvolvimento | | | | |
+#### By Category
+| Category | Current Spend | Proposed Spend | Savings | % Reduction |
+|----------|--------------|----------------|---------|-------------|
+| Productivity | | | | |
+| Development | | | | |
 | Analytics | | | | |
-| Ferramentas de IA | | | | |
+| AI Tools | | | | |
 | **Total** | | | | |
 
-#### Por Cronograma
-| Cronograma | Economia | Complexidade | Dependências |
-|------------|----------|--------------|--------------|
-| 0-3 meses | | | |
-| 3-6 meses | | | |
-| 6-12 meses | | | |
-| **Total Ano 1** | | | |
+#### By Timeline
+| Timeline | Savings | Complexity | Dependencies |
+|----------|---------|------------|--------------|
+| 0-3 months | | | |
+| 3-6 months | | | |
+| 6-12 months | | | |
+| **Total Year 1** | | | |
 
-### 8. Roadmap de Implementação
+### 8. Implementation Roadmap
 
-#### Fase 1: Quick Wins (0-3 meses)
-- [ ] [Ação 1]: Economia de R$ X
-- [ ] [Ação 2]: Economia de R$ X
+#### Phase 1: Quick Wins (0-3 months)
+- [ ] [Action 1]: $X savings
+- [ ] [Action 2]: $X savings
 
-#### Fase 2: Esforço Médio (3-6 meses)
-- [ ] [Ação 1]: Economia de R$ X
-- [ ] [Ação 2]: Economia de R$ X
+#### Phase 2: Medium Effort (3-6 months)
+- [ ] [Action 1]: $X savings
+- [ ] [Action 2]: $X savings
 
-#### Fase 3: Consolidações Maiores (6-12 meses)
-- [ ] [Ação 1]: Economia de R$ X
-- [ ] [Ação 2]: Economia de R$ X
+#### Phase 3: Major Consolidations (6-12 months)
+- [ ] [Action 1]: $X savings
+- [ ] [Action 2]: $X savings
 
-### 9. Considerações de Risco
+### 9. Risk Considerations
 
-| Consolidação | Risco | Impacto | Mitigação |
-|--------------|-------|---------|-----------|
+| Consolidation | Risk | Impact | Mitigation |
+|---------------|------|--------|------------|
 
-### 10. Calendário de Negociação
+### 10. Negotiation Calendar
 
-| Fornecedor | Data de Renovação | Valor Atual | Estratégia de Negociação |
-|------------|-------------------|-------------|--------------------------|
+| Vendor | Renewal Date | Current Value | Negotiation Strategy |
+|--------|--------------|---------------|---------------------|
 
-## Formato de Saída
-- Forneça valores monetários específicos quando possível
-- Priorize por potencial de economia
-- Inclua complexidade de implementação
-- Note dependências e riscos
-- Torne as recomendações acionáveis
+## Output Format
+- Provide specific dollar amounts where possible
+- Prioritize by savings potential
+- Include implementation complexity
+- Note dependencies and risks
+- Make recommendations actionable
 """
