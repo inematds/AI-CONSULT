@@ -1,138 +1,138 @@
-"""Prompt for Quick Wins List."""
+"""Prompt para Lista de Quick Wins."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate Quick Wins List
+# Tarefa: Gerar Lista de Quick Wins
 
-Based on the use case library and maturity assessment provided above, identify and prioritize AI quick wins that can be implemented within 30-60 days.
+Com base na biblioteca de casos de uso e avaliação de maturidade fornecidos acima, identifique e priorize quick wins de IA que podem ser implementados em 30-60 dias.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Executive Summary
-- Total quick wins identified
-- Estimated combined value
-- Resource requirements summary
-- Recommended starting point
+### 1. Resumo Executivo
+- Total de quick wins identificados
+- Valor combinado estimado
+- Resumo de requisitos de recursos
+- Ponto de partida recomendado
 
-### 2. Quick Win Selection Criteria
+### 2. Critérios de Seleção de Quick Wins
 
-Explain the criteria used:
-- Implementation time: < 60 days
-- Investment: < $50K (or internal resources)
-- Risk level: Low
-- Value potential: Demonstrable ROI
-- Prerequisites: Minimal
+Explique os critérios utilizados:
+- Tempo de implementação: < 60 dias
+- Investimento: < R$ 250K (ou recursos internos)
+- Nível de risco: Baixo
+- Potencial de valor: ROI demonstrável
+- Pré-requisitos: Mínimos
 
 ### 3. Top 10 Quick Wins
 
-For each quick win, provide:
+Para cada quick win, forneça:
 
 ---
 
-#### Quick Win #1: [Name]
+#### Quick Win #1: [Nome]
 
-**Overview**
-| Attribute | Value |
-|-----------|-------|
-| Department | |
-| Time to Implement | |
-| Estimated Investment | |
-| Expected ROI | |
-| Risk Level | Low/Medium |
-| Prerequisites | |
+**Visão Geral**
+| Atributo | Valor |
+|----------|-------|
+| Departamento | |
+| Tempo de Implementação | |
+| Investimento Estimado | |
+| ROI Esperado | |
+| Nível de Risco | Baixo/Médio |
+| Pré-requisitos | |
 
-**Description**
-[2-3 sentence description of the initiative]
+**Descrição**
+[Descrição de 2-3 frases da iniciativa]
 
-**Current State**
-- How is this done today?
-- Pain points addressed
+**Estado Atual**
+- Como isso é feito hoje?
+- Pontos de dor endereçados
 
-**Proposed Solution**
-- AI/automation approach
-- Tool/platform recommendation
-- Implementation approach
+**Solução Proposta**
+- Abordagem de IA/automação
+- Recomendação de ferramenta/plataforma
+- Abordagem de implementação
 
-**Implementation Steps**
-1. Week 1: [Activity]
-2. Week 2: [Activity]
-3. Week 3-4: [Activity]
-4. Week 5-6: [Launch & optimize]
+**Passos de Implementação**
+1. Semana 1: [Atividade]
+2. Semana 2: [Atividade]
+3. Semana 3-4: [Atividade]
+4. Semana 5-6: [Lançamento e otimização]
 
-**Success Metrics**
-- Primary KPI: [Metric and target]
-- Secondary KPIs: [List]
+**Métricas de Sucesso**
+- KPI Primário: [Métrica e meta]
+- KPIs Secundários: [Lista]
 
-**Resources Required**
-- Internal: [Roles/time]
-- External: [Tools/vendors]
-- Budget: [$X]
+**Recursos Necessários**
+- Internos: [Funções/tempo]
+- Externos: [Ferramentas/fornecedores]
+- Orçamento: R$ [X]
 
 ---
 
-[Repeat for Quick Wins #2-10]
+[Repetir para Quick Wins #2-10]
 
-### 4. Quick Win Comparison Matrix
+### 4. Matriz de Comparação de Quick Wins
 
-| # | Quick Win | Dept | Time | Investment | ROI | Risk | Priority |
-|---|-----------|------|------|------------|-----|------|----------|
+| # | Quick Win | Dept | Tempo | Investimento | ROI | Risco | Prioridade |
+|---|-----------|------|-------|--------------|-----|-------|------------|
 | 1 | | | | | | | |
 | 2 | | | | | | | |
 [...]
 
-### 5. Implementation Sequence
+### 5. Sequência de Implementação
 
-Recommended order of implementation:
+Ordem recomendada de implementação:
 
 ```
-Month 1: Quick Wins 1, 2, 3
-Month 2: Quick Wins 4, 5, 6
-Month 3: Quick Wins 7, 8, 9, 10
+Mês 1: Quick Wins 1, 2, 3
+Mês 2: Quick Wins 4, 5, 6
+Mês 3: Quick Wins 7, 8, 9, 10
 ```
 
-Rationale for sequencing:
-- Dependencies between wins
-- Resource optimization
-- Learning and momentum building
+Justificativa para sequenciamento:
+- Dependências entre wins
+- Otimização de recursos
+- Construção de aprendizado e momentum
 
-### 6. Resource Pooling Opportunities
+### 6. Oportunidades de Compartilhamento de Recursos
 
-Identify where quick wins can share:
-- Tools and platforms
-- Training and change management
-- Data and integrations
-- Team resources
+Identifique onde quick wins podem compartilhar:
+- Ferramentas e plataformas
+- Treinamento e gestão de mudanças
+- Dados e integrações
+- Recursos de equipe
 
-### 7. Risk Mitigation
+### 7. Mitigação de Riscos
 
-Common risks and mitigation:
-| Risk | Affected Quick Wins | Mitigation |
-|------|---------------------|------------|
+Riscos comuns e mitigação:
+| Risco | Quick Wins Afetados | Mitigação |
+|-------|---------------------|-----------|
 
-### 8. Success Tracking Dashboard
+### 8. Dashboard de Acompanhamento de Sucesso
 
-Proposed metrics dashboard:
-| Quick Win | Status | Progress | Value Realized |
-|-----------|--------|----------|----------------|
+Dashboard de métricas proposto:
+| Quick Win | Status | Progresso | Valor Realizado |
+|-----------|--------|-----------|-----------------|
 
-### 9. Escalation Path
+### 9. Caminho de Escalação
 
-If a quick win encounters obstacles:
-1. Week 1-2: Project team resolves
-2. Week 3: Escalate to sponsor
-3. Week 4+: Re-evaluate or pivot
+Se um quick win encontrar obstáculos:
+1. Semana 1-2: Equipe do projeto resolve
+2. Semana 3: Escalar para sponsor
+3. Semana 4+: Reavaliar ou pivotar
 
-### 10. Next Wave Preview
+### 10. Preview da Próxima Onda
 
-Quick wins that didn't make the cut but should be considered next:
-- [Initiative name]: Why not now, what's needed
+Quick wins que não entraram na lista mas devem ser considerados em seguida:
+- [Nome da iniciativa]: Por que não agora, o que é necessário
 
-## Output Format
-- Provide detailed analysis for each quick win
-- Use consistent formatting across all entries
-- Include specific numbers for ROI estimates
-- Make implementation steps actionable
-- Prioritize based on value and feasibility
+## Formato de Saída
+- Forneça análise detalhada para cada quick win
+- Use formatação consistente em todas as entradas
+- Inclua números específicos para estimativas de ROI
+- Torne os passos de implementação acionáveis
+- Priorize baseado em valor e viabilidade
 """

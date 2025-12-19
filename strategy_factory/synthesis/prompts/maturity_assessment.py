@@ -1,138 +1,138 @@
-"""Prompt for AI Maturity Model & Readiness Assessment."""
+"""Prompt para Modelo de Maturidade de IA e Avaliação de Prontidão."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate AI Maturity Model & Readiness Assessment
+# Tarefa: Gerar Modelo de Maturidade de IA e Avaliação de Prontidão
 
-Based on the research and context provided above, create a comprehensive AI maturity assessment using the BCG AI Maturity Curve framework and other industry standards.
+Com base na pesquisa e contexto fornecidos acima, crie uma avaliação abrangente de maturidade de IA usando o framework da Curva de Maturidade de IA da BCG e outros padrões do setor.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Executive Summary
-- Current maturity level (1-5 scale)
-- Key strengths and gaps
-- Recommended focus areas
-- Estimated timeline to next maturity level
+### 1. Resumo Executivo
+- Nível de maturidade atual (escala 1-5)
+- Principais forças e lacunas
+- Áreas de foco recomendadas
+- Cronograma estimado para próximo nível de maturidade
 
-### 2. AI Maturity Assessment
+### 2. Avaliação de Maturidade de IA
 
-#### BCG AI Maturity Curve Position
+#### Posição na Curva de Maturidade de IA da BCG
 
-Assess the company against these stages:
-1. **Passive** - No AI initiatives, traditional processes
-2. **Aware** - Exploring AI, initial pilots
-3. **Active** - Multiple AI projects, some in production
-4. **Operational** - AI integrated into core processes
-5. **Transformational** - AI-native organization, competitive advantage
+Avalie a empresa em relação a estes estágios:
+1. **Passivo** - Sem iniciativas de IA, processos tradicionais
+2. **Consciente** - Explorando IA, pilotos iniciais
+3. **Ativo** - Múltiplos projetos de IA, alguns em produção
+4. **Operacional** - IA integrada aos processos centrais
+5. **Transformacional** - Organização nativa de IA, vantagem competitiva
 
-**Current Assessment:** [Stage X]
+**Avaliação Atual:** [Estágio X]
 
-Provide evidence from research supporting this assessment.
+Forneça evidências da pesquisa que suportam esta avaliação.
 
-### 3. Dimension-by-Dimension Analysis
+### 3. Análise Dimensão por Dimensão
 
-Rate each dimension on a 1-5 scale:
+Avalie cada dimensão em uma escala de 1-5:
 
-| Dimension | Score | Evidence | Gap Analysis |
-|-----------|-------|----------|--------------|
-| Strategy & Vision | | | |
-| Data & Infrastructure | | | |
-| Technology & Tools | | | |
-| Talent & Skills | | | |
-| Governance & Ethics | | | |
-| Culture & Change | | | |
-| Use Cases & Value | | | |
+| Dimensão | Score | Evidências | Análise de Lacunas |
+|----------|-------|------------|-------------------|
+| Estratégia e Visão | | | |
+| Dados e Infraestrutura | | | |
+| Tecnologia e Ferramentas | | | |
+| Talentos e Habilidades | | | |
+| Governança e Ética | | | |
+| Cultura e Mudança | | | |
+| Casos de Uso e Valor | | | |
 
-#### Detailed Dimension Analysis
+#### Análise Detalhada por Dimensão
 
-For each dimension, provide:
+Para cada dimensão, forneça:
 
-##### Strategy & Vision (X/5)
-- Current state observations
-- Strengths identified
-- Gaps and weaknesses
-- Recommendations
+##### Estratégia e Visão (X/5)
+- Observações do estado atual
+- Forças identificadas
+- Lacunas e fraquezas
+- Recomendações
 
-##### Data & Infrastructure (X/5)
-- Data availability and quality
-- Infrastructure readiness
-- Integration capabilities
-- Recommendations
+##### Dados e Infraestrutura (X/5)
+- Disponibilidade e qualidade de dados
+- Prontidão de infraestrutura
+- Capacidades de integração
+- Recomendações
 
-##### Technology & Tools (X/5)
-- Current AI/ML tools
-- Platform maturity
-- Technical debt considerations
-- Recommendations
+##### Tecnologia e Ferramentas (X/5)
+- Ferramentas atuais de IA/ML
+- Maturidade de plataforma
+- Considerações de dívida técnica
+- Recomendações
 
-##### Talent & Skills (X/5)
-- AI expertise in-house
-- Training programs
-- External partnerships
-- Recommendations
+##### Talentos e Habilidades (X/5)
+- Expertise em IA interna
+- Programas de treinamento
+- Parcerias externas
+- Recomendações
 
-##### Governance & Ethics (X/5)
-- AI policies in place
-- Risk management approach
-- Compliance considerations
-- Recommendations
+##### Governança e Ética (X/5)
+- Políticas de IA em vigor
+- Abordagem de gestão de riscos
+- Considerações de compliance
+- Recomendações
 
-##### Culture & Change (X/5)
-- Change readiness
-- Innovation culture
-- Leadership support
-- Recommendations
+##### Cultura e Mudança (X/5)
+- Prontidão para mudança
+- Cultura de inovação
+- Apoio da liderança
+- Recomendações
 
-##### Use Cases & Value (X/5)
-- Current AI use cases
-- Value realization
-- Scaling approach
-- Recommendations
+##### Casos de Uso e Valor (X/5)
+- Casos de uso de IA atuais
+- Realização de valor
+- Abordagem de escala
+- Recomendações
 
-### 4. Maturity Radar Chart
+### 4. Gráfico Radar de Maturidade
 
-Provide data for a radar chart visualization:
+Forneça dados para visualização de gráfico radar:
 ```
-Strategy & Vision: X
-Data & Infrastructure: X
-Technology & Tools: X
-Talent & Skills: X
-Governance & Ethics: X
-Culture & Change: X
-Use Cases & Value: X
+Estratégia e Visão: X
+Dados e Infraestrutura: X
+Tecnologia e Ferramentas: X
+Talentos e Habilidades: X
+Governança e Ética: X
+Cultura e Mudança: X
+Casos de Uso e Valor: X
 ```
 
-### 5. Peer Comparison
+### 5. Comparação com Pares
 
-Compare to industry benchmarks:
-| Dimension | Company Score | Industry Average | Gap |
-|-----------|--------------|------------------|-----|
+Compare com benchmarks do setor:
+| Dimensão | Score da Empresa | Média do Setor | Lacuna |
+|----------|------------------|----------------|--------|
 
-### 6. Readiness Assessment
+### 6. Avaliação de Prontidão
 
-#### Immediate Readiness (Ready to Start)
-List AI initiatives the company could begin immediately.
+#### Prontidão Imediata (Pronto para Iniciar)
+Liste iniciativas de IA que a empresa poderia começar imediatamente.
 
-#### Near-term Readiness (3-6 months)
-List AI initiatives requiring some preparation.
+#### Prontidão de Curto Prazo (3-6 meses)
+Liste iniciativas de IA que requerem alguma preparação.
 
-#### Long-term Readiness (6-12 months)
-List AI initiatives requiring significant investment.
+#### Prontidão de Longo Prazo (6-12 meses)
+Liste iniciativas de IA que requerem investimento significativo.
 
-### 7. Maturity Improvement Roadmap
+### 7. Roadmap de Melhoria de Maturidade
 
-#### To reach next maturity level:
-- Key initiatives required
-- Investment areas
-- Timeline estimate
-- Critical success factors
+#### Para alcançar o próximo nível de maturidade:
+- Iniciativas-chave necessárias
+- Áreas de investimento
+- Estimativa de cronograma
+- Fatores críticos de sucesso
 
-## Output Format
-- Use markdown tables as specified
-- Include numeric scores for quantitative assessment
-- Provide specific evidence from research
-- Be realistic about gaps and challenges
-- Make recommendations actionable
+## Formato de Saída
+- Use tabelas markdown conforme especificado
+- Inclua scores numéricos para avaliação quantitativa
+- Forneça evidências específicas da pesquisa
+- Seja realista sobre lacunas e desafios
+- Torne as recomendações acionáveis
 """

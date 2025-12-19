@@ -1,177 +1,177 @@
-"""Prompt for ROI Calculator & Cost Analysis."""
+"""Prompt para Calculadora de ROI e Análise de Custos."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate ROI Calculator & Cost Analysis
+# Tarefa: Gerar Calculadora de ROI e Análise de Custos
 
-Based on the quick wins and use case library above, create a comprehensive ROI analysis using the Google Cloud ROI framework and industry benchmarks.
+Com base nos quick wins e biblioteca de casos de uso acima, crie uma análise de ROI abrangente usando o framework de ROI do Google Cloud e benchmarks do setor.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Executive Summary
-- Total projected ROI (Year 1)
-- Payback period
-- Net Present Value (3-year)
-- Key value drivers
-- Investment requirements
+### 1. Resumo Executivo
+- ROI projetado total (Ano 1)
+- Período de payback
+- Valor Presente Líquido (3 anos)
+- Principais direcionadores de valor
+- Requisitos de investimento
 
-### 2. ROI Framework Overview
+### 2. Visão Geral do Framework de ROI
 
-Using the value creation framework:
-- **Efficiency Gains**: Time and cost savings
-- **Revenue Enhancement**: New revenue or increased sales
-- **Risk Reduction**: Avoided costs and compliance
-- **Strategic Value**: Competitive advantage and innovation
+Usando o framework de criação de valor:
+- **Ganhos de Eficiência**: Economia de tempo e custos
+- **Aumento de Receita**: Nova receita ou aumento de vendas
+- **Redução de Risco**: Custos evitados e compliance
+- **Valor Estratégico**: Vantagem competitiva e inovação
 
-### 3. Investment Requirements
+### 3. Requisitos de Investimento
 
-#### Technology Costs
-| Category | Year 1 | Year 2 | Year 3 | Total |
-|----------|--------|--------|--------|-------|
-| AI Platform Licenses | | | | |
-| Infrastructure | | | | |
-| Integration | | | | |
-| Security/Compliance | | | | |
+#### Custos de Tecnologia
+| Categoria | Ano 1 | Ano 2 | Ano 3 | Total |
+|-----------|-------|-------|-------|-------|
+| Licenças de Plataforma de IA | | | | |
+| Infraestrutura | | | | |
+| Integração | | | | |
+| Segurança/Compliance | | | | |
 | **Subtotal** | | | | |
 
-#### Implementation Costs
-| Category | Year 1 | Year 2 | Year 3 | Total |
-|----------|--------|--------|--------|-------|
-| Consulting/Professional Services | | | | |
-| Internal Team Time | | | | |
-| Training & Change Management | | | | |
-| Contingency (15%) | | | | |
+#### Custos de Implementação
+| Categoria | Ano 1 | Ano 2 | Ano 3 | Total |
+|-----------|-------|-------|-------|-------|
+| Consultoria/Serviços Profissionais | | | | |
+| Tempo da Equipe Interna | | | | |
+| Treinamento e Gestão de Mudanças | | | | |
+| Contingência (15%) | | | | |
 | **Subtotal** | | | | |
 
-#### Ongoing Costs
-| Category | Year 1 | Year 2 | Year 3 | Total |
-|----------|--------|--------|--------|-------|
-| Maintenance & Support | | | | |
-| Model Updates/Retraining | | | | |
-| Additional Compute | | | | |
+#### Custos Contínuos
+| Categoria | Ano 1 | Ano 2 | Ano 3 | Total |
+|-----------|-------|-------|-------|-------|
+| Manutenção e Suporte | | | | |
+| Atualizações/Retreinamento de Modelos | | | | |
+| Computação Adicional | | | | |
 | **Subtotal** | | | | |
 
-**Total Investment**: $[X] over 3 years
+**Investimento Total**: R$ [X] em 3 anos
 
-### 4. Value Creation Analysis
+### 4. Análise de Criação de Valor
 
-#### Efficiency Gains
-| Initiative | Metric | Current | Improved | Savings/Year |
-|------------|--------|---------|----------|--------------|
-| [Use Case 1] | Hours saved | | | |
-| [Use Case 2] | Cost reduction | | | |
-| [Use Case 3] | Error reduction | | | |
+#### Ganhos de Eficiência
+| Iniciativa | Métrica | Atual | Melhorado | Economia/Ano |
+|------------|---------|-------|-----------|--------------|
+| [Caso de Uso 1] | Horas economizadas | | | |
+| [Caso de Uso 2] | Redução de custos | | | |
+| [Caso de Uso 3] | Redução de erros | | | |
 
-**Total Efficiency Gains**: $[X]/year
+**Total de Ganhos de Eficiência**: R$ [X]/ano
 
-#### Revenue Enhancement
-| Initiative | Metric | Current | Improved | Revenue/Year |
-|------------|--------|---------|----------|--------------|
-| [Use Case 1] | Conversion rate | | | |
-| [Use Case 2] | Deal velocity | | | |
-| [Use Case 3] | Customer retention | | | |
+#### Aumento de Receita
+| Iniciativa | Métrica | Atual | Melhorado | Receita/Ano |
+|------------|---------|-------|-----------|-------------|
+| [Caso de Uso 1] | Taxa de conversão | | | |
+| [Caso de Uso 2] | Velocidade de negócios | | | |
+| [Caso de Uso 3] | Retenção de clientes | | | |
 
-**Total Revenue Enhancement**: $[X]/year
+**Total de Aumento de Receita**: R$ [X]/ano
 
-#### Risk Reduction
-| Initiative | Risk Type | Probability | Impact | Avoided Cost |
-|------------|-----------|-------------|--------|--------------|
-| [Use Case 1] | Compliance | | | |
-| [Use Case 2] | Security | | | |
-| [Use Case 3] | Operational | | | |
+#### Redução de Risco
+| Iniciativa | Tipo de Risco | Probabilidade | Impacto | Custo Evitado |
+|------------|---------------|---------------|---------|---------------|
+| [Caso de Uso 1] | Compliance | | | |
+| [Caso de Uso 2] | Segurança | | | |
+| [Caso de Uso 3] | Operacional | | | |
 
-**Total Risk Reduction**: $[X]/year
+**Total de Redução de Risco**: R$ [X]/ano
 
-### 5. ROI Calculations
+### 5. Cálculos de ROI
 
-#### Simple ROI
+#### ROI Simples
 ```
-Total Benefits (Year 1): $[X]
-Total Investment (Year 1): $[Y]
-ROI = (Benefits - Investment) / Investment × 100
+Benefícios Totais (Ano 1): R$ [X]
+Investimento Total (Ano 1): R$ [Y]
+ROI = (Benefícios - Investimento) / Investimento × 100
 ROI = [Z]%
 ```
 
-#### Payback Period
+#### Período de Payback
 ```
-Total Investment: $[X]
-Monthly Benefits: $[Y]
-Payback Period: [Z] months
+Investimento Total: R$ [X]
+Benefícios Mensais: R$ [Y]
+Período de Payback: [Z] meses
 ```
 
-#### Net Present Value (3-Year)
-| Year | Benefits | Costs | Net | Discount Factor | NPV |
-|------|----------|-------|-----|-----------------|-----|
-| 0 | | | | 1.00 | |
-| 1 | | | | 0.91 | |
-| 2 | | | | 0.83 | |
-| 3 | | | | 0.75 | |
+#### Valor Presente Líquido (3 Anos)
+| Ano | Benefícios | Custos | Líquido | Fator de Desconto | VPL |
+|-----|------------|--------|---------|-------------------|-----|
+| 0 | | | | 1,00 | |
+| 1 | | | | 0,91 | |
+| 2 | | | | 0,83 | |
+| 3 | | | | 0,75 | |
 | **Total** | | | | | |
 
-(Using 10% discount rate)
+(Usando taxa de desconto de 10%)
 
-### 6. By Initiative Analysis
+### 6. Análise por Iniciativa
 
-| Initiative | Investment | Year 1 Value | ROI | Payback | Priority |
-|------------|------------|--------------|-----|---------|----------|
+| Iniciativa | Investimento | Valor Ano 1 | ROI | Payback | Prioridade |
+|------------|--------------|-------------|-----|---------|------------|
 | Quick Win 1 | | | | | |
 | Quick Win 2 | | | | | |
-| Major Project 1 | | | | | |
+| Projeto Principal 1 | | | | | |
 | **Total** | | | | | |
 
-### 7. Sensitivity Analysis
+### 7. Análise de Sensibilidade
 
-#### Best Case Scenario
-- Assumptions: [List]
+#### Cenário Otimista
+- Premissas: [Lista]
 - ROI: [X]%
-- NPV: $[X]
+- VPL: R$ [X]
 
-#### Base Case Scenario
-- Assumptions: [List]
+#### Cenário Base
+- Premissas: [Lista]
 - ROI: [X]%
-- NPV: $[X]
+- VPL: R$ [X]
 
-#### Conservative Scenario
-- Assumptions: [List]
+#### Cenário Conservador
+- Premissas: [Lista]
 - ROI: [X]%
-- NPV: $[X]
+- VPL: R$ [X]
 
-### 8. Industry Benchmarks
+### 8. Benchmarks do Setor
 
-| Metric | Company Projection | Industry Average | Top Quartile |
-|--------|-------------------|------------------|--------------|
-| AI ROI | | | |
-| Payback Period | | | |
-| Productivity Gain | | | |
+| Métrica | Projeção da Empresa | Média do Setor | Quartil Superior |
+|---------|---------------------|----------------|------------------|
+| ROI de IA | | | |
+| Período de Payback | | | |
+| Ganho de Produtividade | | | |
 
-### 9. Value Realization Timeline
+### 9. Cronograma de Realização de Valor
 
-| Milestone | Timeline | Value Released | Cumulative |
-|-----------|----------|----------------|------------|
-| First Quick Win | Month 2 | | |
-| Full Quick Wins | Month 4 | | |
-| Scale Phase | Month 8 | | |
-| Full Value | Month 12 | | |
+| Marco | Cronograma | Valor Liberado | Acumulado |
+|-------|------------|----------------|-----------|
+| Primeiro Quick Win | Mês 2 | | |
+| Quick Wins Completos | Mês 4 | | |
+| Fase de Escala | Mês 8 | | |
+| Valor Total | Mês 12 | | |
 
-### 10. Recommendations
+### 10. Recomendações
 
-#### Investment Priorities
-1. [Highest ROI initiative]
-2. [Second highest]
-3. [Third highest]
+#### Prioridades de Investimento
+1. [Iniciativa de maior ROI]
+2. [Segunda maior]
+3. [Terceira maior]
 
-#### Value Capture Actions
-- Track metrics from day 1
-- Establish baseline measurements
-- Report progress monthly
-- Adjust based on actuals
+#### Ações de Captura de Valor
+- Rastrear métricas desde o dia 1
+- Estabelecer medições de baseline
+- Reportar progresso mensalmente
+- Ajustar com base nos resultados reais
 
-## Output Format
-- Use specific dollar amounts
-- Show calculation methodology
-- Include sensitivity ranges
-- Reference industry benchmarks
-- Make assumptions explicit
+## Formato de Saída
+- Use valores monetários específicos
+- Mostre metodologia de cálculo
+- Inclua faixas de sensibilidade
+- Referencie benchmarks do setor
+- Torne as premissas explícitas
 """

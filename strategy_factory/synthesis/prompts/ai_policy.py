@@ -1,195 +1,195 @@
-"""Prompt for AI Acceptable Use Policy Template."""
+"""Prompt para Template de Política de Uso Aceitável de IA."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate AI Acceptable Use Policy Template
+# Tarefa: Gerar Template de Política de Uso Aceitável de IA
 
-Based on the company context, industry regulations, and governance requirements above, create a comprehensive AI Acceptable Use Policy.
+Com base no contexto da empresa, regulamentações do setor e requisitos de governança acima, crie uma Política de Uso Aceitável de IA abrangente.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Policy Overview
+### 1. Visão Geral da Política
 
-#### Purpose
-This policy establishes guidelines for the responsible use of Artificial Intelligence (AI) tools and technologies at {company_name}.
+#### Propósito
+Esta política estabelece diretrizes para o uso responsável de ferramentas e tecnologias de Inteligência Artificial (IA) na {company_name}.
 
-#### Scope
-- All employees, contractors, and third parties
-- All AI tools (internal and external)
-- All use cases involving AI
+#### Escopo
+- Todos os funcionários, contratados e terceiros
+- Todas as ferramentas de IA (internas e externas)
+- Todos os casos de uso envolvendo IA
 
-#### Effective Date
+#### Data de Vigência
 {current_date}
 
-### 2. Definitions
+### 2. Definições
 
-| Term | Definition |
-|------|------------|
-| Artificial Intelligence (AI) | |
-| Generative AI | |
-| Machine Learning Model | |
-| AI-Generated Content | |
+| Termo | Definição |
+|-------|-----------|
+| Inteligência Artificial (IA) | |
+| IA Generativa | |
+| Modelo de Machine Learning | |
+| Conteúdo Gerado por IA | |
 | Prompt | |
-| Training Data | |
+| Dados de Treinamento | |
 
-### 3. Approved AI Tools
+### 3. Ferramentas de IA Aprovadas
 
-#### Sanctioned Tools
-| Tool | Approved Use Cases | Restrictions | Data Classification |
-|------|-------------------|--------------|---------------------|
-| [Tool 1] | | | |
-| [Tool 2] | | | |
+#### Ferramentas Sancionadas
+| Ferramenta | Casos de Uso Aprovados | Restrições | Classificação de Dados |
+|------------|------------------------|------------|------------------------|
+| [Ferramenta 1] | | | |
+| [Ferramenta 2] | | | |
 
-#### Evaluation Process for New Tools
-1. Submit request to [team/role]
-2. Security review
-3. Privacy impact assessment
-4. Approval process
+#### Processo de Avaliação para Novas Ferramentas
+1. Enviar solicitação para [equipe/função]
+2. Revisão de segurança
+3. Avaliação de impacto de privacidade
+4. Processo de aprovação
 
-### 4. Acceptable Use Guidelines
+### 4. Diretrizes de Uso Aceitável
 
-#### Permitted Uses
-- [List permitted use cases]
-- [Research and analysis]
-- [Content drafting]
-- [Code assistance]
-- [Data analysis]
+#### Usos Permitidos
+- [Listar casos de uso permitidos]
+- [Pesquisa e análise]
+- [Elaboração de conteúdo]
+- [Assistência em código]
+- [Análise de dados]
 
-#### Prohibited Uses
-- [ ] Processing customer PII without approval
-- [ ] Generating content for legal/compliance documents without review
-- [ ] Training models on proprietary company data
-- [ ] Sharing confidential information with external AI tools
-- [ ] Automated decision-making affecting individuals
-- [ ] [Industry-specific prohibitions]
+#### Usos Proibidos
+- [ ] Processar dados pessoais de clientes sem aprovação
+- [ ] Gerar conteúdo para documentos legais/compliance sem revisão
+- [ ] Treinar modelos com dados proprietários da empresa
+- [ ] Compartilhar informações confidenciais com ferramentas de IA externas
+- [ ] Tomada de decisão automatizada que afete indivíduos
+- [ ] [Proibições específicas do setor]
 
-### 5. Data Classification & AI
+### 5. Classificação de Dados e IA
 
-#### Data Handling by Classification
+#### Tratamento de Dados por Classificação
 
-| Classification | Can Use with AI? | Requirements |
-|---------------|------------------|--------------|
-| Public | Yes | None |
-| Internal | Yes | Approved tools only |
-| Confidential | Limited | Approval required |
-| Restricted | No | Prohibited |
+| Classificação | Pode Usar com IA? | Requisitos |
+|---------------|-------------------|------------|
+| Público | Sim | Nenhum |
+| Interno | Sim | Apenas ferramentas aprovadas |
+| Confidencial | Limitado | Aprovação necessária |
+| Restrito | Não | Proibido |
 
-#### Sensitive Data Types
-Never input into AI tools without explicit approval:
-- Customer personal information
-- Employee personal information
-- Financial data
-- Health information (if applicable)
-- Trade secrets
-- Legal privileged information
+#### Tipos de Dados Sensíveis
+Nunca inserir em ferramentas de IA sem aprovação explícita:
+- Informações pessoais de clientes
+- Informações pessoais de funcionários
+- Dados financeiros
+- Informações de saúde (se aplicável)
+- Segredos comerciais
+- Informações com privilégio legal
 
-### 6. Content Review Requirements
+### 6. Requisitos de Revisão de Conteúdo
 
-#### AI-Generated Content Review Matrix
+#### Matriz de Revisão de Conteúdo Gerado por IA
 
-| Content Type | Review Required | Approver |
-|--------------|-----------------|----------|
-| External communications | Yes | [Role] |
-| Customer-facing materials | Yes | [Role] |
-| Internal documentation | No | Self |
-| Code | Yes | Peer review |
-| Legal/Compliance | Yes | Legal team |
+| Tipo de Conteúdo | Revisão Necessária | Aprovador |
+|------------------|-------------------|-----------|
+| Comunicações externas | Sim | [Função] |
+| Materiais voltados ao cliente | Sim | [Função] |
+| Documentação interna | Não | Próprio |
+| Código | Sim | Revisão por pares |
+| Legal/Compliance | Sim | Equipe jurídica |
 
-#### Attribution Requirements
-- Disclose AI assistance when required by [context]
-- Maintain records of AI-generated content
+#### Requisitos de Atribuição
+- Divulgar assistência de IA quando exigido por [contexto]
+- Manter registros de conteúdo gerado por IA
 
-### 7. Security Requirements
+### 7. Requisitos de Segurança
 
-#### Authentication
-- Use company SSO when available
-- Never share credentials
-- Enable MFA where supported
+#### Autenticação
+- Usar SSO da empresa quando disponível
+- Nunca compartilhar credenciais
+- Habilitar MFA onde suportado
 
-#### Data Protection
-- Use approved data transfer methods
-- Encrypt sensitive communications
-- Log AI tool usage
+#### Proteção de Dados
+- Usar métodos aprovados de transferência de dados
+- Criptografar comunicações sensíveis
+- Registrar uso de ferramentas de IA
 
-#### Incident Reporting
-Report immediately:
-- Data exposure incidents
-- Unexpected AI behavior
-- Policy violations
+#### Comunicação de Incidentes
+Reportar imediatamente:
+- Incidentes de exposição de dados
+- Comportamento inesperado de IA
+- Violações de política
 
-Contact: [Security team contact]
+Contato: [Contato da equipe de segurança]
 
-### 8. Compliance Considerations
+### 8. Considerações de Compliance
 
-#### Regulatory Requirements
-Based on industry context:
-- [Regulation 1]: [Requirements]
-- [Regulation 2]: [Requirements]
-- [AI-specific regulations]: [Requirements]
+#### Requisitos Regulatórios
+Com base no contexto do setor:
+- [Regulamentação 1]: [Requisitos]
+- [Regulamentação 2]: [Requisitos]
+- [Regulamentações específicas de IA]: [Requisitos]
 
-#### Audit & Monitoring
-- AI usage may be monitored
-- Logs retained for [X] months
-- Annual policy compliance review
+#### Auditoria e Monitoramento
+- O uso de IA pode ser monitorado
+- Logs retidos por [X] meses
+- Revisão anual de compliance da política
 
-### 9. Roles & Responsibilities
+### 9. Papéis e Responsabilidades
 
-| Role | Responsibilities |
-|------|-----------------|
-| All Employees | Follow policy, report issues |
-| Managers | Ensure team compliance |
-| IT/Security | Tool evaluation, monitoring |
-| Legal/Compliance | Policy updates, guidance |
-| AI Committee | Strategy, governance |
+| Papel | Responsabilidades |
+|-------|-------------------|
+| Todos os Funcionários | Seguir a política, reportar problemas |
+| Gestores | Garantir compliance da equipe |
+| TI/Segurança | Avaliação de ferramentas, monitoramento |
+| Jurídico/Compliance | Atualizações de política, orientação |
+| Comitê de IA | Estratégia, governança |
 
-### 10. Training Requirements
+### 10. Requisitos de Treinamento
 
-| Role | Training | Frequency |
-|------|----------|-----------|
-| All employees | AI basics & policy | Annual |
-| Power users | Advanced AI tools | Bi-annual |
-| Developers | AI development guidelines | As needed |
+| Papel | Treinamento | Frequência |
+|-------|-------------|------------|
+| Todos os funcionários | Básico de IA e política | Anual |
+| Usuários avançados | Ferramentas avançadas de IA | Semestral |
+| Desenvolvedores | Diretrizes de desenvolvimento de IA | Conforme necessário |
 
-### 11. Policy Violations
+### 11. Violações de Política
 
-#### Consequences
-- First violation: Coaching
-- Second violation: Written warning
-- Severe violation: Disciplinary action
+#### Consequências
+- Primeira violação: Orientação
+- Segunda violação: Advertência escrita
+- Violação grave: Ação disciplinar
 
-#### Reporting Violations
-- Anonymous hotline: [Contact]
-- Direct report: [Contact]
+#### Reportando Violações
+- Linha anônima: [Contato]
+- Reporte direto: [Contato]
 
-### 12. Policy Governance
+### 12. Governança da Política
 
-#### Review Cycle
-- Quarterly review for updates
-- Annual comprehensive review
+#### Ciclo de Revisão
+- Revisão trimestral para atualizações
+- Revisão anual abrangente
 
-#### Change Management
-- Changes communicated via [channel]
-- 30-day notice for major changes
+#### Gestão de Mudanças
+- Mudanças comunicadas via [canal]
+- Aviso de 30 dias para mudanças significativas
 
-#### Questions & Exceptions
-Contact: [AI Governance Team contact]
+#### Dúvidas e Exceções
+Contato: [Contato da Equipe de Governança de IA]
 
 ---
 
-## Acknowledgment
+## Termo de Reconhecimento
 
-I have read and understand the AI Acceptable Use Policy. I agree to comply with its terms.
+Eu li e compreendo a Política de Uso Aceitável de IA. Concordo em cumprir seus termos.
 
-Employee Name: _________________
-Employee Signature: _________________
-Date: _________________
+Nome do Funcionário: _________________
+Assinatura do Funcionário: _________________
+Data: _________________
 
-## Output Format
-- Use professional policy language
-- Include specific examples where helpful
-- Customize based on industry context
-- Make requirements clear and actionable
-- Include acknowledgment section
+## Formato de Saída
+- Use linguagem profissional de política
+- Inclua exemplos específicos quando útil
+- Customize com base no contexto do setor
+- Torne os requisitos claros e acionáveis
+- Inclua seção de termo de reconhecimento
 """

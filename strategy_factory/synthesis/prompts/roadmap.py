@@ -1,185 +1,185 @@
-"""Prompt for 30/60/90/180/360 Implementation Roadmap."""
+"""Prompt para Roadmap de Implementação 30/60/90/180/360."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate 30/60/90/180/360 Implementation Roadmap
+# Tarefa: Gerar Roadmap de Implementação 30/60/90/180/360
 
-Based on the maturity assessment and use case library provided above, create a detailed implementation roadmap for AI adoption.
+Com base na avaliação de maturidade e biblioteca de casos de uso fornecidos acima, crie um roadmap detalhado de implementação para adoção de IA.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Executive Summary
-- Overall transformation vision
-- Key milestones by timeframe
-- Resource requirements overview
-- Critical dependencies and risks
+### 1. Resumo Executivo
+- Visão geral da transformação
+- Principais marcos por período
+- Visão geral dos requisitos de recursos
+- Dependências críticas e riscos
 
-### 2. Roadmap Overview
+### 2. Visão Geral do Roadmap
 
 ```
-Timeline Visual:
-|----30 Days----|----60 Days----|----90 Days----|----180 Days----|----360 Days----|
-   Foundation      Quick Wins       Scale           Optimize         Transform
+Visualização do Cronograma:
+|----30 Dias----|----60 Dias----|----90 Dias----|----180 Dias----|----360 Dias----|
+   Fundação       Quick Wins       Escalar         Otimizar         Transformar
 ```
 
-### 3. Phase 1: Foundation (Days 1-30)
+### 3. Fase 1: Fundação (Dias 1-30)
 
-#### Objectives
-- Establish AI governance framework
-- Complete technology assessment
-- Identify quick win opportunities
-- Build initial team/partnerships
+#### Objetivos
+- Estabelecer framework de governança de IA
+- Completar avaliação de tecnologia
+- Identificar oportunidades de quick wins
+- Construir equipe/parcerias iniciais
 
-#### Key Activities
-| Activity | Owner | Deliverable | Success Criteria |
-|----------|-------|-------------|------------------|
+#### Atividades Principais
+| Atividade | Responsável | Entregável | Critérios de Sucesso |
+|-----------|-------------|------------|----------------------|
 
-#### Milestones
-- [ ] AI steering committee established
-- [ ] Data audit completed
-- [ ] Quick wins prioritized
-- [ ] Vendor shortlist created
+#### Marcos
+- [ ] Comitê diretor de IA estabelecido
+- [ ] Auditoria de dados concluída
+- [ ] Quick wins priorizados
+- [ ] Lista de fornecedores selecionados criada
 
-#### Resource Requirements
-- Internal team allocation
-- Budget estimate
-- External support needed
+#### Requisitos de Recursos
+- Alocação de equipe interna
+- Estimativa de orçamento
+- Suporte externo necessário
 
-### 4. Phase 2: Quick Wins (Days 31-60)
+### 4. Fase 2: Quick Wins (Dias 31-60)
 
-#### Objectives
-- Launch 2-3 quick win initiatives
-- Demonstrate early value
-- Build organizational momentum
-- Refine governance processes
+#### Objetivos
+- Lançar 2-3 iniciativas de quick wins
+- Demonstrar valor inicial
+- Construir momentum organizacional
+- Refinar processos de governança
 
-#### Key Activities
-| Activity | Owner | Deliverable | Success Criteria |
-|----------|-------|-------------|------------------|
+#### Atividades Principais
+| Atividade | Responsável | Entregável | Critérios de Sucesso |
+|-----------|-------------|------------|----------------------|
 
-#### Quick Win Projects
-For each quick win:
-- Project name and description
-- Expected impact
-- Implementation approach
-- Success metrics
+#### Projetos Quick Win
+Para cada quick win:
+- Nome e descrição do projeto
+- Impacto esperado
+- Abordagem de implementação
+- Métricas de sucesso
 
-#### Milestones
-- [ ] First AI tool deployed
-- [ ] Initial training completed
-- [ ] First ROI metrics captured
-- [ ] Feedback loop established
+#### Marcos
+- [ ] Primeira ferramenta de IA implantada
+- [ ] Treinamento inicial concluído
+- [ ] Primeiras métricas de ROI capturadas
+- [ ] Loop de feedback estabelecido
 
-### 5. Phase 3: Scale (Days 61-90)
+### 5. Fase 3: Escalar (Dias 61-90)
 
-#### Objectives
-- Expand successful pilots
-- Launch additional use cases
-- Build internal capabilities
-- Establish measurement framework
+#### Objetivos
+- Expandir pilotos bem-sucedidos
+- Lançar casos de uso adicionais
+- Construir capacidades internas
+- Estabelecer framework de medição
 
-#### Key Activities
-| Activity | Owner | Deliverable | Success Criteria |
-|----------|-------|-------------|------------------|
+#### Atividades Principais
+| Atividade | Responsável | Entregável | Critérios de Sucesso |
+|-----------|-------------|------------|----------------------|
 
-#### Scaling Priorities
-| Use Case | Current Stage | Target Stage | Resources Needed |
-|----------|--------------|--------------|------------------|
+#### Prioridades de Escala
+| Caso de Uso | Estágio Atual | Estágio Alvo | Recursos Necessários |
+|-------------|---------------|--------------|----------------------|
 
-#### Milestones
-- [ ] 3+ AI initiatives in production
-- [ ] Center of Excellence forming
-- [ ] ROI framework operational
-- [ ] Change management program active
+#### Marcos
+- [ ] 3+ iniciativas de IA em produção
+- [ ] Centro de Excelência em formação
+- [ ] Framework de ROI operacional
+- [ ] Programa de gestão de mudanças ativo
 
-### 6. Phase 4: Optimize (Days 91-180)
+### 6. Fase 4: Otimizar (Dias 91-180)
 
-#### Objectives
-- Optimize existing implementations
-- Expand to new departments
-- Build advanced capabilities
-- Measure and communicate value
+#### Objetivos
+- Otimizar implementações existentes
+- Expandir para novos departamentos
+- Construir capacidades avançadas
+- Medir e comunicar valor
 
-#### Key Activities
-| Activity | Owner | Deliverable | Success Criteria |
-|----------|-------|-------------|------------------|
+#### Atividades Principais
+| Atividade | Responsável | Entregável | Critérios de Sucesso |
+|-----------|-------------|------------|----------------------|
 
-#### Optimization Focus Areas
-- Performance improvements
-- Cost optimization
-- User adoption enhancement
-- Process refinement
+#### Áreas de Foco de Otimização
+- Melhorias de performance
+- Otimização de custos
+- Aprimoramento de adoção de usuários
+- Refinamento de processos
 
-#### Milestones
-- [ ] All quick wins optimized
-- [ ] Cross-department expansion
-- [ ] Advanced analytics operational
-- [ ] Executive dashboard live
+#### Marcos
+- [ ] Todos os quick wins otimizados
+- [ ] Expansão entre departamentos
+- [ ] Analytics avançado operacional
+- [ ] Dashboard executivo ativo
 
-### 7. Phase 5: Transform (Days 181-360)
+### 7. Fase 5: Transformar (Dias 181-360)
 
-#### Objectives
-- Achieve AI-augmented operations
-- Develop competitive advantages
-- Build sustainable capabilities
-- Plan next transformation wave
+#### Objetivos
+- Alcançar operações aumentadas por IA
+- Desenvolver vantagens competitivas
+- Construir capacidades sustentáveis
+- Planejar próxima onda de transformação
 
-#### Key Activities
-| Activity | Owner | Deliverable | Success Criteria |
-|----------|-------|-------------|------------------|
+#### Atividades Principais
+| Atividade | Responsável | Entregável | Critérios de Sucesso |
+|-----------|-------------|------------|----------------------|
 
-#### Transformation Initiatives
-| Initiative | Business Impact | Innovation Level | Investment |
-|------------|-----------------|------------------|------------|
+#### Iniciativas de Transformação
+| Iniciativa | Impacto no Negócio | Nível de Inovação | Investimento |
+|------------|-------------------|-------------------|--------------|
 
-#### Milestones
-- [ ] AI integrated into core processes
-- [ ] Measurable competitive advantage
-- [ ] Self-sustaining AI capabilities
-- [ ] Next phase planned
+#### Marcos
+- [ ] IA integrada aos processos core
+- [ ] Vantagem competitiva mensurável
+- [ ] Capacidades de IA autossustentáveis
+- [ ] Próxima fase planejada
 
-### 8. Dependencies & Risk Mitigation
+### 8. Dependências e Mitigação de Riscos
 
-#### Critical Dependencies
-| Dependency | Phase Impact | Mitigation Strategy |
-|------------|--------------|---------------------|
+#### Dependências Críticas
+| Dependência | Impacto na Fase | Estratégia de Mitigação |
+|-------------|-----------------|-------------------------|
 
-#### Risk Register
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
+#### Registro de Riscos
+| Risco | Probabilidade | Impacto | Mitigação |
+|-------|---------------|---------|-----------|
 
-### 9. Resource & Investment Summary
+### 9. Resumo de Recursos e Investimento
 
-#### By Phase
-| Phase | Duration | Team Size | Estimated Investment |
-|-------|----------|-----------|---------------------|
+#### Por Fase
+| Fase | Duração | Tamanho da Equipe | Investimento Estimado |
+|------|---------|-------------------|----------------------|
 
-#### By Category
-| Category | Year 1 Investment | Description |
-|----------|------------------|-------------|
-| Technology | | |
-| People | | |
-| Training | | |
-| External Support | | |
+#### Por Categoria
+| Categoria | Investimento Ano 1 | Descrição |
+|-----------|-------------------|-----------|
+| Tecnologia | | |
+| Pessoas | | |
+| Treinamento | | |
+| Suporte Externo | | |
 
-### 10. Success Metrics
+### 10. Métricas de Sucesso
 
-#### Leading Indicators
-- Initiative completion rate
-- User adoption metrics
-- Training completion rates
+#### Indicadores Antecedentes
+- Taxa de conclusão de iniciativas
+- Métricas de adoção de usuários
+- Taxas de conclusão de treinamento
 
-#### Lagging Indicators
-- ROI achieved
-- Efficiency gains
-- Revenue impact
+#### Indicadores Consequentes
+- ROI alcançado
+- Ganhos de eficiência
+- Impacto na receita
 
-## Output Format
-- Use timeline-based organization
-- Include specific dates/durations
-- Make activities actionable with clear owners
-- Include measurable milestones
-- Be realistic about resource requirements
+## Formato de Saída
+- Use organização baseada em cronograma
+- Inclua datas/durações específicas
+- Torne as atividades acionáveis com responsáveis claros
+- Inclua marcos mensuráveis
+- Seja realista sobre requisitos de recursos
 """

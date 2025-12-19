@@ -1,335 +1,335 @@
-"""Prompt for Prompt Library Starter Kit."""
+"""Prompt para Kit Inicial de Biblioteca de Prompts."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate Prompt Library Starter Kit
+# Tarefa: Gerar Kit Inicial de Biblioteca de Prompts
 
-Based on the use case library and department analysis above, create a comprehensive prompt library for common AI tasks.
+Com base na biblioteca de casos de uso e análise departamental acima, crie uma biblioteca abrangente de prompts para tarefas comuns de IA.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Introduction
+### 1. Introdução
 
-#### Purpose
-This prompt library provides ready-to-use prompts for common tasks at {company_name}, optimized for [approved AI tools].
+#### Propósito
+Esta biblioteca de prompts fornece prompts prontos para uso em tarefas comuns na {company_name}, otimizados para [ferramentas de IA aprovadas].
 
-#### How to Use
-1. Find the relevant category
-2. Copy the prompt template
-3. Replace [bracketed placeholders] with your specifics
-4. Review and refine the output
+#### Como Usar
+1. Encontre a categoria relevante
+2. Copie o template de prompt
+3. Substitua os [marcadores entre colchetes] com suas especificidades
+4. Revise e refine o resultado
 
-#### Best Practices
-- Be specific with context
-- Include examples when helpful
-- Iterate on outputs
-- Always review AI-generated content
+#### Melhores Práticas
+- Seja específico com o contexto
+- Inclua exemplos quando útil
+- Itere sobre os resultados
+- Sempre revise conteúdo gerado por IA
 
-### 2. Sales & Marketing Prompts
+### 2. Prompts de Vendas e Marketing
 
-#### Lead Qualification
+#### Qualificação de Leads
 ```
-Analyze this lead information and provide a qualification score:
+Analise estas informações do lead e forneça uma pontuação de qualificação:
 
-Company: [Company Name]
-Industry: [Industry]
-Size: [Employee Count]
-Budget: [If Known]
-Timeline: [If Known]
-Pain Points: [Known Challenges]
+Empresa: [Nome da Empresa]
+Setor: [Setor]
+Porte: [Número de Funcionários]
+Orçamento: [Se Conhecido]
+Prazo: [Se Conhecido]
+Pontos de Dor: [Desafios Conhecidos]
 
-Provide:
-1. Qualification score (1-10)
-2. Key buying signals
-3. Potential objections
-4. Recommended next steps
-5. Suggested talk track
-```
-
-#### Email Personalization
-```
-Write a personalized outreach email for:
-
-Prospect: [Name, Title]
-Company: [Company]
-Industry: [Industry]
-Context: [Recent news, shared connection, or trigger event]
-Our Value Prop: [Relevant value proposition]
-
-Requirements:
-- Professional but conversational tone
-- Under 150 words
-- Clear call to action
-- Reference the specific context
+Forneça:
+1. Pontuação de qualificação (1-10)
+2. Principais sinais de compra
+3. Potenciais objeções
+4. Próximos passos recomendados
+5. Roteiro de conversa sugerido
 ```
 
-#### Competitive Analysis
+#### Personalização de E-mail
 ```
-Analyze our competitor [Competitor Name] for the [Product/Service] market:
+Escreva um e-mail de prospecção personalizado para:
 
-Information available:
-[Paste any research, website content, or notes]
+Prospect: [Nome, Cargo]
+Empresa: [Empresa]
+Setor: [Setor]
+Contexto: [Notícia recente, conexão em comum, ou evento gatilho]
+Nossa Proposta de Valor: [Proposta de valor relevante]
 
-Provide:
-1. Product/service comparison
-2. Pricing analysis (if available)
-3. Strengths and weaknesses
-4. Common objections when competing
-5. Winning strategies against them
-```
-
-### 3. Customer Service Prompts
-
-#### Response Generation
-```
-Generate a response to this customer inquiry:
-
-Customer Message:
-[Paste customer message]
-
-Context:
-- Product/Service: [What they're asking about]
-- Customer History: [Any relevant history]
-- Sentiment: [Frustrated/Neutral/Happy]
-
-Requirements:
-- Professional and empathetic tone
-- Address all concerns
-- Provide clear next steps
-- [Company] brand voice
+Requisitos:
+- Tom profissional mas conversacional
+- Menos de 150 palavras
+- Call to action claro
+- Referenciar o contexto específico
 ```
 
-#### Issue Escalation Summary
+#### Análise Competitiva
 ```
-Summarize this customer issue for escalation:
+Analise nosso concorrente [Nome do Concorrente] para o mercado de [Produto/Serviço]:
 
-Customer: [Name/Account]
-Issue Timeline:
-[Paste conversation or notes]
+Informações disponíveis:
+[Cole qualquer pesquisa, conteúdo do site, ou anotações]
 
-Provide:
-1. Issue summary (2-3 sentences)
-2. Customer impact
-3. Steps already taken
-4. Recommended resolution
-5. Urgency level (Low/Medium/High/Critical)
-```
-
-### 4. Operations Prompts
-
-#### Process Documentation
-```
-Create a standard operating procedure for:
-
-Process: [Process Name]
-Purpose: [Why this process exists]
-Current Steps:
-[List current steps or describe the process]
-
-Generate:
-1. Formatted SOP with numbered steps
-2. Required inputs
-3. Expected outputs
-4. Common exceptions and handling
-5. Quality checkpoints
+Forneça:
+1. Comparação de produto/serviço
+2. Análise de preços (se disponível)
+3. Pontos fortes e fracos
+4. Objeções comuns ao competir
+5. Estratégias vencedoras contra eles
 ```
 
-#### Meeting Summary
+### 3. Prompts de Atendimento ao Cliente
+
+#### Geração de Respostas
 ```
-Summarize this meeting transcript:
+Gere uma resposta para esta consulta do cliente:
 
-Meeting: [Name/Purpose]
-Attendees: [List]
-Transcript:
-[Paste transcript or notes]
+Mensagem do Cliente:
+[Cole a mensagem do cliente]
 
-Provide:
-1. Executive summary (3-5 sentences)
-2. Key decisions made
-3. Action items with owners
-4. Open questions
-5. Next steps
-```
+Contexto:
+- Produto/Serviço: [Sobre o que estão perguntando]
+- Histórico do Cliente: [Qualquer histórico relevante]
+- Sentimento: [Frustrado/Neutro/Satisfeito]
 
-### 5. Finance Prompts
-
-#### Report Narrative
-```
-Write a narrative summary for this financial data:
-
-Report Type: [Monthly P&L / Quarterly Review / etc.]
-Period: [Date Range]
-Key Metrics:
-[Paste key metrics and figures]
-
-Generate:
-1. Executive summary
-2. Highlight positive trends
-3. Areas of concern
-4. Comparison to previous period
-5. Recommended focus areas
+Requisitos:
+- Tom profissional e empático
+- Abordar todas as preocupações
+- Fornecer próximos passos claros
+- Voz da marca [Empresa]
 ```
 
-#### Expense Analysis
+#### Resumo de Escalação de Problemas
 ```
-Analyze this expense data and identify optimization opportunities:
+Resuma este problema do cliente para escalação:
 
-Data:
-[Paste expense summary or categories]
+Cliente: [Nome/Conta]
+Linha do Tempo do Problema:
+[Cole a conversa ou anotações]
 
-Provide:
-1. Top expense categories
-2. Month-over-month trends
-3. Anomalies or outliers
-4. Consolidation opportunities
-5. Recommended actions
-```
-
-### 6. HR Prompts
-
-#### Job Description Enhancement
-```
-Improve this job description for better candidate attraction:
-
-Current JD:
-[Paste job description]
-
-Requirements:
-- Modern, inclusive language
-- Clear responsibilities
-- Compelling company pitch
-- Realistic requirements vs nice-to-haves
-- SEO-optimized for job boards
+Forneça:
+1. Resumo do problema (2-3 frases)
+2. Impacto no cliente
+3. Passos já realizados
+4. Resolução recomendada
+5. Nível de urgência (Baixo/Médio/Alto/Crítico)
 ```
 
-#### Interview Questions
+### 4. Prompts de Operações
+
+#### Documentação de Processos
 ```
-Generate interview questions for:
+Crie um procedimento operacional padrão para:
 
-Role: [Position Title]
-Level: [Entry/Mid/Senior/Executive]
-Key Skills: [Top 3-5 required skills]
-Company Values: [Key values to assess]
+Processo: [Nome do Processo]
+Propósito: [Por que este processo existe]
+Passos Atuais:
+[Liste os passos atuais ou descreva o processo]
 
-Provide:
-1. 5 behavioral questions
-2. 3 technical/skill questions
-3. 2 culture fit questions
-4. Sample follow-up probes
-5. Red flags to watch for
-```
-
-### 7. Engineering/IT Prompts
-
-#### Code Review
-```
-Review this code for best practices:
-
-Language: [Programming Language]
-Purpose: [What the code does]
-Code:
-[Paste code]
-
-Assess:
-1. Code quality and readability
-2. Potential bugs or issues
-3. Performance considerations
-4. Security concerns
-5. Suggested improvements
+Gere:
+1. POP formatado com passos numerados
+2. Entradas necessárias
+3. Saídas esperadas
+4. Exceções comuns e tratamento
+5. Pontos de verificação de qualidade
 ```
 
-#### Documentation Generation
+#### Resumo de Reunião
 ```
-Generate documentation for this code/API:
+Resuma esta transcrição de reunião:
 
-Code/API:
-[Paste code or API specification]
+Reunião: [Nome/Propósito]
+Participantes: [Lista]
+Transcrição:
+[Cole a transcrição ou anotações]
 
-Generate:
-1. Overview description
-2. Parameters/inputs
-3. Return values/outputs
-4. Usage examples
-5. Error handling
-```
-
-### 8. General Productivity Prompts
-
-#### Email Drafting
-```
-Draft an email:
-
-Purpose: [What you want to achieve]
-Recipient: [Who, their role/relationship]
-Tone: [Formal/Casual/Urgent]
-Key Points:
-[List main points to cover]
-
-Requirements:
-- Clear subject line
-- Appropriate length
-- Professional signature
+Forneça:
+1. Resumo executivo (3-5 frases)
+2. Principais decisões tomadas
+3. Itens de ação com responsáveis
+4. Questões em aberto
+5. Próximos passos
 ```
 
-#### Research Summary
+### 5. Prompts de Finanças
+
+#### Narrativa de Relatório
 ```
-Summarize this research/article:
+Escreva um resumo narrativo para estes dados financeiros:
 
-Content:
-[Paste article or research]
+Tipo de Relatório: [DRE Mensal / Revisão Trimestral / etc.]
+Período: [Intervalo de Datas]
+Métricas Principais:
+[Cole métricas e valores principais]
 
-Provide:
-1. Key findings (bullet points)
-2. Implications for [our industry/company]
-3. Recommended actions
-4. Related topics to explore
-5. Source reliability assessment
-```
-
-### 9. Prompt Engineering Tips
-
-#### Making Prompts Better
-1. **Be Specific**: Include context, constraints, and desired format
-2. **Use Examples**: Show what good output looks like
-3. **Iterate**: Refine prompts based on results
-4. **Chain Prompts**: Break complex tasks into steps
-
-#### Common Mistakes to Avoid
-- Too vague or open-ended
-- No context about audience or purpose
-- Forgetting to specify format
-- Not reviewing/editing output
-
-### 10. Custom Prompt Template
-
-```
-# [Task Name] Prompt
-
-## Context
-[Background information the AI needs]
-
-## Input
-[What you're providing]
-[Paste input here]
-
-## Requirements
-- [Requirement 1]
-- [Requirement 2]
-- [Requirement 3]
-
-## Output Format
-[Specify how you want the response structured]
-
-## Additional Notes
-[Any constraints, preferences, or guidelines]
+Gere:
+1. Resumo executivo
+2. Destaque tendências positivas
+3. Áreas de preocupação
+4. Comparação com período anterior
+5. Áreas de foco recomendadas
 ```
 
-## Output Format
-- Provide copy-paste ready prompts
-- Include clear placeholder indicators [like this]
-- Organize by department/function
-- Include usage tips
-- Make prompts customizable
+#### Análise de Despesas
+```
+Analise estes dados de despesas e identifique oportunidades de otimização:
+
+Dados:
+[Cole o resumo de despesas ou categorias]
+
+Forneça:
+1. Principais categorias de despesas
+2. Tendências mês a mês
+3. Anomalias ou outliers
+4. Oportunidades de consolidação
+5. Ações recomendadas
+```
+
+### 6. Prompts de RH
+
+#### Aprimoramento de Descrição de Vaga
+```
+Melhore esta descrição de vaga para melhor atração de candidatos:
+
+Descrição Atual:
+[Cole a descrição da vaga]
+
+Requisitos:
+- Linguagem moderna e inclusiva
+- Responsabilidades claras
+- Pitch atraente da empresa
+- Requisitos realistas vs. diferenciais
+- Otimizado para SEO em sites de emprego
+```
+
+#### Perguntas de Entrevista
+```
+Gere perguntas de entrevista para:
+
+Cargo: [Título da Posição]
+Nível: [Júnior/Pleno/Sênior/Executivo]
+Habilidades-Chave: [Top 3-5 habilidades necessárias]
+Valores da Empresa: [Valores principais a avaliar]
+
+Forneça:
+1. 5 perguntas comportamentais
+2. 3 perguntas técnicas/de habilidades
+3. 2 perguntas de fit cultural
+4. Exemplos de perguntas de follow-up
+5. Sinais de alerta a observar
+```
+
+### 7. Prompts de Engenharia/TI
+
+#### Revisão de Código
+```
+Revise este código quanto às melhores práticas:
+
+Linguagem: [Linguagem de Programação]
+Propósito: [O que o código faz]
+Código:
+[Cole o código]
+
+Avalie:
+1. Qualidade e legibilidade do código
+2. Potenciais bugs ou problemas
+3. Considerações de performance
+4. Preocupações de segurança
+5. Melhorias sugeridas
+```
+
+#### Geração de Documentação
+```
+Gere documentação para este código/API:
+
+Código/API:
+[Cole o código ou especificação da API]
+
+Gere:
+1. Descrição geral
+2. Parâmetros/entradas
+3. Valores de retorno/saídas
+4. Exemplos de uso
+5. Tratamento de erros
+```
+
+### 8. Prompts de Produtividade Geral
+
+#### Elaboração de E-mail
+```
+Elabore um e-mail:
+
+Propósito: [O que você quer alcançar]
+Destinatário: [Quem, seu cargo/relacionamento]
+Tom: [Formal/Casual/Urgente]
+Pontos Principais:
+[Liste os pontos principais a cobrir]
+
+Requisitos:
+- Linha de assunto clara
+- Tamanho apropriado
+- Assinatura profissional
+```
+
+#### Resumo de Pesquisa
+```
+Resuma esta pesquisa/artigo:
+
+Conteúdo:
+[Cole o artigo ou pesquisa]
+
+Forneça:
+1. Principais descobertas (bullet points)
+2. Implicações para [nosso setor/empresa]
+3. Ações recomendadas
+4. Tópicos relacionados para explorar
+5. Avaliação de confiabilidade da fonte
+```
+
+### 9. Dicas de Engenharia de Prompts
+
+#### Tornando Prompts Melhores
+1. **Seja Específico**: Inclua contexto, restrições e formato desejado
+2. **Use Exemplos**: Mostre como é um bom resultado
+3. **Itere**: Refine prompts com base nos resultados
+4. **Encadeie Prompts**: Divida tarefas complexas em etapas
+
+#### Erros Comuns a Evitar
+- Muito vago ou aberto demais
+- Sem contexto sobre público ou propósito
+- Esquecer de especificar formato
+- Não revisar/editar o resultado
+
+### 10. Template de Prompt Personalizado
+
+```
+# Prompt de [Nome da Tarefa]
+
+## Contexto
+[Informações de background que a IA precisa]
+
+## Entrada
+[O que você está fornecendo]
+[Cole a entrada aqui]
+
+## Requisitos
+- [Requisito 1]
+- [Requisito 2]
+- [Requisito 3]
+
+## Formato de Saída
+[Especifique como você quer a resposta estruturada]
+
+## Notas Adicionais
+[Quaisquer restrições, preferências ou diretrizes]
+```
+
+## Formato de Saída
+- Forneça prompts prontos para copiar e colar
+- Inclua indicadores claros de marcadores [assim]
+- Organize por departamento/função
+- Inclua dicas de uso
+- Torne os prompts customizáveis
 """

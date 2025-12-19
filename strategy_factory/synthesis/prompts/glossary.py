@@ -1,256 +1,256 @@
-"""Prompt for Glossary of AI Terms."""
+"""Prompt para Glossário de Termos de IA."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate Glossary of AI Terms
+# Tarefa: Gerar Glossário de Termos de IA
 
-Create a comprehensive glossary of AI and technology terms relevant to {company_name}'s AI journey.
+Crie um glossário abrangente de termos de IA e tecnologia relevantes para a jornada de IA da {company_name}.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Introduction
+### 1. Introdução
 
-This glossary provides definitions for key terms related to artificial intelligence, machine learning, and data technologies. It is designed to help all team members at {company_name} communicate effectively about AI initiatives.
+Este glossário fornece definições para termos-chave relacionados à inteligência artificial, machine learning e tecnologias de dados. Foi desenvolvido para ajudar todos os membros da equipe na {company_name} a se comunicarem efetivamente sobre iniciativas de IA.
 
 ---
 
-### 2. Core AI Concepts
+### 2. Conceitos Fundamentais de IA
 
 #### A
 
-**Agentic AI**
-AI systems capable of autonomous action and decision-making without constant human intervention. These systems can plan, execute, and adjust strategies to achieve goals.
+**IA Agêntica**
+Sistemas de IA capazes de ação autônoma e tomada de decisão sem intervenção humana constante. Esses sistemas podem planejar, executar e ajustar estratégias para alcançar objetivos.
 
-**Artificial General Intelligence (AGI)**
-Hypothetical AI with human-level reasoning and problem-solving across any domain. Current AI systems are "narrow" AI, excelling at specific tasks.
+**Inteligência Artificial Geral (IAG)**
+IA hipotética com raciocínio e resolução de problemas em nível humano em qualquer domínio. Os sistemas de IA atuais são IA "estreita", destacando-se em tarefas específicas.
 
-**Artificial Intelligence (AI)**
-Computer systems designed to perform tasks typically requiring human intelligence, including visual perception, speech recognition, decision-making, and language translation.
+**Inteligência Artificial (IA)**
+Sistemas computacionais projetados para realizar tarefas que tipicamente requerem inteligência humana, incluindo percepção visual, reconhecimento de fala, tomada de decisão e tradução de idiomas.
 
 #### B
 
-**Bias (in AI)**
-Systematic errors in AI outputs that reflect prejudices in training data or algorithm design. Can lead to unfair outcomes for certain groups.
+**Viés (em IA)**
+Erros sistemáticos em resultados de IA que refletem preconceitos nos dados de treinamento ou no design do algoritmo. Pode levar a resultados injustos para certos grupos.
 
 #### C
 
 **Chatbot**
-Software application that simulates human conversation through text or voice interactions. Modern chatbots often use large language models.
+Aplicação de software que simula conversação humana através de interações por texto ou voz. Chatbots modernos frequentemente usam modelos de linguagem grandes.
 
-**Computer Vision**
-AI capability to interpret and understand visual information from images or videos, enabling tasks like object detection and facial recognition.
+**Visão Computacional**
+Capacidade de IA para interpretar e entender informações visuais de imagens ou vídeos, permitindo tarefas como detecção de objetos e reconhecimento facial.
 
 #### D
 
 **Data Lake**
-Centralized repository storing raw data in its native format until needed for analysis. Enables flexible data exploration and AI training.
+Repositório centralizado que armazena dados brutos em seu formato nativo até serem necessários para análise. Permite exploração flexível de dados e treinamento de IA.
 
 **Deep Learning**
-Subset of machine learning using neural networks with multiple layers. Powers advanced AI capabilities like image recognition and language understanding.
+Subconjunto de machine learning usando redes neurais com múltiplas camadas. Alimenta capacidades avançadas de IA como reconhecimento de imagem e compreensão de linguagem.
 
 #### E
 
 **Embeddings**
-Numerical representations of text, images, or other data that capture semantic meaning. Enables AI to find similarities and relationships.
+Representações numéricas de texto, imagens ou outros dados que capturam significado semântico. Permite que a IA encontre similaridades e relacionamentos.
 
 #### F
 
 **Fine-tuning**
-Process of adapting a pre-trained AI model for a specific task or domain by training it on additional relevant data.
+Processo de adaptar um modelo de IA pré-treinado para uma tarefa ou domínio específico, treinando-o em dados adicionais relevantes.
 
-**Foundation Model**
-Large AI model trained on broad data that can be adapted for various tasks. Examples: GPT-4, Claude, Gemini.
+**Modelo de Fundação**
+Modelo grande de IA treinado em dados amplos que pode ser adaptado para várias tarefas. Exemplos: GPT-4, Claude, Gemini.
 
 #### G
 
-**Generative AI**
-AI systems that create new content (text, images, code, audio) based on learned patterns. The technology behind ChatGPT and similar tools.
+**IA Generativa**
+Sistemas de IA que criam novo conteúdo (texto, imagens, código, áudio) baseado em padrões aprendidos. A tecnologia por trás do ChatGPT e ferramentas similares.
 
 **GPT (Generative Pre-trained Transformer)**
-Architecture powering many large language models. Pre-trained on vast text data, then fine-tuned for specific applications.
+Arquitetura que alimenta muitos modelos de linguagem grandes. Pré-treinado em vastos dados de texto, depois ajustado para aplicações específicas.
 
 #### H
 
-**Hallucination**
-When AI generates plausible-sounding but false or fabricated information. Important consideration for all generative AI applications.
+**Alucinação**
+Quando a IA gera informação que soa plausível mas é falsa ou fabricada. Consideração importante para todas as aplicações de IA generativa.
 
 #### I
 
-**Inference**
-The process of using a trained AI model to make predictions or generate outputs on new data.
+**Inferência**
+O processo de usar um modelo de IA treinado para fazer previsões ou gerar resultados em novos dados.
 
 #### L
 
-**Large Language Model (LLM)**
-AI model trained on massive text datasets to understand and generate human language. Powers chatbots and writing assistants.
+**Modelo de Linguagem Grande (LLM)**
+Modelo de IA treinado em conjuntos massivos de dados de texto para entender e gerar linguagem humana. Alimenta chatbots e assistentes de escrita.
 
 #### M
 
 **Machine Learning (ML)**
-Subset of AI where systems learn from data to improve performance without explicit programming. Foundation for most modern AI applications.
+Subconjunto de IA onde sistemas aprendem com dados para melhorar performance sem programação explícita. Fundação para a maioria das aplicações modernas de IA.
 
-**Model**
-Mathematical representation learned from data that can make predictions or generate outputs. The core component of AI systems.
+**Modelo**
+Representação matemática aprendida com dados que pode fazer previsões ou gerar resultados. O componente central dos sistemas de IA.
 
 #### N
 
-**Natural Language Processing (NLP)**
-AI capability to understand, interpret, and generate human language. Enables chatbots, translation, and sentiment analysis.
+**Processamento de Linguagem Natural (PLN)**
+Capacidade de IA para entender, interpretar e gerar linguagem humana. Permite chatbots, tradução e análise de sentimento.
 
-**Neural Network**
-Computing system inspired by biological neurons. Learns patterns through interconnected nodes processing information.
+**Rede Neural**
+Sistema computacional inspirado em neurônios biológicos. Aprende padrões através de nós interconectados processando informação.
 
 #### P
 
 **Prompt**
-Input text or instructions given to a generative AI model. Prompt quality significantly affects output quality.
+Texto de entrada ou instruções dadas a um modelo de IA generativa. A qualidade do prompt afeta significativamente a qualidade do resultado.
 
-**Prompt Engineering**
-The practice of designing effective prompts to get desired outputs from AI models.
+**Engenharia de Prompt**
+A prática de projetar prompts eficazes para obter os resultados desejados de modelos de IA.
 
 #### R
 
-**RAG (Retrieval-Augmented Generation)**
-Technique that combines AI text generation with information retrieval from knowledge bases. Reduces hallucinations by grounding responses in real data.
+**RAG (Geração Aumentada por Recuperação)**
+Técnica que combina geração de texto por IA com recuperação de informação de bases de conhecimento. Reduz alucinações ao fundamentar respostas em dados reais.
 
-**Reinforcement Learning from Human Feedback (RLHF)**
-Training technique using human preferences to improve AI model behavior and alignment with user expectations.
+**RLHF (Aprendizado por Reforço com Feedback Humano)**
+Técnica de treinamento usando preferências humanas para melhorar o comportamento do modelo de IA e alinhamento com expectativas dos usuários.
 
 #### S
 
-**Sentiment Analysis**
-AI technique to determine emotional tone in text. Used for customer feedback analysis and social media monitoring.
+**Análise de Sentimento**
+Técnica de IA para determinar o tom emocional em texto. Usado para análise de feedback de clientes e monitoramento de redes sociais.
 
-**Supervised Learning**
-Machine learning approach using labeled training data. The model learns to map inputs to known outputs.
+**Aprendizado Supervisionado**
+Abordagem de machine learning usando dados de treinamento rotulados. O modelo aprende a mapear entradas para saídas conhecidas.
 
 #### T
 
 **Token**
-Unit of text processed by language models. Can be a word, part of a word, or punctuation. Important for understanding AI pricing and limits.
+Unidade de texto processada por modelos de linguagem. Pode ser uma palavra, parte de uma palavra ou pontuação. Importante para entender precificação e limites de IA.
 
-**Training Data**
-Dataset used to teach AI models patterns and relationships. Quality and diversity of training data directly impacts model performance.
+**Dados de Treinamento**
+Conjunto de dados usado para ensinar padrões e relacionamentos a modelos de IA. Qualidade e diversidade dos dados de treinamento impactam diretamente a performance do modelo.
 
 **Transformer**
-Neural network architecture enabling efficient processing of sequential data. Powers modern language models.
+Arquitetura de rede neural que permite processamento eficiente de dados sequenciais. Alimenta modelos de linguagem modernos.
 
 #### U
 
-**Unsupervised Learning**
-Machine learning approach finding patterns in unlabeled data. Used for clustering, anomaly detection, and data exploration.
+**Aprendizado Não Supervisionado**
+Abordagem de machine learning que encontra padrões em dados não rotulados. Usado para clustering, detecção de anomalias e exploração de dados.
 
 #### V
 
-**Vector Database**
-Database optimized for storing and searching embeddings. Enables semantic search and AI memory capabilities.
+**Banco de Dados Vetorial**
+Banco de dados otimizado para armazenar e pesquisar embeddings. Permite busca semântica e capacidades de memória de IA.
 
 ---
 
-### 3. Business & Strategy Terms
+### 3. Termos de Negócio e Estratégia
 
-**AI Maturity**
-Organization's sophistication in adopting and leveraging AI. Measured across dimensions like strategy, data, talent, and governance.
+**Maturidade de IA**
+Sofisticação da organização em adotar e aproveitar IA. Medida em dimensões como estratégia, dados, talentos e governança.
 
-**AI Readiness**
-Organization's preparedness to implement AI initiatives. Includes data quality, infrastructure, skills, and culture factors.
+**Prontidão para IA**
+Preparação da organização para implementar iniciativas de IA. Inclui fatores de qualidade de dados, infraestrutura, habilidades e cultura.
 
-**Center of Excellence (CoE)**
-Dedicated team providing AI leadership, best practices, and support across an organization.
+**Centro de Excelência (CoE)**
+Equipe dedicada que fornece liderança em IA, melhores práticas e suporte em toda a organização.
 
-**Digital Transformation**
-Fundamental change in how an organization operates and delivers value through digital technology adoption.
+**Transformação Digital**
+Mudança fundamental em como uma organização opera e entrega valor através da adoção de tecnologia digital.
 
 **MLOps**
-Practices for deploying and maintaining machine learning models in production reliably and efficiently.
+Práticas para implantar e manter modelos de machine learning em produção de forma confiável e eficiente.
 
-**ROI (Return on Investment)**
-Measure of AI initiative profitability. Calculated as (Benefits - Costs) / Costs × 100.
+**ROI (Retorno sobre Investimento)**
+Medida de lucratividade de iniciativa de IA. Calculado como (Benefícios - Custos) / Custos × 100.
 
-**Total Cost of Ownership (TCO)**
-Complete cost of implementing and operating an AI solution over its lifecycle.
+**TCO (Custo Total de Propriedade)**
+Custo completo de implementar e operar uma solução de IA ao longo de seu ciclo de vida.
 
 ---
 
-### 4. Data Terms
+### 4. Termos de Dados
 
-**Data Governance**
-Framework for managing data availability, usability, integrity, and security across an organization.
+**Governança de Dados**
+Framework para gerenciar disponibilidade, usabilidade, integridade e segurança de dados em toda a organização.
 
 **Data Lake**
-Storage repository holding vast amounts of raw data in native format.
+Repositório de armazenamento que mantém grandes quantidades de dados brutos em formato nativo.
 
-**Data Pipeline**
-Automated process moving and transforming data from sources to destinations.
+**Pipeline de Dados**
+Processo automatizado que move e transforma dados de origens para destinos.
 
-**Data Quality**
-Measure of data accuracy, completeness, consistency, and reliability.
+**Qualidade de Dados**
+Medida de precisão, completude, consistência e confiabilidade dos dados.
 
 **Data Warehouse**
-Central repository of integrated, structured data optimized for analysis.
+Repositório central de dados integrados e estruturados otimizado para análise.
 
-**ETL (Extract, Transform, Load)**
-Process of extracting data from sources, transforming it, and loading into a destination system.
+**ETL (Extrair, Transformar, Carregar)**
+Processo de extrair dados de fontes, transformá-los e carregá-los em um sistema de destino.
 
-**Metadata**
-Data about data - describing structure, origin, quality, and relationships.
+**Metadados**
+Dados sobre dados - descrevendo estrutura, origem, qualidade e relacionamentos.
 
 ---
 
-### 5. Technical Terms
+### 5. Termos Técnicos
 
-**API (Application Programming Interface)**
-Interface enabling different software systems to communicate. How applications integrate with AI services.
+**API (Interface de Programação de Aplicações)**
+Interface que permite que diferentes sistemas de software se comuniquem. Como aplicações se integram com serviços de IA.
 
-**Cloud Computing**
-Delivery of computing services over the internet. Major providers: AWS, Azure, Google Cloud.
+**Computação em Nuvem**
+Entrega de serviços de computação pela internet. Principais provedores: AWS, Azure, Google Cloud.
 
 **Edge Computing**
-Processing data near its source rather than in centralized cloud. Enables real-time AI applications.
+Processamento de dados próximo à sua fonte ao invés de em nuvem centralizada. Permite aplicações de IA em tempo real.
 
-**GPU (Graphics Processing Unit)**
-Hardware accelerating AI model training and inference. Essential for computationally intensive AI workloads.
+**GPU (Unidade de Processamento Gráfico)**
+Hardware que acelera treinamento e inferência de modelos de IA. Essencial para cargas de trabalho de IA computacionalmente intensivas.
 
-**Latency**
-Time delay between input and response. Critical metric for real-time AI applications.
+**Latência**
+Atraso de tempo entre entrada e resposta. Métrica crítica para aplicações de IA em tempo real.
 
-**SaaS (Software as a Service)**
-Cloud-based software delivery model. Most AI tools are delivered as SaaS.
-
----
-
-### 6. Industry-Specific Terms
-
-[Add terms relevant to {company_name}'s industry]
+**SaaS (Software como Serviço)**
+Modelo de entrega de software baseado em nuvem. A maioria das ferramentas de IA é entregue como SaaS.
 
 ---
 
-### 7. Acronyms Quick Reference
+### 6. Termos Específicos do Setor
 
-| Acronym | Full Term |
-|---------|-----------|
-| AI | Artificial Intelligence |
-| AGI | Artificial General Intelligence |
-| API | Application Programming Interface |
-| CoE | Center of Excellence |
-| ETL | Extract, Transform, Load |
-| GPU | Graphics Processing Unit |
-| LLM | Large Language Model |
+[Adicione termos relevantes para o setor da {company_name}]
+
+---
+
+### 7. Referência Rápida de Siglas
+
+| Sigla | Termo Completo |
+|-------|----------------|
+| IA | Inteligência Artificial |
+| IAG | Inteligência Artificial Geral |
+| API | Interface de Programação de Aplicações |
+| CoE | Centro de Excelência |
+| ETL | Extrair, Transformar, Carregar |
+| GPU | Unidade de Processamento Gráfico |
+| LLM | Modelo de Linguagem Grande |
 | ML | Machine Learning |
-| MLOps | Machine Learning Operations |
-| NLP | Natural Language Processing |
-| RAG | Retrieval-Augmented Generation |
-| RLHF | Reinforcement Learning from Human Feedback |
-| ROI | Return on Investment |
-| SaaS | Software as a Service |
-| TCO | Total Cost of Ownership |
+| MLOps | Operações de Machine Learning |
+| PLN | Processamento de Linguagem Natural |
+| RAG | Geração Aumentada por Recuperação |
+| RLHF | Aprendizado por Reforço com Feedback Humano |
+| ROI | Retorno sobre Investimento |
+| SaaS | Software como Serviço |
+| TCO | Custo Total de Propriedade |
 
-## Output Format
-- Alphabetical organization
-- Clear, non-technical definitions
-- Examples where helpful
-- Relevance to business context
-- Include industry-specific terms
+## Formato de Saída
+- Organização alfabética
+- Definições claras e não técnicas
+- Exemplos quando útil
+- Relevância para contexto de negócios
+- Incluir termos específicos do setor
 """

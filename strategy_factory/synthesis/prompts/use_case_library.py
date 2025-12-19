@@ -1,272 +1,272 @@
-"""Prompt for Department-Specific Use Case Library."""
+"""Prompt para Biblioteca de Casos de Uso por Departamento."""
 
 PROMPT = """
 **IMPORTANTE: Responda todo o conteúdo em português brasileiro.**
 
 
-# Task: Generate Department-Specific Use Case Library
+# Tarefa: Gerar Biblioteca de Casos de Uso por Departamento
 
-Based on the pain point analysis, technology landscape, and industry context above, create a comprehensive library of AI use cases organized by department.
+Com base na análise de pontos de dor, panorama tecnológico e contexto do setor acima, crie uma biblioteca abrangente de casos de uso de IA organizados por departamento.
 
-## Required Sections
+## Seções Obrigatórias
 
-### 1. Executive Summary
-- Total use cases identified
-- High-priority opportunities
-- Estimated total value potential
-- Recommended starting points
+### 1. Resumo Executivo
+- Total de casos de uso identificados
+- Oportunidades de alta prioridade
+- Potencial de valor total estimado
+- Pontos de partida recomendados
 
-### 2. Use Case Classification Framework
+### 2. Framework de Classificação de Casos de Uso
 
-#### Priority Matrix
-Use cases are classified by:
-- **Impact**: Business value potential (High/Medium/Low)
-- **Feasibility**: Implementation complexity (Easy/Medium/Hard)
-- **Readiness**: Data and infrastructure readiness (Ready/Some Work/Major Work)
+#### Matriz de Prioridade
+Casos de uso são classificados por:
+- **Impacto**: Potencial de valor para o negócio (Alto/Médio/Baixo)
+- **Viabilidade**: Complexidade de implementação (Fácil/Médio/Difícil)
+- **Prontidão**: Prontidão de dados e infraestrutura (Pronto/Algum Trabalho/Trabalho Significativo)
 
-#### KPMG TACO Framework for Agentic Use Cases
-- **T**ask Automation: Routine, repetitive tasks
-- **A**nalysis: Data interpretation and insights
-- **C**reation: Content and asset generation
-- **O**rchestration: Multi-step workflow coordination
+#### Framework TACO da KPMG para Casos de Uso Agênticos
+- **T**arefa (Automação): Tarefas rotineiras e repetitivas
+- **A**nálise: Interpretação de dados e insights
+- **C**riação: Geração de conteúdo e ativos
+- **O**rquestração: Coordenação de fluxos de trabalho multi-etapas
 
 ---
 
-### 3. Sales & Marketing Use Cases
+### 3. Casos de Uso de Vendas e Marketing
 
-#### Use Case SM-001: Lead Scoring & Prioritization
+#### Caso de Uso VM-001: Scoring e Priorização de Leads
 
-| Attribute | Value |
-|-----------|-------|
-| Category | Analysis |
-| Impact | High |
-| Feasibility | Easy |
-| Time to Value | 30-60 days |
+| Atributo | Valor |
+|----------|-------|
+| Categoria | Análise |
+| Impacto | Alto |
+| Viabilidade | Fácil |
+| Tempo para Valor | 30-60 dias |
 
-**Description**
-AI-powered lead scoring that analyzes prospect data, behavior, and engagement to prioritize sales efforts.
+**Descrição**
+Scoring de leads potencializado por IA que analisa dados de prospects, comportamento e engajamento para priorizar esforços de vendas.
 
-**Current State**
-- Manual lead assessment
-- Inconsistent criteria
-- Missed opportunities
+**Estado Atual**
+- Avaliação manual de leads
+- Critérios inconsistentes
+- Oportunidades perdidas
 
-**AI Solution**
-- ML model trained on historical conversions
-- Real-time scoring based on engagement signals
-- Automated routing to appropriate sales reps
+**Solução de IA**
+- Modelo de ML treinado em conversões históricas
+- Scoring em tempo real baseado em sinais de engajamento
+- Roteamento automatizado para representantes de vendas apropriados
 
-**Value Potential**
-- 20-30% increase in conversion rates
-- 15% reduction in sales cycle time
-- Better resource allocation
+**Potencial de Valor**
+- 20-30% de aumento nas taxas de conversão
+- 15% de redução no ciclo de vendas
+- Melhor alocação de recursos
 
-**Prerequisites**
-- CRM data history
-- Defined scoring criteria
-- Sales team buy-in
+**Pré-requisitos**
+- Histórico de dados do CRM
+- Critérios de scoring definidos
+- Buy-in da equipe de vendas
 
-**Recommended Tools**
+**Ferramentas Recomendadas**
 - Salesforce Einstein
 - HubSpot AI
-- Custom ML model
+- Modelo de ML customizado
 
 ---
 
-#### Use Case SM-002: Content Personalization
-[Similar structure]
+#### Caso de Uso VM-002: Personalização de Conteúdo
+[Estrutura similar]
 
-#### Use Case SM-003: Campaign Performance Optimization
-[Similar structure]
+#### Caso de Uso VM-003: Otimização de Performance de Campanhas
+[Estrutura similar]
 
-#### Use Case SM-004: Competitive Intelligence Automation
-[Similar structure]
-
----
-
-### 4. Customer Service Use Cases
-
-#### Use Case CS-001: Intelligent Ticket Routing
-
-| Attribute | Value |
-|-----------|-------|
-| Category | Orchestration |
-| Impact | High |
-| Feasibility | Medium |
-| Time to Value | 60-90 days |
-
-**Description**
-AI that analyzes incoming tickets, classifies issues, assesses urgency, and routes to the best-suited agent.
-
-[Continue with full details...]
-
-#### Use Case CS-002: AI-Powered Chat Support
-[Similar structure]
-
-#### Use Case CS-003: Sentiment Analysis & Escalation
-[Similar structure]
-
-#### Use Case CS-004: Knowledge Base Auto-Updates
-[Similar structure]
+#### Caso de Uso VM-004: Automação de Inteligência Competitiva
+[Estrutura similar]
 
 ---
 
-### 5. Operations Use Cases
+### 4. Casos de Uso de Atendimento ao Cliente
 
-#### Use Case OP-001: Process Documentation Generation
+#### Caso de Uso AC-001: Roteamento Inteligente de Tickets
 
-| Attribute | Value |
-|-----------|-------|
-| Category | Creation |
-| Impact | Medium |
-| Feasibility | Easy |
-| Time to Value | 30 days |
+| Atributo | Valor |
+|----------|-------|
+| Categoria | Orquestração |
+| Impacto | Alto |
+| Viabilidade | Médio |
+| Tempo para Valor | 60-90 dias |
 
-[Continue with full details...]
+**Descrição**
+IA que analisa tickets recebidos, classifica problemas, avalia urgência e roteia para o agente mais adequado.
 
-#### Use Case OP-002: Quality Control Automation
-[Similar structure]
+[Continuar com detalhes completos...]
 
-#### Use Case OP-003: Inventory Optimization
-[Similar structure]
+#### Caso de Uso AC-002: Suporte via Chat com IA
+[Estrutura similar]
 
-#### Use Case OP-004: Vendor Performance Analysis
-[Similar structure]
+#### Caso de Uso AC-003: Análise de Sentimento e Escalação
+[Estrutura similar]
 
----
-
-### 6. Finance Use Cases
-
-#### Use Case FN-001: Invoice Processing Automation
-
-| Attribute | Value |
-|-----------|-------|
-| Category | Task Automation |
-| Impact | High |
-| Feasibility | Easy |
-| Time to Value | 45 days |
-
-[Continue with full details...]
-
-#### Use Case FN-002: Financial Reporting Automation
-[Similar structure]
-
-#### Use Case FN-003: Anomaly Detection in Transactions
-[Similar structure]
-
-#### Use Case FN-004: Cash Flow Forecasting
-[Similar structure]
+#### Caso de Uso AC-004: Atualização Automática da Base de Conhecimento
+[Estrutura similar]
 
 ---
 
-### 7. Human Resources Use Cases
+### 5. Casos de Uso de Operações
 
-#### Use Case HR-001: Resume Screening & Ranking
+#### Caso de Uso OP-001: Geração de Documentação de Processos
 
-| Attribute | Value |
-|-----------|-------|
-| Category | Analysis |
-| Impact | High |
-| Feasibility | Easy |
-| Time to Value | 30 days |
+| Atributo | Valor |
+|----------|-------|
+| Categoria | Criação |
+| Impacto | Médio |
+| Viabilidade | Fácil |
+| Tempo para Valor | 30 dias |
 
-[Continue with full details...]
+[Continuar com detalhes completos...]
 
-#### Use Case HR-002: Employee Onboarding Assistant
-[Similar structure]
+#### Caso de Uso OP-002: Automação de Controle de Qualidade
+[Estrutura similar]
 
-#### Use Case HR-003: Performance Review Analysis
-[Similar structure]
+#### Caso de Uso OP-003: Otimização de Estoque
+[Estrutura similar]
 
-#### Use Case HR-004: Learning Path Personalization
-[Similar structure]
-
----
-
-### 8. IT & Engineering Use Cases
-
-#### Use Case IT-001: Code Review Assistance
-
-| Attribute | Value |
-|-----------|-------|
-| Category | Analysis |
-| Impact | Medium |
-| Feasibility | Easy |
-| Time to Value | 14 days |
-
-[Continue with full details...]
-
-#### Use Case IT-002: Incident Response Automation
-[Similar structure]
-
-#### Use Case IT-003: Documentation Generation
-[Similar structure]
-
-#### Use Case IT-004: Security Threat Detection
-[Similar structure]
+#### Caso de Uso OP-004: Análise de Performance de Fornecedores
+[Estrutura similar]
 
 ---
 
-### 9. Cross-Functional Use Cases
+### 6. Casos de Uso de Finanças
 
-#### Use Case XF-001: Meeting Summarization
+#### Caso de Uso FN-001: Automação de Processamento de Faturas
 
-| Attribute | Value |
-|-----------|-------|
-| Category | Creation |
-| Impact | Medium |
-| Feasibility | Easy |
-| Time to Value | 7 days |
+| Atributo | Valor |
+|----------|-------|
+| Categoria | Automação de Tarefa |
+| Impacto | Alto |
+| Viabilidade | Fácil |
+| Tempo para Valor | 45 dias |
 
-[Continue with full details...]
+[Continuar com detalhes completos...]
 
-#### Use Case XF-002: Email Drafting Assistant
-[Similar structure]
+#### Caso de Uso FN-002: Automação de Relatórios Financeiros
+[Estrutura similar]
 
-#### Use Case XF-003: Research & Analysis Assistant
-[Similar structure]
+#### Caso de Uso FN-003: Detecção de Anomalias em Transações
+[Estrutura similar]
+
+#### Caso de Uso FN-004: Previsão de Fluxo de Caixa
+[Estrutura similar]
 
 ---
 
-### 10. Use Case Summary Matrix
+### 7. Casos de Uso de Recursos Humanos
 
-| ID | Use Case | Dept | Impact | Feasibility | Priority |
-|----|----------|------|--------|-------------|----------|
-| SM-001 | Lead Scoring | Sales | High | Easy | 1 |
-| CS-001 | Ticket Routing | Service | High | Medium | 2 |
-| FN-001 | Invoice Processing | Finance | High | Easy | 1 |
-[Continue for all use cases...]
+#### Caso de Uso RH-001: Triagem e Ranking de Currículos
 
-### 11. Implementation Recommendations
+| Atributo | Valor |
+|----------|-------|
+| Categoria | Análise |
+| Impacto | Alto |
+| Viabilidade | Fácil |
+| Tempo para Valor | 30 dias |
 
-#### Quick Start (Month 1)
-Based on impact and feasibility:
-1. [Use Case ID]: [Name]
-2. [Use Case ID]: [Name]
-3. [Use Case ID]: [Name]
+[Continuar com detalhes completos...]
 
-#### Phase 2 (Months 2-3)
-[List use cases]
+#### Caso de Uso RH-002: Assistente de Onboarding de Funcionários
+[Estrutura similar]
 
-#### Phase 3 (Months 4-6)
-[List use cases]
+#### Caso de Uso RH-003: Análise de Avaliação de Desempenho
+[Estrutura similar]
 
-### 12. Value Summary
+#### Caso de Uso RH-004: Personalização de Trilhas de Aprendizagem
+[Estrutura similar]
 
-| Department | Use Cases | Est. Annual Value | Investment |
-|------------|-----------|-------------------|------------|
-| Sales & Marketing | X | $Y | $Z |
-| Customer Service | X | $Y | $Z |
-| Operations | X | $Y | $Z |
-| Finance | X | $Y | $Z |
-| HR | X | $Y | $Z |
-| IT | X | $Y | $Z |
+---
+
+### 8. Casos de Uso de TI e Engenharia
+
+#### Caso de Uso TI-001: Assistência em Revisão de Código
+
+| Atributo | Valor |
+|----------|-------|
+| Categoria | Análise |
+| Impacto | Médio |
+| Viabilidade | Fácil |
+| Tempo para Valor | 14 dias |
+
+[Continuar com detalhes completos...]
+
+#### Caso de Uso TI-002: Automação de Resposta a Incidentes
+[Estrutura similar]
+
+#### Caso de Uso TI-003: Geração de Documentação
+[Estrutura similar]
+
+#### Caso de Uso TI-004: Detecção de Ameaças de Segurança
+[Estrutura similar]
+
+---
+
+### 9. Casos de Uso Transversais
+
+#### Caso de Uso TR-001: Sumarização de Reuniões
+
+| Atributo | Valor |
+|----------|-------|
+| Categoria | Criação |
+| Impacto | Médio |
+| Viabilidade | Fácil |
+| Tempo para Valor | 7 dias |
+
+[Continuar com detalhes completos...]
+
+#### Caso de Uso TR-002: Assistente de Elaboração de E-mails
+[Estrutura similar]
+
+#### Caso de Uso TR-003: Assistente de Pesquisa e Análise
+[Estrutura similar]
+
+---
+
+### 10. Matriz Resumo de Casos de Uso
+
+| ID | Caso de Uso | Dept | Impacto | Viabilidade | Prioridade |
+|----|-------------|------|---------|-------------|------------|
+| VM-001 | Scoring de Leads | Vendas | Alto | Fácil | 1 |
+| AC-001 | Roteamento de Tickets | Atendimento | Alto | Médio | 2 |
+| FN-001 | Processamento de Faturas | Finanças | Alto | Fácil | 1 |
+[Continuar para todos os casos de uso...]
+
+### 11. Recomendações de Implementação
+
+#### Início Rápido (Mês 1)
+Baseado em impacto e viabilidade:
+1. [ID do Caso de Uso]: [Nome]
+2. [ID do Caso de Uso]: [Nome]
+3. [ID do Caso de Uso]: [Nome]
+
+#### Fase 2 (Meses 2-3)
+[Listar casos de uso]
+
+#### Fase 3 (Meses 4-6)
+[Listar casos de uso]
+
+### 12. Resumo de Valor
+
+| Departamento | Casos de Uso | Valor Anual Est. | Investimento |
+|--------------|--------------|------------------|--------------|
+| Vendas e Marketing | X | R$ Y | R$ Z |
+| Atendimento ao Cliente | X | R$ Y | R$ Z |
+| Operações | X | R$ Y | R$ Z |
+| Finanças | X | R$ Y | R$ Z |
+| RH | X | R$ Y | R$ Z |
+| TI | X | R$ Y | R$ Z |
 | **Total** | | | |
 
-## Output Format
-- Detailed analysis for each use case
-- Consistent structure across all entries
-- Prioritization based on value and feasibility
-- Specific tool recommendations
-- Clear prerequisites and dependencies
+## Formato de Saída
+- Análise detalhada para cada caso de uso
+- Estrutura consistente em todas as entradas
+- Priorização baseada em valor e viabilidade
+- Recomendações específicas de ferramentas
+- Pré-requisitos e dependências claros
 """
