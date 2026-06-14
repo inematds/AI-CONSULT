@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M3.1 — Os 15 documentos explicados | AI Strategy Factory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15',
+      dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+    } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    /* Light mode base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* Light accent: emerald (T1) */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5,150,105,0.06); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    /* Light accent: blue (T2) */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.06); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    /* Light accent: purple (T3) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .bg-purple-900\/20 { background-color: rgba(124,58,237,0.06); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    /* Light - remove gradients + special colors */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.06); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    /* Light - navbar */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    /* Dark - softened borders */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    /* SVG light-mode taming */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    /* SVG pulse */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV — Trilha 3 ativa (purple) -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🏭</span><span class="font-bold text-lg hidden sm:inline">AI Strategy Factory</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Usar a Fundo</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Entregáveis</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- BREADCRUMB -->
+    <nav class="flex items-center space-x-2 text-sm text-neutral-400 mb-8" aria-label="breadcrumb">
+      <a href="../../index.html" class="hover:text-purple-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400 transition-colors">Trilha 3</a>
+      <span>/</span>
+      <span class="text-purple-400">Módulo 3.1</span>
+    </nav>
+
+    <!-- HEADER DO MÓDULO -->
+    <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 rounded-2xl border border-purple-500/30 p-8 mb-10">
+      <div class="mb-4">
+        <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-sm font-semibold rounded-full border border-purple-500/30">MÓDULO 3.1</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">📚 Os 15 documentos explicados</h1>
+      <p class="text-neutral-300 text-lg leading-relaxed mb-8">
+        O coração do pacote são <strong class="text-purple-400">15 documentos em texto</strong>. Em vez de decorar nomes, vamos agrupá-los por função — diagnóstico, plano, finanças, governança e capacitação — e entender, em linguagem simples, o que cada um entrega e quem usa.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-purple-400">7</div>
+          <div class="text-xs text-neutral-400 mt-1">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-purple-400">40</div>
+          <div class="text-xs text-neutral-400 mt-1">Minutos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-purple-400">15</div>
+          <div class="text-xs text-neutral-400 mt-1">Documentos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-purple-400">📖</div>
+          <div class="text-xs text-neutral-400 mt-1">Referência</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SVG FUTURISTA — pacote → 5 categorias de documentos -->
+    <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-6 mb-10">
+      <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="O pacote de markdown se abre em cinco grupos de documentos: diagnóstico, plano de ação, decisão financeira, governança e capacitação" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="m31-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+          <filter id="m31-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <pattern id="m31-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#c084fc" opacity="0.10"/></pattern>
+          <marker id="m31-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"/></marker>
+        </defs>
+        <rect x="0" y="0" width="1000" height="240" fill="url(#m31-grid)"/>
+        <!-- setas markdown → grupos -->
+        <g fill="none" stroke="#c084fc" stroke-width="2" opacity="0.6">
+          <path d="M196,120 C300,120 320,30 452,30" marker-end="url(#m31-ah)"/>
+          <path d="M196,120 C300,120 320,75 452,75" marker-end="url(#m31-ah)"/>
+          <path d="M196,120 L452,120" marker-end="url(#m31-ah)"/>
+          <path d="M196,120 C300,120 320,165 452,165" marker-end="url(#m31-ah)"/>
+          <path d="M196,120 C300,120 320,210 452,210" marker-end="url(#m31-ah)"/>
+        </g>
+        <!-- Origem: pasta markdown -->
+        <g filter="url(#m31-glow)"><rect x="40" y="88" width="156" height="64" rx="14" fill="#1a1230" stroke="url(#m31-grad)" stroke-width="2.5"/></g>
+        <text x="118" y="114" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="600" font-size="16">📄 markdown/</text>
+        <text x="118" y="134" text-anchor="middle" fill="#d8b4fe" font-family="Inter,sans-serif" font-size="11.5">15 documentos</text>
+        <!-- Grupos -->
+        <g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
+          <g class="wf-a"><rect x="452" y="14"  width="320" height="32" rx="9" fill="#1a1230" stroke="#c084fc" stroke-width="1.8"/><text x="468" y="35"  fill="#e9d5ff">🔍 Diagnóstico — 3 docs</text></g>
+          <g class="wf-a"><rect x="452" y="59"  width="320" height="32" rx="9" fill="#1a1230" stroke="#c084fc" stroke-width="1.8"/><text x="468" y="80"  fill="#e9d5ff">🗺️ Plano de ação — 2 docs</text></g>
+          <g class="wf-a"><rect x="452" y="104" width="320" height="32" rx="9" fill="#1a1230" stroke="#c084fc" stroke-width="1.8"/><text x="468" y="125" fill="#e9d5ff">💰 Decisão financeira — 3 docs</text></g>
+          <g class="wf-a"><rect x="452" y="149" width="320" height="32" rx="9" fill="#1a1230" stroke="#c084fc" stroke-width="1.8"/><text x="468" y="170" fill="#e9d5ff">🛡️ Governança — 2 docs</text></g>
+          <g class="wf-a"><rect x="452" y="194" width="320" height="32" rx="9" fill="#1a1230" stroke="#c084fc" stroke-width="1.8"/><text x="468" y="215" fill="#e9d5ff">🎓 Capacitação — 4 docs</text></g>
+        </g>
+        <!-- selo total -->
+        <g filter="url(#m31-glow)"><rect x="800" y="88" width="160" height="64" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.5"/></g>
+        <text x="880" y="114" text-anchor="middle" fill="#38bdf8" font-family="Inter,sans-serif" font-weight="600" font-size="15">14 + 1</text>
+        <text x="880" y="134" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10.5">texto + diagramas</text>
+      </svg>
+      <p class="text-xs text-neutral-500 mt-3 text-center">Diagrama ilustrativo — 14 documentos de texto agrupados em cinco funções, mais 1 documento com o código dos diagramas.</p>
+    </div>
+
+    <!-- DIVISOR -->
+    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🔍 Diagnóstico (3 documentos)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Toda estratégia começa com um retrato honesto da situação atual. O grupo de <strong class="text-purple-400">diagnóstico</strong> reúne três documentos que respondem: o que a empresa já usa, o que dói e o quanto ela está madura em IA.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30"><span class="text-purple-400 font-bold text-xs">01</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1"><span class="font-mono text-sm text-purple-400">01_tech_inventory</span> — Inventário de tecnologia</h4>
+            <p class="text-sm text-neutral-400">Lista o que a empresa já tem de tecnologia hoje: sistemas, ferramentas e onde a IA pode encaixar. É a "planta baixa" do ambiente atual.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30"><span class="text-purple-400 font-bold text-xs">02</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1"><span class="font-mono text-sm text-purple-400">02_pain_points</span> — Dores por área</h4>
+            <p class="text-sm text-neutral-400">Mapeia os problemas, departamento por departamento (vendas, suporte, operações...). Mostra onde a IA traria mais alívio.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30"><span class="text-purple-400 font-bold text-xs">04</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1"><span class="font-mono text-sm text-purple-400">04_maturity_assessment</span> — Maturidade em IA</h4>
+            <p class="text-sm text-neutral-400">Dá uma nota de 1 a 5 para o quão preparada a empresa está para usar IA. Serve de "termômetro" e ponto de comparação no futuro.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">👤</span> Quem usa</h3>
+        <p class="text-neutral-300">Líderes e o time de estratégia leem o diagnóstico primeiro — ele justifica todas as decisões que vêm depois. A nota de maturidade (1 a 5) é ótima para mostrar evolução ao longo do tempo.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🗺️ Plano de ação (2 documentos)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Diagnóstico sem plano é só lamento. Estes dois documentos transformam o retrato atual em <strong class="text-purple-400">passos concretos</strong>: um para o ano inteiro, outro para a primeira semana.
+      </p>
+
+      <!-- TIMELINE -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-5 flex items-center"><span class="mr-2">📅</span> O roadmap (05) em fases</h3>
+        <div class="relative pl-8 space-y-5 before:content-[''] before:absolute before:left-2 before:top-1 before:bottom-1 before:w-0.5 before:bg-purple-500/30">
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">30 dias</strong> <span class="text-neutral-400">— quick wins e fundação inicial</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">60 dias</strong> <span class="text-neutral-400">— primeiros pilotos rodando</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">90 dias</strong> <span class="text-neutral-400">— consolidar e medir resultados</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">180 dias</strong> <span class="text-neutral-400">— escalar o que funcionou</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">360 dias</strong> <span class="text-neutral-400">— IA integrada ao negócio</span></p></div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5 mb-6">
+        <div class="text-purple-400 font-bold mb-1"><span class="font-mono text-sm">06_quick_wins</span> — Ganhos rápidos</div>
+        <p class="text-sm text-neutral-400">De 5 a 10 ações de alto impacto e baixo esforço para fazer já. São elas que provam o valor da IA logo no início e ganham apoio para o resto do plano.</p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — comece pelos quick wins</h3>
+        <p class="text-neutral-300">Em vez de tentar o roadmap inteiro de uma vez, escolha 1 ou 2 quick wins. Um resultado rápido e visível convence a equipe muito mais que um plano de 360 dias no papel.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">💰 Decisão financeira (3 documentos)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Quem assina o cheque pensa em números. Estes três documentos respondem às perguntas de dinheiro: <strong class="text-purple-400">vale a pena, em quanto tempo se paga, e dá para gastar menos?</strong>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="text-purple-400 font-bold text-sm mb-1">💹 09_roi_calculator</div>
+          <p class="text-xs text-neutral-400">Custo-benefício e tempo de retorno (payback) de cada iniciativa de IA.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="text-purple-400 font-bold text-sm mb-1">⚖️ 07_vendor_comparison</div>
+          <p class="text-xs text-neutral-400">Construir vs. comprar (build vs. buy) e matriz de fornecedores: OpenAI, Anthropic, Google...</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="text-purple-400 font-bold text-sm mb-1">🧾 08_license_consolidation</div>
+          <p class="text-xs text-neutral-400">Como juntar ferramentas espalhadas e cortar gasto duplicado.</p>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center"><span class="mr-2">🔎</span> Build vs. Buy, em uma olhada</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-5">
+            <h4 class="font-bold text-purple-400 mb-3">🛠️ Construir (build)</h4>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Controle total e personalização</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Exige time técnico e mais tempo</span></li>
+            </ul>
+          </div>
+          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-5">
+            <h4 class="font-bold text-purple-400 mb-3">🛒 Comprar (buy)</h4>
+            <ul class="space-y-2 text-sm text-neutral-300">
+              <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Rápido de começar, menos esforço</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Menos controle, custo recorrente</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">👤</span> Quem usa</h3>
+        <p class="text-neutral-300">Diretoria financeira e quem aprova orçamento. O ROI (09) é o documento que costuma destravar a verba — leve-o sempre para a reunião de decisão.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">🛡️ Governança (2 documentos)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Adotar IA sem regras é convite a problema. O grupo de <strong class="text-purple-400">governança</strong> traz as proteções: o que pode ser feito com IA e como os dados devem ser tratados.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-6">
+          <h4 class="font-bold text-purple-400 mb-2"><span class="font-mono text-sm">10_ai_policy</span></h4>
+          <p class="text-sm text-neutral-400 mb-3">A política de uso aceitável de IA: regras claras do que a equipe pode e não pode fazer com ferramentas de IA.</p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>O que é permitido e proibido</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>Dá segurança para as pessoas usarem</span></li>
+          </ul>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-6">
+          <h4 class="font-bold text-purple-400 mb-2"><span class="font-mono text-sm">11_data_governance</span></h4>
+          <p class="text-sm text-neutral-400 mb-3">Gestão, segurança e conformidade (compliance) dos dados: como guardar, proteger e usar dados com responsabilidade.</p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>Privacidade e segurança</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">•</span><span>Regras de compliance</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+          <h4 class="font-bold text-purple-400 mb-4">✓ Com governança</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Equipe sabe o que pode usar</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Dados protegidos e rastreáveis</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Menos risco legal e de imagem</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Sem governança</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Cada um faz de um jeito</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Risco de vazar dados sensíveis</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Exposição a problemas legais</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — governança é habilitador, não freio</h3>
+        <p class="text-neutral-300">Boas regras não atrapalham: elas dão confiança para a equipe usar IA sem medo. Pense na política como o cinto de segurança que deixa todo mundo acelerar tranquilo.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">🎓 Capacitação (4 documentos)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Estratégia só vira realidade quando as pessoas embarcam. Estes quatro documentos são feitos para <strong class="text-purple-400">o time</strong>: ensinam, traduzem e ajudam a adotar a IA no dia a dia.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="text-purple-400 font-bold mb-1"><span class="font-mono text-sm">12_prompt_library</span></div>
+          <p class="text-sm text-neutral-400">Prompts prontos, organizados por área. A equipe copia, cola e adapta — sem precisar virar especialista em IA.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="text-purple-400 font-bold mb-1"><span class="font-mono text-sm">13_glossary</span></div>
+          <p class="text-sm text-neutral-400">Glossário para não-técnicos: explica os termos de IA em português claro, sem jargão.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="text-purple-400 font-bold mb-1"><span class="font-mono text-sm">14_use_case_library</span></div>
+          <p class="text-sm text-neutral-400">Biblioteca de casos de uso por área: exemplos concretos de onde a IA ajuda em cada departamento.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="text-purple-400 font-bold mb-1"><span class="font-mono text-sm">15_change_management</span></div>
+          <p class="text-sm text-neutral-400">Plano de treinamento e adoção: como preparar as pessoas e conduzir a mudança sem resistência.</p>
+        </div>
+      </div>
+
+      <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">👤</span> Quem usa</h3>
+        <p class="text-neutral-300">RH, líderes de equipe e qualquer colaborador. O glossário (13) e a biblioteca de prompts (12) são os mais úteis no dia a dia — distribua-os logo cedo para acelerar a adoção.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">📐 Diagramas Mermaid</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Há um documento diferente dos outros: <span class="font-mono text-sm text-purple-400">03_mermaid_diagrams</span>. Ele não é para ler — é o <strong class="text-purple-400">código</strong> que, na fase de Geração, vira cinco imagens PNG.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">⌨️</span> Como o código vira imagem</h3>
+        <pre class="font-mono text-sm text-purple-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># O documento markdown guarda blocos como este:
+```mermaid
+graph LR
+  A[Hoje] --> B[Estado futuro com IA]
+```
+
+# Na fase de Geração, cada bloco vira um PNG em:
+output/empresa/mermaid_images/
+├── current_state.png
+├── future_state.png
+├── data_flow.png
+├── roadmap.png
+└── integration.png</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">O markdown é a "fonte"; os PNGs são o "resultado". Editar o diagrama = editar o código Mermaid.</p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+        <div class="bg-dark-900/60 rounded-lg p-3 border border-purple-500/20 text-center"><div class="text-purple-400 text-xs font-bold mb-1">🏛️ current</div><div class="text-[11px] text-neutral-400">estado atual</div></div>
+        <div class="bg-dark-900/60 rounded-lg p-3 border border-purple-500/20 text-center"><div class="text-purple-400 text-xs font-bold mb-1">🚀 future</div><div class="text-[11px] text-neutral-400">estado futuro</div></div>
+        <div class="bg-dark-900/60 rounded-lg p-3 border border-purple-500/20 text-center"><div class="text-purple-400 text-xs font-bold mb-1">🔀 data_flow</div><div class="text-[11px] text-neutral-400">fluxo de dados</div></div>
+        <div class="bg-dark-900/60 rounded-lg p-3 border border-purple-500/20 text-center"><div class="text-purple-400 text-xs font-bold mb-1">📅 roadmap</div><div class="text-[11px] text-neutral-400">linha do tempo</div></div>
+        <div class="bg-dark-900/60 rounded-lg p-3 border border-purple-500/20 text-center"><div class="text-purple-400 text-xs font-bold mb-1">🔌 integration</div><div class="text-[11px] text-neutral-400">integração</div></div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — se o PNG sair em branco</h3>
+        <p class="text-neutral-300">É um problema comum e tratado na Trilha 3.3: quase sempre falta o Chrome para "tirar a foto" do diagrama. Os textos saem perfeitos mesmo assim — só as imagens precisam dessa peça.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 7 -->
+    <section id="topico-7" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">7</span>
+        <h2 class="text-2xl font-bold">🧭 Ordem de leitura</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Com 15 documentos, é fácil se perder. A boa notícia: eles contam uma <strong class="text-purple-400">história em sequência</strong>. Seguir a ordem facilita entender — e apresentar.
+      </p>
+
+      <!-- TIMELINE de leitura -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-5 flex items-center"><span class="mr-2">📖</span> A sequência natural</h3>
+        <div class="relative pl-8 space-y-5 before:content-[''] before:absolute before:left-2 before:top-1 before:bottom-1 before:w-0.5 before:bg-purple-500/30">
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">1. Diagnóstico</strong> <span class="text-neutral-400">— de onde estamos saindo</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">2. Plano</strong> <span class="text-neutral-400">— para onde vamos</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">3. Finanças</strong> <span class="text-neutral-400">— quanto custa e quanto rende</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">4. Governança</strong> <span class="text-neutral-400">— como fazer com segurança</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">5. Capacitação</strong> <span class="text-neutral-400">— como as pessoas executam</span></p></div>
+        </div>
+      </div>
+
+      <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center"><span class="mr-2">🎯</span> Por onde um executivo começa</h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li><strong>Resumo executivo</strong> — a visão de topo, em poucos minutos</li>
+          <li><strong>Roadmap (05)</strong> — o caminho prático do ano</li>
+          <li><strong>ROI (09)</strong> — o número que justifica o investimento</li>
+        </ul>
+      </div>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🧭</span> Resumindo</h3>
+        <p class="text-neutral-300">Não precisa ler tudo de uma vez. Comece pela sua necessidade: decisão de verba? Vá ao ROI. Adoção pela equipe? Vá à capacitação. Os grupos foram pensados para serem usados sob demanda.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO DO MÓDULO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">📚</span> Resumo do Módulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Diagnóstico (3)</strong><span class="text-neutral-400"> — 01 inventário, 02 dores, 04 maturidade (1-5).</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Plano (2)</strong><span class="text-neutral-400"> — 05 roadmap (30/60/90/180/360) e 06 quick wins.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Finanças (3)</strong><span class="text-neutral-400"> — 09 ROI, 07 build vs. buy + fornecedores, 08 licenças.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Governança (2)</strong><span class="text-neutral-400"> — 10 política de IA e 11 governança de dados.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Capacitação (4)</strong><span class="text-neutral-400"> — 12 prompts, 13 glossário, 14 casos de uso, 15 adoção.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Diagramas</strong><span class="text-neutral-400"> — 03 é o código Mermaid que vira os 5 PNGs.</span></div></div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300"><strong>3.2 — Apresentações, documentos & como apresentar</strong> — conheça as 2 apresentações, os 2 Word, os 5 diagramas e o roteiro para levar tudo à diretoria.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-start">
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha</a>
+          <a href="modulo-3-2.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">Próximo Módulo →</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /max-w-4xl -->
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm space-y-1">
+      <p>🏭 AI Strategy Factory — Estratégia de IA completa para qualquer empresa · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    const themeToggle=document.getElementById('theme-toggle'),tdi=document.getElementById('theme-toggle-dark-icon'),tli=document.getElementById('theme-toggle-light-icon'),H=document.documentElement;
+    if(localStorage.getItem('theme')==='light'){tdi.classList.remove('hidden');H.classList.remove('dark');}else{tli.classList.remove('hidden');}
+    themeToggle.addEventListener('click',()=>{tdi.classList.toggle('hidden');tli.classList.toggle('hidden');H.classList.toggle('dark');localStorage.setItem('theme',H.classList.contains('dark')?'dark':'light');});
+  </script>
+</body>
+</html>

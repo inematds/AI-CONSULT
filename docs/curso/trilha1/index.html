@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 1 — Fundamentos & Primeiros Passos | AI Strategy Factory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15',
+      dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+    } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    /* Light mode base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* Light accent: emerald (T1) */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5,150,105,0.06); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    /* Light accent: blue (T2) */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.06); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    /* Light accent: purple (T3) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .bg-purple-900\/20 { background-color: rgba(124,58,237,0.06); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    /* Light - remove gradients + special colors */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.06); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    /* Light - navbar */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    /* Dark - softened borders */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    /* SVG light-mode taming */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    /* SVG pulse */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV — Trilha 1 ativa (emerald) -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🏭</span><span class="font-bold text-lg hidden sm:inline">AI Strategy Factory</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Usar a Fundo</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Entregáveis</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER DE TRILHA -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">TRILHA 1</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🟢 Fundamentos & Primeiros Passos</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl mb-6">
+        Comece do absoluto zero: entenda o que a ferramenta faz, instale tudo na sua máquina e gere seu primeiro relatório pela interface web — sem precisar digitar nenhum comando.
+      </p>
+
+      <!-- Hero SVG: do download ao primeiro relatório -->
+      <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-4 mb-8 max-w-3xl">
+        <svg viewBox="0 0 800 170" class="w-full h-auto" role="img" aria-label="Caminho da Trilha 1: entender a ferramenta, preparar os pré-requisitos e a instalação, e gerar o primeiro relatório que produz o pacote pronto">
+          <defs>
+            <linearGradient id="t1-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#38bdf8"/>
+            </linearGradient>
+            <filter id="t1-glow" x="-20%" y="-40%" width="140%" height="180%">
+              <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <pattern id="t1-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#34d39918" stroke-width="0.8"/>
+            </pattern>
+            <marker id="t1-ah" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#34d399"/></marker>
+            <marker id="t1-ahc" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#38bdf8"/></marker>
+          </defs>
+          <rect x="0" y="0" width="800" height="170" fill="url(#t1-grid)"/>
+
+          <!-- Nó 1: Entender -->
+          <rect x="24" y="58" width="150" height="56" rx="11" fill="#0e2018" stroke="#34d399" stroke-width="2"/>
+          <text x="99" y="82" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">🎯 Entender</text>
+          <text x="99" y="100" text-anchor="middle" fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10">o que ela faz</text>
+          <line x1="174" y1="86" x2="214" y2="86" stroke="#34d399" stroke-width="2" marker-end="url(#t1-ah)" class="wf-a"/>
+
+          <!-- Nó 2: Instalar -->
+          <rect x="218" y="58" width="150" height="56" rx="11" fill="#0e2018" stroke="#34d399" stroke-width="2"/>
+          <text x="293" y="82" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">🔑 Instalar</text>
+          <text x="293" y="100" text-anchor="middle" fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10">chaves + setup</text>
+          <line x1="368" y1="86" x2="408" y2="86" stroke="#38bdf8" stroke-width="2" marker-end="url(#t1-ahc)" class="wf-a"/>
+
+          <!-- Nó 3: Rodar -->
+          <g filter="url(#t1-glow)"><rect x="412" y="58" width="150" height="56" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/></g>
+          <text x="487" y="82" text-anchor="middle" fill="#38bdf8" font-family="Inter,sans-serif" font-weight="600" font-size="13">🖥️ Rodar</text>
+          <text x="487" y="100" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10">app web</text>
+          <line x1="562" y1="86" x2="602" y2="86" stroke="#34d399" stroke-width="2" marker-end="url(#t1-ah)" class="wf-a"/>
+
+          <!-- Nó 4: Relatório -->
+          <g filter="url(#t1-glow)"><rect x="606" y="58" width="170" height="56" rx="11" fill="#0e2018" stroke="url(#t1-grad)" stroke-width="2.5"/></g>
+          <text x="691" y="82" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="13">📊 Relatório</text>
+          <text x="691" y="100" text-anchor="middle" fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10">pacote pronto</text>
+
+          <text x="400" y="148" text-anchor="middle" fill="#4b5563" font-family="Inter,sans-serif" font-size="10">Quatro passos te levam do "nunca usei" ao primeiro pacote de estratégia baixado.</text>
+        </svg>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-4 gap-4 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">3</div>
+          <div class="text-xs text-neutral-400">Módulos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">20</div>
+          <div class="text-xs text-neutral-400">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">~1h40</div>
+          <div class="text-xs text-neutral-400">Duração</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Iniciante</div>
+          <div class="text-xs text-neutral-400">Nível</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- MAPA DA TRILHA -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6">Mapa da trilha</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="#modulo-1-1" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-emerald-400 font-bold text-sm">1.1</span>
+            <span class="text-xs text-neutral-500">~30 min</span>
+          </div>
+          <h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">🏭 O que é a ferramenta</h3>
+          <p class="text-xs text-neutral-400">Estratégia em minutos</p>
+        </a>
+        <a href="#modulo-1-2" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-emerald-400 font-bold text-sm">1.2</span>
+            <span class="text-xs text-neutral-500">~40 min</span>
+          </div>
+          <h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">🔑 Pré-requisitos & Instalação</h3>
+          <p class="text-xs text-neutral-400">Do zero ao app rodando</p>
+        </a>
+        <a href="#modulo-1-3" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-emerald-400 font-bold text-sm">1.3</span>
+            <span class="text-xs text-neutral-500">~30 min</span>
+          </div>
+          <h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">🖥️ Seu primeiro relatório</h3>
+          <p class="text-xs text-neutral-400">Web, sem comando</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTEÚDO DETALHADO -->
+    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+
+    <!-- ==================== MÓDULO 1.1 ==================== -->
+    <div id="modulo-1-1" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-emerald-400 font-bold">1.1</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🏭 O que é a AI Strategy Factory</h3>
+        <p class="text-neutral-400 text-sm">Antes de instalar, entenda o que a ferramenta faz, o que ela entrega e por que custa só centavos. Sete tópicos que te dão o mapa mental completo.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+
+        <!-- Tópico 1 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🎯 O problema que ela resolve</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Consultoria de IA é cara, lenta e rara</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Quase toda empresa quer adotar IA, mas uma consultoria estratégica séria custa milhares de reais, demora semanas e depende de especialistas escassos. A maioria das empresas acaba sem um plano claro.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Entender a dor mostra o valor real da ferramenta: ela democratiza algo que antes era exclusivo de grandes orçamentos. Você passa a oferecer (ou ter) um diagnóstico que poucos têm.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Consultoria tradicional = semanas + milhares de reais</li><li>A ferramenta = minutos + centavos</li><li>Foco em quem normalmente não teria acesso</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 2 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">⚡ A solução em uma frase</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Empresa entra, estratégia sai</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Você fornece o nome de uma empresa (e, se quiser, um contexto) e a ferramenta devolve um pacote de estratégia de IA completo — pesquisado, escrito e formatado automaticamente.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">É o modelo mental central do curso: um funil de uma entrada simples (o nome) para muitas saídas prontas (os documentos). Tudo o mais é detalhe desse funil.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Input mínimo = nome da empresa</li><li>Contexto opcional melhora o resultado</li><li>Saída = pacote pronto para usar</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 3 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">📦 O que ela entrega</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">15 documentos + apresentações + diagramas</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">São 15 documentos em texto (diagnóstico, roadmap, ROI, governança, prompts e mais), 2 apresentações PowerPoint, 2 relatórios em Word e diagramas de arquitetura em imagem (PNG).</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Saber o que esperar evita frustração e ajuda a planejar como usar cada peça. A Trilha 3 detalha documento por documento — aqui você só precisa ter a visão geral.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>15 documentos + 2 PPTX + 2 DOCX + diagramas</li><li>Tudo salvo numa pasta por empresa</li><li>Material pronto para apresentar</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 4 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🔄 As 3 fases do processo</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Pesquisa → Síntese → Geração</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">O processo tem 3 fases em sequência: Pesquisa (coleta dados da empresa), Síntese (escreve os documentos) e Geração (monta apresentações e diagramas). Cada fase usa uma tecnologia diferente.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Entender as fases ajuda a acompanhar o progresso na tela e a saber onde resolver problemas quando algo der errado (assunto da Trilha 2 e 3).</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Fase 1 Pesquisa → usa a Perplexity</li><li>Fase 2 Síntese → usa o Gemini</li><li>Fase 3 Geração → roda no seu computador, sem custo</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 5 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🧠 As duas IAs por trás</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Perplexity pesquisa, Gemini escreve</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">A ferramenta combina dois serviços de IA: a <strong class="text-emerald-400">Perplexity</strong> (busca informações atualizadas na internet, com fontes) e o <strong class="text-emerald-400">Google Gemini</strong> (transforma a pesquisa em documentos bem escritos).</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Você vai precisar de uma chave de cada serviço. Saber o papel de cada IA esclarece por que são necessárias as duas — e o que cada uma cobra.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Perplexity = pesquisa com fontes</li><li>Gemini = redação dos documentos</li><li>Cada uma exige sua própria chave de API</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 6 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">💰 Quanto custa</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Centavos por empresa</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">O custo é só o das chamadas de IA: cerca de US$ 0,05 no modo rápido e US$ 0,50 no modo aprofundado, por empresa. A fase de geração (no seu computador) é gratuita.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Tira o medo do custo — é baratíssimo. Mas é bom entender que cada análise consome um pouquinho do crédito das suas chaves de API.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Rápido ~US$ 0,05 · aprofundado ~US$ 0,50</li><li>Geração local = gratuita</li><li>Você paga direto às APIs, não ao curso</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 7 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">7</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">👤 Para quem é</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Consultores, founders, times de inovação</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Serve para consultores que querem entregar mais rápido, fundadores avaliando IA no próprio negócio, times de inovação e qualquer pessoa estudando estratégia de IA. Não exige saber programar.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Ajuda você a enquadrar o uso: para clientes, para a própria empresa ou para aprender. O resultado é sempre um rascunho forte que um humano revisa e personaliza.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Consultoria, uso interno ou educação</li><li>Sem pré-requisito de programação</li><li>Gera rascunhos que um humano refina</li></ul></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-1-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-1-1.html" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ==================== MÓDULO 1.2 ==================== -->
+    <div id="modulo-1-2" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-emerald-400 font-bold">1.2</span>
+          <span class="text-xs text-neutral-500">~40 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔑 Pré-requisitos & Instalação</h3>
+        <p class="text-neutral-400 text-sm">Tudo que você precisa para deixar a ferramenta pronta para rodar: o que instalar, como pegar as duas chaves grátis e como configurar o arquivo de chaves. Sete tópicos, passo a passo.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+
+        <!-- Tópico 1 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🧰 O que você precisa</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Python, 2 chaves e um terminal</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Três coisas: o <strong class="text-emerald-400">Python 3.9 ou superior</strong> instalado, as <strong class="text-emerald-400">duas chaves de API</strong> (Perplexity e Gemini) e um <strong class="text-emerald-400">terminal</strong> (Prompt de Comando no Windows; Terminal no Mac/Linux).</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Ter os pré-requisitos prontos antes de começar evita travar no meio da instalação — o erro mais comum de quem está começando.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Python 3.9+ (baixe em python.org/downloads)</li><li>No Windows, marque "Add Python to PATH" ao instalar</li><li>Terminal aberto na pasta do projeto</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 2 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🔎 Chave da Perplexity</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Pegue em 2 minutos</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Acesse <span class="font-mono text-xs text-emerald-400">perplexity.ai/settings/api</span>, crie uma conta e clique em "Generate API Key". A chave começa com <span class="font-mono text-xs">pplx-</span>.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">É uma das duas chaves obrigatórias. Sem ela, a fase de Pesquisa não roda e nenhum documento é gerado.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Site: perplexity.ai/settings/api</li><li>Formato da chave: pplx-...</li><li>Guarde em local seguro — é como uma senha</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 3 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">✨ Chave do Gemini</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Grátis no Google AI Studio</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Acesse <span class="font-mono text-xs text-emerald-400">aistudio.google.com/apikey</span>, entre com sua conta Google e clique em "Create API Key". A chave começa com <span class="font-mono text-xs">AIzaSy</span>.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">É a segunda chave obrigatória. Sem ela, a fase de Síntese não consegue escrever os documentos.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Site: aistudio.google.com/apikey</li><li>Formato da chave: AIzaSy...</li><li>Login com conta Google comum</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 4 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🚀 Instalação automática</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">python setup.py faz tudo</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Depois de baixar o projeto, rode <span class="font-mono text-xs text-emerald-400">python setup.py</span>. O script cria o ambiente, instala as dependências e prepara o arquivo .env para você.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">É o caminho mais simples para quem não quer mexer em comandos manuais. Um comando só e o ambiente fica pronto.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>1 comando faz tudo</li><li>Cria o ambiente virtual e instala dependências</li><li>Gera o .env em branco para você preencher</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 5 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🛠️ Instalação manual</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">venv + pip, passo a passo</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Se preferir controlar cada etapa: crie o ambiente com <span class="font-mono text-xs">python3 -m venv venv</span>, ative-o, instale com <span class="font-mono text-xs">pip install -r requirements.txt</span> e copie o arquivo de exemplo com <span class="font-mono text-xs">cp .env.example .env</span>.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Útil quando o automático falha, ou para entender o que acontece por baixo dos panos. O "venv" é um ambiente isolado só para este projeto.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Ativar: <span class="font-mono text-xs">source venv/bin/activate</span> (Mac/Linux)</li><li>Ou <span class="font-mono text-xs">.\venv\Scripts\activate</span> (Windows)</li><li>Sempre ative o venv antes de rodar a ferramenta</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 6 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">📝 Configurar o .env</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Onde colar as chaves</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Abra o arquivo <span class="font-mono text-xs">.env</span> num editor de texto e preencha <span class="font-mono text-xs">PERPLEXITY_API_KEY</span> e <span class="font-mono text-xs">GEMINI_API_KEY</span> com suas chaves. Salve o arquivo.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">É onde as chaves "entram" no programa. Sem isso, a ferramenta não consegue acessar as IAs — e dá erro de autenticação.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>PERPLEXITY_API_KEY=pplx-...</li><li>GEMINI_API_KEY=AIzaSy...</li><li>Sem espaços extras · nunca compartilhe esse arquivo</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 7 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">7</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">✅ Confirmar que funcionou</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Teste sem gastar nada</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Antes de gastar, rode um teste de simulação: <span class="font-mono text-xs text-emerald-400">python -m strategy_factory.main run "Stripe" --dry-run</span>. Se rodar sem erro de chave, está tudo certo.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Confirma a instalação e a configuração das chaves sem gastar nenhum centavo, porque o modo simulação não faz chamadas reais de IA.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>--dry-run = simulação, sem chamadas de IA</li><li>Erro de chave aqui indica .env incorreto</li><li>Lembre de ativar o venv antes</li></ul></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-1-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-1-2.html" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- ==================== MÓDULO 1.3 ==================== -->
+    <div id="modulo-1-3" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-emerald-400 font-bold">1.3</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🖥️ Seu primeiro relatório (modo web)</h3>
+        <p class="text-neutral-400 text-sm">O jeito mais fácil de usar a ferramenta: a interface web. Suba o app, conheça a tela e gere seu primeiro pacote de estratégia — apontando e clicando, sem comandos.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+
+        <!-- Tópico 1 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">▶️ Ligar o app web</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Um comando e o navegador abre</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Com o ambiente ativado, rode <span class="font-mono text-xs text-emerald-400">python -m strategy_factory.webapp</span>. O navegador abre sozinho em <span class="font-mono text-xs">http://localhost:8888</span>.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">O modo web é o jeito mais amigável de usar a ferramenta — sem precisar decorar nenhum comando além deste.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Comando: ...strategy_factory.webapp</li><li>Abre em localhost:8888</li><li>Porta ocupada? Ele acha outra, ou use --port 9000</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 2 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🧭 Tour da interface</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Campo, modo e contexto</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">A tela tem um campo para o nome da empresa, um seletor de modo (Quick/Comprehensive), um campo opcional de contexto e um botão para iniciar a análise.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Conhecer a tela antes de rodar deixa você confiante para a primeira análise — sem medo de clicar no lugar errado.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Campo empresa (obrigatório)</li><li>Modo: rápido ou aprofundado</li><li>Contexto (opcional) + botão iniciar</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 3 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">🏷️ Digitar a empresa</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">O único campo obrigatório</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Escreva o nome da empresa que quer analisar (por exemplo, "Stripe"). É a única informação obrigatória para começar.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">É o ponto de partida de toda análise. O nome também vira o nome da pasta onde os resultados serão salvos.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Nome = input principal</li><li>Vira a pasta dos resultados (ex.: stripe)</li><li>Use o nome conhecido da empresa</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 4 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">💬 Adicionar contexto</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Opcional, melhora muito</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">No campo de contexto você pode dar dicas como "fintech, B2B, 200 funcionários". Isso ajuda a Perplexity a pesquisar com mais precisão.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Um bom contexto melhora bastante a qualidade dos documentos, principalmente para empresas pouco conhecidas ou com nome ambíguo.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Contexto = setor, porte, modelo de negócio</li><li>Opcional, mas recomendado</li><li>Quanto mais específico, melhor o resultado</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 5 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">📊 Acompanhar o progresso</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">As 3 fases ao vivo</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Depois de iniciar, uma barra mostra o progresso pelas 3 fases (Pesquisa, Síntese, Geração) em tempo real, indicando o que está acontecendo.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">Você vê o que está rolando e quanto falta — e percebe claramente quando o pacote ficou pronto.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Barra de progresso por fase</li><li>Rápido: 2-3 min · aprofundado: 5-10 min</li><li>Acompanhe sem fechar a aba</li></ul></div>
+          </div>
+        </div>
+
+        <!-- Tópico 6 -->
+        <div class="topic-item p-4">
+          <button onclick="toggleTopic(this)" class="w-full flex items-center space-x-3 text-left hover:bg-dark-700/50 rounded-lg p-2 -m-2 transition-colors">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2"><span class="text-sm font-semibold">📥 Baixar os arquivos</span></div>
+              <p class="text-xs text-neutral-400 mt-0.5">Tudo pronto para usar</p>
+            </div>
+            <svg class="w-4 h-4 text-neutral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="topic-explanation mt-3 pl-9 space-y-3">
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">O que é</p><p class="text-sm text-neutral-300">Ao terminar, a tela mostra links para baixar cada entregável (documentos, apresentações, Word e diagramas). Tudo também fica salvo na pasta <span class="font-mono text-xs">output/</span> da sua máquina.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Por que aprender</p><p class="text-sm text-neutral-300">É o objetivo final: ter os arquivos em mãos para usar, editar e apresentar. A Trilha 3 mostra o que fazer com cada um.</p></div>
+            <div><p class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Conceitos-chave</p><ul class="text-sm text-neutral-300 space-y-1 list-disc list-inside"><li>Download por arquivo, direto da tela</li><li>Tudo salvo em output/nome-da-empresa/</li><li>Dá para ler o markdown na própria interface</li></ul></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-1-3')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver em Modal</button>
+        <a href="modulo-1-3.html" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Ver Completo</a>
+      </div>
+    </div>
+
+    <!-- NAVEGAÇÃO FIM -->
+    <div class="flex justify-between items-center py-8 border-t border-dark-600 mt-8">
+      <a href="../../index.html" class="flex items-center space-x-2 text-neutral-400 hover:text-emerald-400 transition-colors">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        <span class="text-sm">Voltar ao início</span>
+      </a>
+      <a href="../trilha2/index.html" class="flex items-center space-x-2 text-neutral-400 hover:text-blue-400 transition-colors">
+        <span class="text-sm">Próxima Trilha: Usar a Fundo</span>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm space-y-1">
+      <p>🏭 AI Strategy Factory — Estratégia de IA completa para qualquer empresa · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <!-- MODAIS -->
+  <div id="modal-1-1" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-emerald-400 font-bold">1.1</span><span class="font-semibold">🏭 O que é a AI Strategy Factory</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-1-1.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-1-2" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-emerald-400 font-bold">1.2</span><span class="font-semibold">🔑 Pré-requisitos & Instalação</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-1-2.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <div id="modal-1-3" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target === this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0">
+        <div class="flex items-center space-x-3"><span class="text-emerald-400 font-bold">1.3</span><span class="font-semibold">🖥️ Seu primeiro relatório (modo web)</span></div>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <iframe src="modulo-1-3.html" class="flex-1 w-full rounded-b-xl"></iframe>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script>
+    function toggleTopic(b){const t=b.closest('.topic-item'),e=t.querySelector('.topic-explanation'),c=b.closest('.bg-dark-800');c.querySelectorAll('.topic-explanation.active').forEach(x=>{if(x!==e)x.classList.remove('active');});e.classList.toggle('active');}
+    function openModal(id){const m=document.getElementById(id);if(m){m.classList.remove('hidden');document.body.style.overflow='hidden';}}
+    function closeModal(){document.querySelectorAll('.modal').forEach(m=>m.classList.add('hidden'));document.body.style.overflow='auto';}
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+    const themeToggle=document.getElementById('theme-toggle'),tdi=document.getElementById('theme-toggle-dark-icon'),tli=document.getElementById('theme-toggle-light-icon'),H=document.documentElement;
+    if(localStorage.getItem('theme')==='light'){tdi.classList.remove('hidden');H.classList.remove('dark');}else{tli.classList.remove('hidden');}
+    themeToggle.addEventListener('click',()=>{tdi.classList.toggle('hidden');tli.classList.toggle('hidden');H.classList.toggle('dark');localStorage.setItem('theme',H.classList.contains('dark')?'dark':'light');});
+  </script>
+</body>
+</html>

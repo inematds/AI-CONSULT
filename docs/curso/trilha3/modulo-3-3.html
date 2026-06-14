@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M3.3 — Problemas & boas práticas | AI Strategy Factory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15',
+      dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+    } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    /* Light mode base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* Light accent: emerald (T1) */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5,150,105,0.06); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    /* Light accent: blue (T2) */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.06); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    /* Light accent: purple (T3) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .bg-purple-900\/20 { background-color: rgba(124,58,237,0.06); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    /* Light - remove gradients + special colors */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.06); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    /* Light - navbar */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    /* Dark - softened borders */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    /* SVG light-mode taming */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    /* SVG pulse */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV — Trilha 3 ativa (purple) -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🏭</span><span class="font-bold text-lg hidden sm:inline">AI Strategy Factory</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Usar a Fundo</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Entregáveis</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- BREADCRUMB -->
+    <nav class="flex items-center space-x-2 text-sm text-neutral-400 mb-8" aria-label="breadcrumb">
+      <a href="../../index.html" class="hover:text-purple-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400 transition-colors">Trilha 3</a>
+      <span>/</span>
+      <span class="text-purple-400">Módulo 3.3</span>
+    </nav>
+
+    <!-- HEADER DO MÓDULO -->
+    <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 rounded-2xl border border-purple-500/30 p-8 mb-10">
+      <div class="mb-4">
+        <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-sm font-semibold rounded-full border border-purple-500/30">MÓDULO 3.3</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🧰 Problemas & boas práticas</h1>
+      <p class="text-neutral-300 text-lg leading-relaxed mb-8">
+        Quase todo problema tem solução simples — e quase todo bom resultado vem de alguns hábitos certos. Este módulo final reúne os <strong class="text-purple-400">erros mais comuns</strong> com a correção de cada um, mais as boas práticas, o custo e a ética de usar a ferramenta.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-purple-400">7</div>
+          <div class="text-xs text-neutral-400 mt-1">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-purple-400">40</div>
+          <div class="text-xs text-neutral-400 mt-1">Minutos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-purple-400">5</div>
+          <div class="text-xs text-neutral-400 mt-1">Erros comuns</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-purple-400">🛠️</div>
+          <div class="text-xs text-neutral-400 mt-1">Prático</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SVG FUTURISTA — problema → diagnóstico → solução -->
+    <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-6 mb-10">
+      <svg viewBox="0 0 1000 200" class="w-full h-auto" role="img" aria-label="Um erro é diagnosticado e resolvido com uma correção simples, levando a um resultado funcionando" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="m33-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+          <filter id="m33-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <pattern id="m33-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#c084fc" opacity="0.10"/></pattern>
+          <marker id="m33-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"/></marker>
+          <marker id="m33-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+        </defs>
+        <rect x="0" y="0" width="1000" height="200" fill="url(#m33-grid)"/>
+
+        <!-- Nó 1: erro -->
+        <g filter="url(#m33-glow)"><rect x="40" y="70" width="180" height="62" rx="14" fill="#2a1020" stroke="#f87171" stroke-width="2.2"/></g>
+        <text x="130" y="98" text-anchor="middle" fill="#f87171" font-family="Inter,sans-serif" font-weight="600" font-size="15">⚠️ Erro</text>
+        <text x="130" y="118" text-anchor="middle" fill="#fca5a5" font-family="Inter,sans-serif" font-size="11">401 / 429 / módulo</text>
+        <line x1="220" y1="101" x2="290" y2="101" stroke="#c084fc" stroke-width="2.5" marker-end="url(#m33-ah)" class="wf-a"/>
+
+        <!-- Nó 2: diagnóstico -->
+        <g filter="url(#m33-glow)"><rect x="294" y="70" width="180" height="62" rx="14" fill="#1a1230" stroke="url(#m33-grad)" stroke-width="2.5"/></g>
+        <text x="384" y="98" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="600" font-size="15">🔎 Diagnóstico</text>
+        <text x="384" y="118" text-anchor="middle" fill="#d8b4fe" font-family="Inter,sans-serif" font-size="11">qual a causa?</text>
+        <line x1="474" y1="101" x2="544" y2="101" stroke="#c084fc" stroke-width="2.5" marker-end="url(#m33-ah)" class="wf-a"/>
+
+        <!-- Nó 3: correção -->
+        <g filter="url(#m33-glow)"><rect x="548" y="70" width="180" height="62" rx="14" fill="#1a1230" stroke="url(#m33-grad)" stroke-width="2.5"/></g>
+        <text x="638" y="98" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="600" font-size="15">🔧 Correção</text>
+        <text x="638" y="118" text-anchor="middle" fill="#d8b4fe" font-family="Inter,sans-serif" font-size="11">simples e rápida</text>
+        <line x1="728" y1="101" x2="798" y2="101" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#m33-ahc)" class="wf-a"/>
+
+        <!-- Nó 4: funcionando -->
+        <g filter="url(#m33-glow)"><rect x="802" y="70" width="160" height="62" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2.5"/></g>
+        <text x="882" y="98" text-anchor="middle" fill="#38bdf8" font-family="Inter,sans-serif" font-weight="600" font-size="15">✅ Funciona</text>
+        <text x="882" y="118" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">de volta ao trabalho</text>
+
+        <text x="500" y="172" text-anchor="middle" fill="#4b5563" font-family="Inter,sans-serif" font-size="10">A maioria dos erros segue este caminho: identificou a causa, a correção é quase sempre de um minuto.</text>
+      </svg>
+      <p class="text-xs text-neutral-500 mt-3 text-center">Diagrama ilustrativo — do erro à solução em quatro passos.</p>
+    </div>
+
+    <!-- DIVISOR -->
+    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🔑 Erros de chave de API (401)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O erro <strong class="text-purple-400">401</strong> significa "não autorizado": a chave está errada ou ausente. É o problema número um de quem começa — e quase sempre é um detalhe bobo.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">📝</span> Como deve ser o seu .env</h3>
+        <pre class="font-mono text-sm text-purple-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># Certo — sem espaços, chave completa
+PERPLEXITY_API_KEY=pplx-xxxxxxxxxxxxxxxx
+GEMINI_API_KEY=AIzaSyxxxxxxxxxxxxxxxx
+
+# Errado — espaço ou chave pela metade
+PERPLEXITY_API_KEY = pplx-xxx   ← espaços!
+GEMINI_API_KEY=AIzaSy           ← incompleta!</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">Depois de corrigir, reinicie o app para ele reler o arquivo.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+          <h4 class="font-bold text-purple-400 mb-4">✓ Verifique</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>O arquivo .env existe na pasta do projeto</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Formato: pplx-... e AIzaSy...</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Sem espaços antes ou depois do "="</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Causas comuns</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Chave colada pela metade</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Espaço extra no início ou fim</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Esqueceu de salvar o .env</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — reinicie depois de editar</h3>
+        <p class="text-neutral-300">O app só lê o .env quando inicia. Corrigiu a chave? Pare e suba o app de novo — senão ele continua usando a versão antiga e o 401 persiste.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">📦 "Module not found"</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Esse erro quase sempre quer dizer uma coisa: o <strong class="text-purple-400">ambiente virtual (venv) não está ativo</strong>. Sem ele, o Python não enxerga as bibliotecas instaladas.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">⌨️</span> A correção, passo a passo</h3>
+        <pre class="font-mono text-sm text-purple-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># 1) Ative o ambiente virtual
+source venv/bin/activate        # Mac / Linux
+.\venv\Scripts\activate         # Windows
+
+# 2) (Re)instale as dependências
+pip install -r requirements.txt
+
+# 3) Rode de novo o que deu erro</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">No Windows, confira também se o Python está no PATH (marcado na instalação).</p>
+      </div>
+
+      <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🧠</span> Por que acontece</h3>
+        <p class="text-neutral-300">Cada novo terminal abre "limpo". É fácil esquecer de ativar o venv ao abrir uma janela nova — e aí o Python procura as bibliotecas no lugar errado. Ative sempre antes de rodar.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🔌 Porta 8888 ocupada</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Bom saber: este "problema" quase nunca trava você. Se a porta 8888 já estiver em uso, o app <strong class="text-purple-400">encontra outra porta livre automaticamente</strong>.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">⌨️</span> Se quiser escolher a porta</h3>
+        <pre class="font-mono text-sm text-purple-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># Deixar o app escolher (padrão)
+python -m strategy_factory.webapp
+
+# Forçar uma porta específica
+python -m strategy_factory.webapp --port 9000</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">Se o endereço no navegador aparecer com outro número, é só o app tendo achado uma porta livre — tudo normal.</p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — não é um erro grave</h3>
+        <p class="text-neutral-300">Diferente do 401 e do "module not found", a porta ocupada é só um aviso. Se ver uma porta diferente de 8888, abra esse endereço e siga em frente.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">⏳ Limites de taxa (429)</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O erro <strong class="text-purple-400">429</strong> significa "muitas requisições" — você bateu no limite de taxa da API. A boa notícia: você não perde o trabalho já feito.
+      </p>
+
+      <!-- TIMELINE da recuperação -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-5 flex items-center"><span class="mr-2">🔁</span> Como se recuperar</h3>
+        <div class="relative pl-8 space-y-5 before:content-[''] before:absolute before:left-2 before:top-1 before:bottom-1 before:w-0.5 before:bg-purple-500/30">
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">1. Pare e espere</strong> <span class="text-neutral-400">— de 5 a 10 minutos</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">2. Continue de onde parou</strong> <span class="text-neutral-400">— use o comando resume</span></p></div>
+          <div class="relative"><div class="absolute -left-[26px] top-0.5 w-4 h-4 rounded-full bg-purple-500/20 border-2 border-purple-400"></div><p class="text-sm"><strong class="text-white">3. Pronto</strong> <span class="text-neutral-400">— ele aproveita o que já foi gerado</span></p></div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="font-mono text-sm text-purple-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># Continuar de onde parou, sem refazer tudo
+python -m strategy_factory.main resume "Stripe"</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">Já existe um delay de cerca de 5s embutido entre as chamadas do Gemini, justamente para evitar o 429.</p>
+      </div>
+
+      <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🧠</span> Por que acontece</h3>
+        <p class="text-neutral-300">As APIs limitam quantas requisições você faz por minuto. Esperar um pouco quase sempre resolve — e o <span class="font-mono text-xs">resume</span> garante que você não comece do zero.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">🖼️ Diagramas não renderizam</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Se os diagramas saem como <strong class="text-purple-400">PNG em branco</strong>, geralmente falta o Chrome — usado pelo Puppeteer, que "tira a foto" do diagrama Mermaid.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+          <h4 class="font-bold text-purple-400 mb-4">✓ Soluções</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Instalar o Google Chrome no computador</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Rodar a ferramenta via Docker</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Editar o código no documento 03 e gerar de novo</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ O que NÃO é o problema</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>As chaves de API (os textos saíram bem)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>A pesquisa ou a síntese</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>O conteúdo dos documentos</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — é um problema isolado</h3>
+        <p class="text-neutral-300">Os documentos podem sair perfeitos e só as imagens falharem — é um problema só da fase de Geração. Saber a causa evita achar que "tudo deu errado": basta instalar o Chrome e regerar.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">💡 Boas práticas para bons resultados</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A diferença entre um rascunho mediano e um ótimo costuma estar em quatro hábitos simples. Eles <strong class="text-purple-400">economizam dinheiro e melhoram muito a qualidade</strong>.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6">
+          <h4 class="font-bold text-purple-400 mb-4">✓ Faça</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Comece no modo rápido (quick)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Dê um bom <span class="font-mono text-xs">--context</span> (setor, porte, modelo)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Rode várias no rápido, aprofunde a escolhida</span></li>
+            <li class="flex items-start space-x-2"><span class="text-purple-400">✓</span><span>Sempre revise as saídas antes de usar</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Evite</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Ir direto ao aprofundado em tudo (gasta mais)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Deixar o contexto em branco</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Entregar o rascunho sem ler</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Confiar nos números sem conferir</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <pre class="font-mono text-sm text-purple-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># Bom contexto = pesquisa mais precisa
+python -m strategy_factory.main run "Acme" \
+  --mode quick \
+  --context "fintech B2B, 200 funcionários, Brasil"</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">Um contexto específico faz diferença enorme em empresas pouco conhecidas ou de nome ambíguo.</p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — varra barato, aprofunde com critério</h3>
+        <p class="text-neutral-300">Rode dez empresas no modo rápido (centavos cada) e só gaste o aprofundado naquela que realmente importa. É o melhor custo-benefício da ferramenta.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 7 -->
+    <section id="topico-7" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">7</span>
+        <h2 class="text-2xl font-bold">⚖️ Custo & ética</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Usar a ferramenta com <strong class="text-purple-400">responsabilidade</strong> protege você e a empresa. Três princípios e uma forma simples de acompanhar o gasto.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30"><span class="text-purple-400 font-bold">🌐</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1">Usa dados públicos</h4>
+            <p class="text-sm text-neutral-400">A pesquisa se baseia em informação pública — não em dados sigilosos da empresa. Não cole segredos internos no contexto.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30"><span class="text-purple-400 font-bold">✍️</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1">É um rascunho, não a verdade final</h4>
+            <p class="text-sm text-neutral-400">O resultado precisa de revisão humana. Trate como ponto de partida de qualidade — não como palavra final.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center border border-purple-500/30"><span class="text-purple-400 font-bold">⚖️</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1">Não é conselho jurídico/financeiro</h4>
+            <p class="text-sm text-neutral-400">As recomendações não substituem um especialista. Para decisões legais ou financeiras sérias, valide com um profissional.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">⌨️</span> Acompanhe o gasto</h3>
+        <pre class="font-mono text-sm text-purple-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># Ver o estado de uma análise, em detalhe
+python -m strategy_factory.main status "Empresa" --detailed
+
+# Listar todas as análises já feitas
+python -m strategy_factory.main list</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">Lembre: quick ~US$ 0,05 · comprehensive ~US$ 0,50 por empresa · a geração local é grátis.</p>
+      </div>
+
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🎯</span> Resumindo</h3>
+        <p class="text-neutral-300">Dados públicos, rascunho com revisão humana, sem caráter de conselho definitivo, e gasto acompanhado de perto. Com isso, você usa a ferramenta de forma responsável e sustentável.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO DO MÓDULO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🧰</span> Resumo do Módulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">401</strong><span class="text-neutral-400"> — chave errada/ausente; confira o .env (pplx-... / AIzaSy..., sem espaços) e reinicie.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Module not found</strong><span class="text-neutral-400"> — venv inativo; ative-o e reinstale com pip.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Porta ocupada</strong><span class="text-neutral-400"> — o app acha outra sozinho, ou use --port 9000.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">429</strong><span class="text-neutral-400"> — espere 5-10 min e use resume; há delay de ~5s embutido.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">PNG em branco</strong><span class="text-neutral-400"> — falta Chrome/Puppeteer; instale o Chrome ou use Docker.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-white">Boas práticas & ética</strong><span class="text-neutral-400"> — quick + bom contexto + revisão; dados públicos, rascunho humano, acompanhe com status/list.</span></div></div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">🎉 Você chegou ao fim do curso!</h3>
+          <p class="text-neutral-300">Da instalação aos entregáveis: agora você sabe gerar o pacote, entender cada documento, apresentar à diretoria e resolver os problemas mais comuns. É só colocar em prática.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-start">
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha</a>
+          <a href="../../index.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">🎉 Concluir curso ← Voltar ao início</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /max-w-4xl -->
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm space-y-1">
+      <p>🏭 AI Strategy Factory — Estratégia de IA completa para qualquer empresa · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    const themeToggle=document.getElementById('theme-toggle'),tdi=document.getElementById('theme-toggle-dark-icon'),tli=document.getElementById('theme-toggle-light-icon'),H=document.documentElement;
+    if(localStorage.getItem('theme')==='light'){tdi.classList.remove('hidden');H.classList.remove('dark');}else{tli.classList.remove('hidden');}
+    themeToggle.addEventListener('click',()=>{tdi.classList.toggle('hidden');tli.classList.toggle('hidden');H.classList.toggle('dark');localStorage.setItem('theme',H.classList.contains('dark')?'dark':'light');});
+  </script>
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M1.3 — Seu primeiro relatório (modo web) | AI Strategy Factory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15',
+      dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+    } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    /* Light mode base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* Light accent: emerald (T1) */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .bg-emerald-900\/20 { background-color: rgba(5,150,105,0.06); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    /* Light accent: blue (T2) */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .bg-blue-900\/20 { background-color: rgba(37,99,235,0.06); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    /* Light accent: purple (T3) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .bg-purple-900\/20 { background-color: rgba(124,58,237,0.06); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+    /* Light - remove gradients + special colors */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .bg-red-900\/20 { background-color: rgba(185,28,28,0.06); }
+    html:not(.dark) .border-red-500\/30 { border-color: rgba(185,28,28,0.25); }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    /* Light - navbar */
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    /* Dark - softened borders */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    /* SVG light-mode taming */
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    /* SVG pulse */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.25s} .wf-a:nth-child(3){animation-delay:.5s}
+      .wf-a:nth-child(4){animation-delay:.75s} .wf-a:nth-child(5){animation-delay:1s}
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV — Trilha 1 ativa (emerald) -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🏭</span><span class="font-bold text-lg hidden sm:inline">AI Strategy Factory</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10"><span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"><span class="sm:hidden">T2</span><span class="hidden sm:inline">Usar a Fundo</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"><span class="sm:hidden">T3</span><span class="hidden sm:inline">Entregáveis</span></a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- BREADCRUMB -->
+    <nav class="flex items-center space-x-2 text-sm text-neutral-400 mb-8" aria-label="breadcrumb">
+      <a href="../../index.html" class="hover:text-emerald-400 transition-colors">Início</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400 transition-colors">Trilha 1</a>
+      <span>/</span>
+      <span class="text-emerald-400">Módulo 1.3</span>
+    </nav>
+
+    <!-- HEADER DO MÓDULO -->
+    <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 rounded-2xl border border-emerald-500/30 p-8 mb-10">
+      <div class="mb-4">
+        <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-sm font-semibold rounded-full border border-emerald-500/30">MÓDULO 1.3</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🖥️ Seu primeiro relatório (modo web)</h1>
+      <p class="text-neutral-300 text-lg leading-relaxed mb-8">
+        Chegou a hora de gerar de verdade. Este módulo te leva pelo <strong class="text-emerald-400">caminho mais fácil</strong>: a interface web. Você sobe o app com um comando, conhece cada parte da tela, digita o nome da empresa, acompanha as 3 fases ao vivo e baixa o pacote pronto — apontando e clicando, sem decorar comandos.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400 mt-1">Tópicos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-emerald-400">30</div>
+          <div class="text-xs text-neutral-400 mt-1">Minutos</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-emerald-400">⬆</div>
+          <div class="text-xs text-neutral-400 mt-1">Iniciante</div>
+        </div>
+        <div class="bg-dark-800/60 rounded-xl p-4 text-center border border-dark-600">
+          <div class="text-2xl font-bold text-emerald-400">🛠️</div>
+          <div class="text-xs text-neutral-400 mt-1">Prática</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SVG FUTURISTA — fluxo do app web (comando → navegador → 3 fases → download) -->
+    <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-6 mb-10">
+      <svg viewBox="0 0 1000 250" class="w-full h-auto" role="img" aria-label="Fluxo do modo web: um comando no terminal abre o navegador em localhost:8888, que executa as três fases (Pesquisa, Síntese e Geração) e termina entregando os arquivos para download" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="m13-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+          <filter id="m13-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <pattern id="m13-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#34d399" opacity="0.10"/></pattern>
+          <marker id="m13-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"/></marker>
+          <marker id="m13-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+        </defs>
+        <rect x="0" y="0" width="1000" height="250" fill="url(#m13-grid)"/>
+
+        <!-- Comando (terminal) -->
+        <g filter="url(#m13-glow)"><rect x="34" y="98" width="158" height="58" rx="13" fill="#0e2018" stroke="url(#m13-grad)" stroke-width="2.5"/></g>
+        <text x="113" y="124" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="14">⌨️ 1 comando</text>
+        <text x="113" y="143" text-anchor="middle" fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10.5">...webapp</text>
+        <path d="M192,127 L236,127" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#m13-ah)"/>
+
+        <!-- Navegador -->
+        <rect x="240" y="92" width="170" height="70" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/>
+        <circle cx="256" cy="106" r="3.2" fill="#fb7185"/><circle cx="268" cy="106" r="3.2" fill="#fbbf24"/><circle cx="280" cy="106" r="3.2" fill="#34d399"/>
+        <line x1="248" y1="116" x2="402" y2="116" stroke="#1e3a4a" stroke-width="1.5"/>
+        <text x="325" y="138" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="12.5">🌐 navegador</text>
+        <text x="325" y="153" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="10">localhost:8888</text>
+        <path d="M410,127 L454,127" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#m13-ahc)"/>
+
+        <!-- 3 fases (empilhadas) -->
+        <g font-family="Inter,sans-serif" font-size="11.5" font-weight="600">
+          <g class="wf-a"><rect x="458" y="78" width="158" height="34" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="537" y="100" text-anchor="middle" fill="#bfe6ff">🔍 Pesquisa</text></g>
+          <g class="wf-a"><rect x="458" y="120" width="158" height="34" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="537" y="142" text-anchor="middle" fill="#bfe6ff">✍️ Síntese</text></g>
+          <g class="wf-a"><rect x="458" y="162" width="158" height="34" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/><text x="537" y="184" text-anchor="middle" fill="#bfe6ff">🏗️ Geração</text></g>
+        </g>
+        <g fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.5">
+          <path d="M616,95  C700,95 720,127 800,127" marker-end="url(#m13-ahc)"/>
+          <path d="M616,137 L800,127" marker-end="url(#m13-ahc)"/>
+          <path d="M616,179 C700,179 720,127 800,127" marker-end="url(#m13-ahc)"/>
+        </g>
+
+        <!-- Download (foco final) -->
+        <g filter="url(#m13-glow)"><rect x="800" y="96" width="168" height="62" rx="13" fill="#0e2018" stroke="url(#m13-grad)" stroke-width="2.5"/></g>
+        <text x="884" y="122" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="14">📥 Download</text>
+        <text x="884" y="141" text-anchor="middle" fill="#6ee7b7" font-family="Inter,sans-serif" font-size="10.5">pacote pronto</text>
+
+        <text x="500" y="226" text-anchor="middle" fill="#4b5563" font-family="Inter,sans-serif" font-size="10.5">Um comando abre o navegador, que roda as 3 fases e devolve os arquivos para baixar.</text>
+      </svg>
+      <p class="text-xs text-neutral-500 mt-3 text-center">Diagrama ilustrativo — do comando ao download: o app web cuida das três fases e entrega o pacote no fim.</p>
+    </div>
+
+    <!-- DIVISOR -->
+    <h2 class="text-2xl font-bold mb-6">Conteúdo detalhado</h2>
+
+    <!-- TÓPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">▶️ Ligar o app web</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O modo web é o jeito mais amigável de usar a ferramenta — e <strong class="text-emerald-400">sobe com um único comando</strong>. Logo depois, o navegador abre sozinho na página da ferramenta.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">⌨️</span> Subindo a interface</h3>
+        <pre class="font-mono text-sm text-emerald-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># lembre de ativar o venv antes
+python -m strategy_factory.webapp
+
+# o navegador abre em:
+http://localhost:8888</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">Esse é o único comando que você precisa para usar a ferramenta pela web.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Como deve ser</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O venv está ativo (aparece <span class="font-mono text-xs">(venv)</span> na linha)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Você roda o comando e o navegador abre sozinho</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A página carrega em <span class="font-mono text-xs">localhost:8888</span></span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Se algo travar</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Porta em uso"? Ele acha outra sozinho — ou use <span class="font-mono text-xs">--port 9000</span></span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Erro de "módulo"? O venv não está ativado</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nada abriu? Digite o endereço na barra do navegador à mão</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — deixe o terminal aberto</h3>
+        <p class="text-neutral-300">Enquanto você usa a interface, o terminal precisa continuar aberto rodando o comando — é ele que mantém o app no ar. Para desligar depois, basta fechar o terminal ou apertar <span class="font-mono text-sm text-emerald-400">Ctrl+C</span> nele.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🧭 Tour da interface</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Antes de rodar, vale conhecer a tela. Ela é <strong class="text-emerald-400">simples de propósito</strong>: basicamente um campo, um seletor, um campo opcional e um botão. Conhecer cada parte deixa você confiante para a primeira análise.
+      </p>
+
+      <!-- Mock de navegador ilustrativo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden mb-6">
+        <div class="flex items-center space-x-2 px-4 py-3 bg-dark-900/60 border-b border-dark-600">
+          <span class="w-3 h-3 rounded-full bg-red-400"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+          <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+          <span class="ml-3 font-mono text-xs text-neutral-500">localhost:8888</span>
+        </div>
+        <div class="p-6 space-y-4">
+          <div>
+            <div class="text-xs text-neutral-400 mb-1">Nome da empresa <span class="text-red-400">(obrigatório)</span></div>
+            <div class="bg-dark-900/60 border border-emerald-500/30 rounded-lg px-4 py-2 text-neutral-300 font-mono text-sm">Stripe</div>
+          </div>
+          <div>
+            <div class="text-xs text-neutral-400 mb-1">Modo</div>
+            <div class="flex gap-2">
+              <span class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 text-xs font-semibold border border-emerald-500/30">Quick (rápido)</span>
+              <span class="px-3 py-1.5 rounded-lg bg-dark-700 text-neutral-400 text-xs font-semibold">Comprehensive</span>
+            </div>
+          </div>
+          <div>
+            <div class="text-xs text-neutral-400 mb-1">Contexto <span class="text-neutral-500">(opcional)</span></div>
+            <div class="bg-dark-900/60 border border-dark-600 rounded-lg px-4 py-2 text-neutral-500 font-mono text-sm">fintech, B2B, pagamentos...</div>
+          </div>
+          <div class="pt-2">
+            <span class="inline-block px-5 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold">Iniciar análise →</span>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-neutral-500 mb-6 text-center">Recriação ilustrativa da tela — não é um screenshot real do app.</p>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">📋</span> As quatro partes da tela</h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li><strong>Campo de empresa</strong> — onde você digita o nome (único obrigatório)</li>
+          <li><strong>Seletor de modo</strong> — Quick (rápido e barato) ou Comprehensive (aprofundado)</li>
+          <li><strong>Campo de contexto</strong> — dicas opcionais sobre setor, porte, modelo de negócio</li>
+          <li><strong>Botão iniciar</strong> — dispara a análise e começa as 3 fases</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TÓPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🏷️ Digitar a empresa</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Este é o <strong class="text-emerald-400">único campo obrigatório</strong>. Escreva o nome da empresa que quer analisar — por exemplo, "Stripe". É o ponto de partida de toda a análise.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">📂</span> O nome vira a pasta dos resultados</h3>
+        <pre class="font-mono text-sm text-emerald-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># você digita:        Stripe
+# os arquivos vão para:
+output/stripe/
+├── markdown/        (15 documentos)
+├── presentations/   (2 apresentações)
+├── documents/       (2 relatórios)
+└── mermaid_images/  (diagramas)</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">O nome digitado vira o nome da pasta (em minúsculas) onde tudo é salvo.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Bons exemplos</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O nome conhecido da empresa: "Stripe", "Nubank"</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O nome como o mercado a chama</span></li>
+            <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Uma empresa por análise</span></li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Evite</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Nomes vagos ou abreviações pouco conhecidas</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Deixar o campo em branco (é obrigatório)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Misturar várias empresas no mesmo campo</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — nome ambíguo? Use o contexto</h3>
+        <p class="text-neutral-300">Se o nome puder confundir (existe mais de uma empresa com ele), não se preocupe: o campo de contexto, no próximo tópico, ajuda a apontar exatamente qual empresa você quer.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">💬 Adicionar contexto</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O campo de contexto é <strong class="text-emerald-400">opcional, mas faz diferença</strong>. Com algumas dicas — setor, porte, modelo de negócio — você ajuda a Perplexity a pesquisar com muito mais precisão.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">✍️</span> Exemplos de bom contexto</h3>
+        <pre class="font-mono text-sm text-emerald-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code># exemplos de contexto útil
+fintech, B2B, 200 funcionários
+varejo de moda, e-commerce, mercado brasileiro
+SaaS de RH, foco em PMEs, série A</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">Quanto mais específico, melhor o resultado — principalmente para empresas pouco conhecidas.</p>
+      </div>
+
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30"><span class="text-emerald-400 font-bold">1</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1">Diga o setor</h4>
+            <p class="text-sm text-neutral-400">Ex.: fintech, varejo, saúde, educação. Já restringe muito a pesquisa.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30"><span class="text-emerald-400 font-bold">2</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1">Indique o porte e o modelo</h4>
+            <p class="text-sm text-neutral-400">Ex.: B2B ou B2C, número de funcionários, estágio (startup, série A...).</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30"><span class="text-emerald-400 font-bold">3</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1">Aponte o mercado, se ajudar</h4>
+            <p class="text-sm text-neutral-400">Ex.: mercado brasileiro, América Latina. Desfaz ambiguidade de nome.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — recomendado para empresas pouco conhecidas</h3>
+        <p class="text-neutral-300">Para marcas famosas, o nome sozinho já basta. Mas para empresas locais, novas ou de nome comum, o contexto é o que separa um relatório certeiro de um relatório genérico.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">📊 Acompanhar o progresso</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Depois de iniciar, uma barra mostra o avanço pelas <strong class="text-emerald-400">três fases em tempo real</strong>. Você vê exatamente o que está acontecendo e percebe na hora quando o pacote ficou pronto.
+      </p>
+
+      <div class="space-y-4 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30"><span class="text-emerald-400 font-bold">1</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1">Pesquisa — a Perplexity coleta dados</h4>
+            <p class="text-sm text-neutral-400">A barra mostra a coleta de informações sobre a empresa e o setor.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30"><span class="text-blue-400 font-bold">2</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-blue-500/20">
+            <h4 class="font-semibold text-blue-400 mb-1">Síntese — o Gemini escreve</h4>
+            <p class="text-sm text-neutral-400">Você acompanha os documentos sendo gerados um a um.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30"><span class="text-emerald-400 font-bold">3</span></div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600">
+            <h4 class="font-semibold text-white mb-1">Geração — os arquivos são montados</h4>
+            <p class="text-sm text-neutral-400">A última etapa monta apresentações, Word e diagramas, no seu computador.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center"><span class="mr-2">⏱️</span> Quanto tempo leva</h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li><strong>Modo Quick (rápido):</strong> cerca de 2 a 3 minutos</li>
+          <li><strong>Modo Comprehensive (aprofundado):</strong> cerca de 5 a 10 minutos</li>
+          <li><strong>Dica prática:</strong> não feche a aba até ver o pacote concluído</li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica — a ordem importa</h3>
+        <p class="text-neutral-300">As fases rodam em sequência: a Síntese só começa quando a Pesquisa termina, e a Geração só no fim. Por isso a barra anda por etapas — é normal cada fase demorar um pouco antes de passar para a próxima.</p>
+      </div>
+    </section>
+
+    <!-- TÓPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">📥 Baixar os arquivos</h2>
+      </div>
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Este é o objetivo final: <strong class="text-emerald-400">ter os arquivos em mãos</strong>. Ao terminar, a tela mostra links de download por entregável — e tudo também fica salvo na sua máquina.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-5">
+          <div class="text-emerald-400 font-bold mb-1">🔗 Download na tela</div>
+          <p class="text-sm text-neutral-400">Cada entregável (documentos, apresentações, Word e diagramas) tem o seu próprio link para baixar direto da interface.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-blue-500/30 p-5">
+          <div class="text-blue-400 font-bold mb-1">💾 Salvo na sua máquina</div>
+          <p class="text-sm text-neutral-400">Tudo também fica em <span class="font-mono text-xs">output/nome-da-empresa/</span>, mesmo que você feche o navegador.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5">
+          <div class="text-purple-400 font-bold mb-1">👀 Ler na própria tela</div>
+          <p class="text-sm text-neutral-400">Dá para visualizar o conteúdo dos documentos markdown direto na interface, antes de baixar.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-5">
+          <div class="text-emerald-400 font-bold mb-1">📦 Pacote completo</div>
+          <p class="text-sm text-neutral-400">15 documentos + 2 apresentações + 2 relatórios + diagramas, prontos para revisar e apresentar.</p>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-neutral-300 mb-3 flex items-center"><span class="mr-2">📂</span> Onde encontrar tudo no computador</h3>
+        <pre class="font-mono text-sm text-emerald-400 bg-dark-900/60 rounded-lg p-4 overflow-x-auto leading-relaxed"><code>output/stripe/
+├── markdown/         (15 .md — os documentos de texto)
+├── presentations/    (2 .pptx — resumo e completa)
+├── documents/        (2 .docx — relatório e proposta)
+└── mermaid_images/   (.png — os diagramas)</code></pre>
+        <p class="text-xs text-neutral-500 mt-3">Mesmo sem baixar pela tela, os arquivos estão todos aqui.</p>
+      </div>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🎯</span> Parabéns — você gerou seu primeiro relatório!</h3>
+        <p class="text-neutral-300">Com isso, você fechou o ciclo completo: entender, instalar e gerar. Na Trilha 2 você vai usar a ferramenta a fundo (linha de comando, modos e ajustes); na Trilha 3, vai explorar o que fazer com cada um dos 15 documentos.</p>
+      </div>
+    </section>
+
+    <!-- RESUMO DO MÓDULO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🖥️</span> Resumo do Módulo</h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Ligar o app</strong><span class="text-neutral-400"> — python -m strategy_factory.webapp abre o navegador em localhost:8888 (ative o venv antes).</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">A interface</strong><span class="text-neutral-400"> — campo de empresa, seletor de modo, campo de contexto e botão iniciar.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Digitar a empresa</strong><span class="text-neutral-400"> — único campo obrigatório; o nome vira a pasta dos resultados (output/stripe/).</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Contexto</strong><span class="text-neutral-400"> — opcional, mas melhora muito; informe setor, porte e modelo de negócio.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Progresso</strong><span class="text-neutral-400"> — barra ao vivo pelas 3 fases; Quick 2-3 min, Comprehensive 5-10 min.</span></div></div>
+          <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-white">Baixar</strong><span class="text-neutral-400"> — links por entregável; tudo salvo em output/nome-da-empresa/; markdown visível na tela.</span></div></div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-emerald-400 mb-2">Próximo Módulo:</h3>
+          <p class="text-neutral-300"><strong>Trilha 2 — Usar a Fundo</strong> — domine a linha de comando, os modos rápido e aprofundado, o uso de contexto e como retomar análises interrompidas.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-start">
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para Trilha</a>
+          <a href="../trilha2/index.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">Ir para a Trilha 2 →</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /max-w-4xl -->
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm space-y-1">
+      <p>🏭 AI Strategy Factory — Estratégia de IA completa para qualquer empresa · <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    const themeToggle=document.getElementById('theme-toggle'),tdi=document.getElementById('theme-toggle-dark-icon'),tli=document.getElementById('theme-toggle-light-icon'),H=document.documentElement;
+    if(localStorage.getItem('theme')==='light'){tdi.classList.remove('hidden');H.classList.remove('dark');}else{tli.classList.remove('hidden');}
+    themeToggle.addEventListener('click',()=>{tdi.classList.toggle('hidden');tli.classList.toggle('hidden');H.classList.toggle('dark');localStorage.setItem('theme',H.classList.contains('dark')?'dark':'light');});
+  </script>
+</body>
+</html>
